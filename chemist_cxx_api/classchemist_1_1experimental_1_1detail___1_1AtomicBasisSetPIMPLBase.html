@@ -140,6 +140,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>const_name_reference
 <tr class="memitem:afa881fe9c2a4b40a833b41b2bfee89e3" id="r_afa881fe9c2a4b40a833b41b2bfee89e3"><td class="memItemLeft" align="right" valign="top"><a id="afa881fe9c2a4b40a833b41b2bfee89e3" name="afa881fe9c2a4b40a833b41b2bfee89e3"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>const_primitive_reference</b> = typename traits_type::const_primitive_reference</td></tr>
 <tr class="separator:afa881fe9c2a4b40a833b41b2bfee89e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a591e9e50286e46df1d7d42f0548f5b4e" id="r_a591e9e50286e46df1d7d42f0548f5b4e"><td class="memItemLeft" align="right" valign="top"><a id="a591e9e50286e46df1d7d42f0548f5b4e" name="a591e9e50286e46df1d7d42f0548f5b4e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_shell_view_reference</b> = typename traits_type::const_shell_view_reference</td></tr>
+<tr class="separator:a591e9e50286e46df1d7d42f0548f5b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78b903f116a595abc1ac15c7a3509798" id="r_a78b903f116a595abc1ac15c7a3509798"><td class="memItemLeft" align="right" valign="top"><a id="a78b903f116a595abc1ac15c7a3509798" name="a78b903f116a595abc1ac15c7a3509798"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>name_reference</b> = typename traits_type::name_reference</td></tr>
 <tr class="separator:a78b903f116a595abc1ac15c7a3509798"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -192,9 +195,9 @@ size_type&#160;</td><td class="memItemRight" valign="bottom"><b>size</b> () cons
 <tr class="memitem:ae262e53bf27bdd7c0865ed45beb8832b" id="r_ae262e53bf27bdd7c0865ed45beb8832b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLBase.html#ae262e53bf27bdd7c0865ed45beb8832b">add_shell</a> (<a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLBase.html#a1498924b79ad44773ba2fc0af2ec4c1a">angular_momentum_type</a> l, const_buffer_reference coefficients, const_buffer_reference exponents)</td></tr>
 <tr class="memdesc:ae262e53bf27bdd7c0865ed45beb8832b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a shell with angular momentum <code>l</code> and the primitives given by <code>coefficients</code> and <code>exponents</code>.  <br /></td></tr>
 <tr class="separator:ae262e53bf27bdd7c0865ed45beb8832b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb4bba07b22299da2cc2bccda68914b4" id="r_afb4bba07b22299da2cc2bccda68914b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLBase.html#afb4bba07b22299da2cc2bccda68914b4">push_back</a> (const <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html">AOShellView</a> &amp;shell)</td></tr>
-<tr class="memdesc:afb4bba07b22299da2cc2bccda68914b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a copy of <code>shell</code> to *this.  <br /></td></tr>
-<tr class="separator:afb4bba07b22299da2cc2bccda68914b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ebbc770f404ec343a179206ef213ac2" id="r_a4ebbc770f404ec343a179206ef213ac2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLBase.html#a4ebbc770f404ec343a179206ef213ac2">push_back</a> (const_shell_view_reference shell)</td></tr>
+<tr class="memdesc:a4ebbc770f404ec343a179206ef213ac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a copy of <code>shell</code> to *this.  <br /></td></tr>
+<tr class="separator:a4ebbc770f404ec343a179206ef213ac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accf81ec7df8b9562349c99df7e3cffba" id="r_accf81ec7df8b9562349c99df7e3cffba"><td class="memItemLeft" align="right" valign="top"><a id="accf81ec7df8b9562349c99df7e3cffba" name="accf81ec7df8b9562349c99df7e3cffba"></a>
 size_type&#160;</td><td class="memItemRight" valign="bottom"><b>n_primitives</b> () const noexcept</td></tr>
 <tr class="memdesc:accf81ec7df8b9562349c99df7e3cffba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total number of primitives in *this. <br /></td></tr>
@@ -291,9 +294,9 @@ virtual <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBa
 <tr class="memitem:aaeaaa0303d7681e586f1d134ba851df4" id="r_aaeaaa0303d7681e586f1d134ba851df4"><td class="memItemLeft" align="right" valign="top"><a id="aaeaaa0303d7681e586f1d134ba851df4" name="aaeaaa0303d7681e586f1d134ba851df4"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>set_l_</b> (size_type i, <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLBase.html#a1498924b79ad44773ba2fc0af2ec4c1a">angular_momentum_type</a> l)=0</td></tr>
 <tr class="separator:aaeaaa0303d7681e586f1d134ba851df4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7807f77dfd75f6472809a193a8bd91e8" id="r_a7807f77dfd75f6472809a193a8bd91e8"><td class="memItemLeft" align="right" valign="top"><a id="a7807f77dfd75f6472809a193a8bd91e8" name="a7807f77dfd75f6472809a193a8bd91e8"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_same_ordering_</b> (const <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html">AOShellView</a> &amp;shell) const =0</td></tr>
-<tr class="separator:a7807f77dfd75f6472809a193a8bd91e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54063fff43f439ec2c6cdae574bb3b66" id="r_a54063fff43f439ec2c6cdae574bb3b66"><td class="memItemLeft" align="right" valign="top"><a id="a54063fff43f439ec2c6cdae574bb3b66" name="a54063fff43f439ec2c6cdae574bb3b66"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_same_ordering_</b> (const_shell_view_reference shell) const =0</td></tr>
+<tr class="separator:a54063fff43f439ec2c6cdae574bb3b66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2f54e4376aad4ce58bd3105bd0cf99e" id="r_ac2f54e4376aad4ce58bd3105bd0cf99e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLBase.html#ac2f54e4376aad4ce58bd3105bd0cf99e">add_shell_</a> (<a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLBase.html#a1498924b79ad44773ba2fc0af2ec4c1a">angular_momentum_type</a> l, const_buffer_reference coefficients, const_buffer_reference exponents)=0</td></tr>
 <tr class="separator:ac2f54e4376aad4ce58bd3105bd0cf99e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4f6ded3cced68ae0e6c4993c3457678" id="r_ab4f6ded3cced68ae0e6c4993c3457678"><td class="memItemLeft" align="right" valign="top"><a id="ab4f6ded3cced68ae0e6c4993c3457678" name="ab4f6ded3cced68ae0e6c4993c3457678"></a>
@@ -352,7 +355,7 @@ virtual <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBa
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The interface every implementation of <a class="el" href="classchemist_1_1experimental_1_1AtomicBasisSet.html" title="Models the basis set of one atom by value.">AtomicBasisSet</a> satisfies. </p>
-<p>An atomic basis set is a set of shells sharing one center. Per docs/source/developer/design/basis_set/ao_hierarchy.rst, the type of a shell encodes its purity and its <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> ordering, but <a class="el" href="classchemist_1_1experimental_1_1AtomicBasisSet.html" title="Models the basis set of one atom by value.">AtomicBasisSet</a> is not templated on it; instead it holds one of these, selected at runtime from a ShellPurity and an AOOrdering. Every set therefore holds shells of exactly one type, and *this exposes them polymorphically, as <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html" title="Abstract base class of the shells which alias their state.">AOShellView</a> objects.</p>
+<p>An atomic basis set is a set of shells sharing one center. Per docs/source/developer/design/basis_set/ao_hierarchy.rst, the type of a shell encodes its purity and its <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> ordering, but <a class="el" href="classchemist_1_1experimental_1_1AtomicBasisSet.html" title="Models the basis set of one atom by value.">AtomicBasisSet</a> is not templated on it; instead it holds one of these, selected at runtime from a ShellPurity and an AOOrdering. Every set therefore holds shells of exactly one type, and *this exposes them polymorphically, as <a class="el" href="classchemist_1_1experimental_1_1AOShellBaseView.html" title="Abstract base class of the shells which alias their state.">AOShellBaseView</a> objects.</p>
 <p>The derived classes are <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPL.html" title="Implements an atomic basis set which owns its state.">AtomicBasisSetPIMPL</a>, which owns the state, and <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetViewPIMPL.html" title="Implements an atomic basis set by aliasing state owned elsewhere.">AtomicBasisSetViewPIMPL</a>, which aliases state owned by something else. The same <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLCommon.html" title="Implements AtomicBasisSetPIMPLBase for one type of shell.">AtomicBasisSetPIMPLCommon</a> implements every hook below for both. The state of a set is:</p>
 <ul>
 <li>one array of coefficients and one of exponents, holding every primitive of every shell back to back, shell-major,</li>
@@ -361,7 +364,7 @@ virtual <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBa
 <li>the center, the name of the basis set, and the atomic number.</li>
 </ul>
 <p>No shell owns any of this; indexing builds a view of the shell from it.</p>
-<p>Following <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html" title="Implements the API shared by AOShell and AOShellView.">AOShellCommon</a>, the public members are non-virtual. They check their arguments and then call the corresponding unchecked <code>*_</code> hook. Anything which follows from other members, e.g. <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLBase.html#a45702a56453f9f45424c9a8ac168a33b" title="Returns the total number of AOs in *this.">n_aos()</a>, is computed here rather than being a hook. </p>
+<p>Following <a class="el" href="classchemist_1_1experimental_1_1AOShellBaseCommon.html" title="Implements the API shared by AOShellBase and AOShellBaseView.">AOShellBaseCommon</a>, the public members are non-virtual. They check their arguments and then call the corresponding unchecked <code>*_</code> hook. Anything which follows from other members, e.g. <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBasisSetPIMPLBase.html#a45702a56453f9f45424c9a8ac168a33b" title="Returns the total number of AOs in *this.">n_aos()</a>, is computed here rather than being a hook. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a1498924b79ad44773ba2fc0af2ec4c1a" name="a1498924b79ad44773ba2fc0af2ec4c1a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1498924b79ad44773ba2fc0af2ec4c1a">&#9670;&#160;</a></span>angular_momentum_type</h2>
@@ -791,7 +794,7 @@ virtual <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBa
 </div><div class="memdoc">
 
 <p>Returns the total number of AOs in *this. </p>
-<p>This is the sum of the shell sizes, which follow from their angular momenta and the purity exactly as in <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a4573f836efa396128418d3c239d1603a" title="Returns the number of AOs in *this.">AOShellCommon::size</a>.</p>
+<p>This is the sum of the shell sizes, which follow from their angular momenta and the purity exactly as in <a class="el" href="classchemist_1_1experimental_1_1AOShellBaseCommon.html#a7974f5ecd8840d7d8fccd2e174e40a91" title="Returns the number of AOs in *this.">AOShellBaseCommon::size</a>.</p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
@@ -933,8 +936,8 @@ virtual <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBa
 
 </div>
 </div>
-<a id="afb4bba07b22299da2cc2bccda68914b4" name="afb4bba07b22299da2cc2bccda68914b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb4bba07b22299da2cc2bccda68914b4">&#9670;&#160;</a></span>push_back()</h2>
+<a id="a4ebbc770f404ec343a179206ef213ac2" name="a4ebbc770f404ec343a179206ef213ac2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ebbc770f404ec343a179206ef213ac2">&#9670;&#160;</a></span>push_back()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -945,7 +948,7 @@ virtual <a class="el" href="classchemist_1_1experimental_1_1detail___1_1AtomicBa
         <tr>
           <td class="memname">void chemist::experimental::detail_::AtomicBasisSetPIMPLBase::push_back </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html">AOShellView</a> &amp;&#160;</td>
+          <td class="paramtype">const_shell_view_reference&#160;</td>
           <td class="paramname"><em>shell</em></td><td>)</td>
           <td></td>
         </tr>

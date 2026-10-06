@@ -142,12 +142,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:add2451c9ed00c1f7ea4f8b06b3315e9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserializes *this from <code>ar</code>.  <br /></td></tr>
 <tr class="separator:add2451c9ed00c1f7ea4f8b06b3315e9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
-<tr class="memitem:aeebe26d8a2089e955d768f8376f8bb45" id="r_aeebe26d8a2089e955d768f8376f8bb45"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AtomicBasisSet.html#aeebe26d8a2089e955d768f8376f8bb45">push_back</a> (const <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html">AOShellView</a> &amp;shell)</td></tr>
-<tr class="memdesc:aeebe26d8a2089e955d768f8376f8bb45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a copy of <code>shell</code> to *this.  <br /></td></tr>
-<tr class="separator:aeebe26d8a2089e955d768f8376f8bb45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d3cf9c6610a0f25f75096c19feb18aa" id="r_a9d3cf9c6610a0f25f75096c19feb18aa"><td class="memItemLeft" align="right" valign="top"><a id="a9d3cf9c6610a0f25f75096c19feb18aa" name="a9d3cf9c6610a0f25f75096c19feb18aa"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>push_back</b> (const <a class="el" href="classchemist_1_1experimental_1_1AOShell.html">AOShell</a> &amp;shell)</td></tr>
-<tr class="separator:a9d3cf9c6610a0f25f75096c19feb18aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1af93c18edfa92621b7c395c0f91658" id="r_ad1af93c18edfa92621b7c395c0f91658"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AtomicBasisSet.html#ad1af93c18edfa92621b7c395c0f91658">push_back</a> (const_shell_view_reference shell)</td></tr>
+<tr class="memdesc:ad1af93c18edfa92621b7c395c0f91658"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a copy of <code>shell</code> to *this.  <br /></td></tr>
+<tr class="separator:ad1af93c18edfa92621b7c395c0f91658"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a889bdf920fd3f023dc34352671dca922" id="r_a889bdf920fd3f023dc34352671dca922"><td class="memItemLeft" align="right" valign="top"><a id="a889bdf920fd3f023dc34352671dca922" name="a889bdf920fd3f023dc34352671dca922"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>push_back</b> (const_shell_reference shell)</td></tr>
+<tr class="separator:a889bdf920fd3f023dc34352671dca922"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classchemist_1_1experimental_1_1AtomicBasisSetCommon"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classchemist_1_1experimental_1_1AtomicBasisSetCommon')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classchemist_1_1experimental_1_1AtomicBasisSetCommon.html">chemist::experimental::AtomicBasisSetCommon&lt; AtomicBasisSet, AtomicBasisSet &gt;</a></td></tr>
 <tr class="memitem:a828883bedd0564e5e19e7cd4e503431e inherit pub_methods_classchemist_1_1experimental_1_1AtomicBasisSetCommon" id="r_a828883bedd0564e5e19e7cd4e503431e"><td class="memItemLeft" align="right" valign="top">const_name_reference&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AtomicBasisSetCommon.html#a828883bedd0564e5e19e7cd4e503431e">get_name</a> () const</td></tr>
 <tr class="memdesc:a828883bedd0564e5e19e7cd4e503431e inherit pub_methods_classchemist_1_1experimental_1_1AtomicBasisSetCommon"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of the basis set, e.g. "cc-pVDZ".  <br /></td></tr>
@@ -299,6 +299,12 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>const_name_reference
 <tr class="memitem:ac1e6932c03a3f0da6ef37cd71dde6115 inherit pub_types_classchemist_1_1experimental_1_1AtomicBasisSetCommon" id="r_ac1e6932c03a3f0da6ef37cd71dde6115"><td class="memItemLeft" align="right" valign="top">
 using&#160;</td><td class="memItemRight" valign="bottom"><b>const_primitive_reference</b> = typename traits_type::const_primitive_reference</td></tr>
 <tr class="separator:ac1e6932c03a3f0da6ef37cd71dde6115 inherit pub_types_classchemist_1_1experimental_1_1AtomicBasisSetCommon"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad905329a502fa6568ce08c363984ddb5 inherit pub_types_classchemist_1_1experimental_1_1AtomicBasisSetCommon" id="r_ad905329a502fa6568ce08c363984ddb5"><td class="memItemLeft" align="right" valign="top">
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_shell_reference</b> = typename traits_type::const_shell_reference</td></tr>
+<tr class="separator:ad905329a502fa6568ce08c363984ddb5 inherit pub_types_classchemist_1_1experimental_1_1AtomicBasisSetCommon"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa765ef7dbebd92932a91acc3b2c28f73 inherit pub_types_classchemist_1_1experimental_1_1AtomicBasisSetCommon" id="r_aa765ef7dbebd92932a91acc3b2c28f73"><td class="memItemLeft" align="right" valign="top">
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_shell_view_reference</b> = typename traits_type::const_shell_view_reference</td></tr>
+<tr class="separator:aa765ef7dbebd92932a91acc3b2c28f73 inherit pub_types_classchemist_1_1experimental_1_1AtomicBasisSetCommon"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae46f7225169d143d198f7b55fd114ffc inherit pub_types_classchemist_1_1experimental_1_1AtomicBasisSetCommon" id="r_ae46f7225169d143d198f7b55fd114ffc"><td class="memItemLeft" align="right" valign="top">
 using&#160;</td><td class="memItemRight" valign="bottom"><b>name_type</b> = typename traits_type::name_type</td></tr>
 <tr class="separator:ae46f7225169d143d198f7b55fd114ffc inherit pub_types_classchemist_1_1experimental_1_1AtomicBasisSetCommon"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -681,8 +687,8 @@ template&lt;typename Archive &gt; </div>
 
 </div>
 </div>
-<a id="aeebe26d8a2089e955d768f8376f8bb45" name="aeebe26d8a2089e955d768f8376f8bb45"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeebe26d8a2089e955d768f8376f8bb45">&#9670;&#160;</a></span>push_back()</h2>
+<a id="ad1af93c18edfa92621b7c395c0f91658" name="ad1af93c18edfa92621b7c395c0f91658"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1af93c18edfa92621b7c395c0f91658">&#9670;&#160;</a></span>push_back()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -693,7 +699,7 @@ template&lt;typename Archive &gt; </div>
         <tr>
           <td class="memname">void chemist::experimental::AtomicBasisSet::push_back </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html">AOShellView</a> &amp;&#160;</td>
+          <td class="paramtype">const_shell_view_reference&#160;</td>
           <td class="paramname"><em>shell</em></td><td>)</td>
           <td></td>
         </tr>

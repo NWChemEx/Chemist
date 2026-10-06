@@ -1,5 +1,9 @@
-<map id="chemist::experimental::AOShellView" name="chemist::experimental::AOShellView">
-<area shape="rect" id="Node000001" title="Abstract base class of the shells which alias their state." alt="" coords="47,93,217,133"/>
-<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1AOShellCommon.html" title=" " alt="" coords="5,5,259,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,59,135,93,129,93,129,59"/>
+<map id="chemist::experimental::AOShellView&lt; AOType &gt;" name="chemist::experimental::AOShellView&lt; AOType &gt;">
+<area shape="rect" id="Node000001" title="Abstract base class of the aliasing shells of one purity." alt="" coords="29,299,221,339"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1AOShellCommon.html" title=" " alt="" coords="5,196,244,251"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,264,127,299,122,299,122,264"/>
+<area shape="rect" id="Node000003" href="$classchemist_1_1experimental_1_1AOShellBaseView.html" title="Abstract base class of the shells which alias their state." alt="" coords="40,108,209,148"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="127,161,127,196,122,196,122,161"/>
+<area shape="rect" id="Node000004" href="$classchemist_1_1experimental_1_1AOShellBaseCommon.html" title=" " alt="" coords="33,5,216,60"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="127,74,127,108,122,108,122,74"/>
 </map>

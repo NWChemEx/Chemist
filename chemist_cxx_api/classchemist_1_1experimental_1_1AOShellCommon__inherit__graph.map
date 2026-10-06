@@ -1,0 +1,7 @@
+<map id="chemist::experimental::AOShellCommon&lt; BaseType, AOType &gt;" name="chemist::experimental::AOShellCommon&lt; BaseType, AOType &gt;">
+<area shape="rect" id="Node000001" title="Implements the API shared by AOShell&lt;AOType&gt; and AOShellView&lt;AOType&gt;." alt="" coords="137,5,359,60"/>
+<area shape="rect" id="Node000003" href="$classchemist_1_1experimental_1_1AOShellView.html" title=" " alt="" coords="407,5,657,60"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="373,30,406,30,406,35,373,35"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,20,89,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,30,137,30,137,35,103,35"/>
+</map>

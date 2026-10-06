@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>chemist: chemist::experimental::AOShellCommon&lt; DerivedType &gt; Class Template Reference</title>
+<title>chemist: chemist::experimental::AOShellCommon&lt; BaseType, AOType &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -76,129 +76,189 @@ $(function() {
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classchemist_1_1experimental_1_1AOShellCommon-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">chemist::experimental::AOShellCommon&lt; DerivedType &gt; Class Template Reference</div></div>
+  <div class="headertitle"><div class="title">chemist::experimental::AOShellCommon&lt; BaseType, AOType &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Implements the API shared by <a class="el" href="classchemist_1_1experimental_1_1AOShell.html" title="Abstract base class of the shells which own their state.">AOShell</a> and <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html" title="Abstract base class of the shells which alias their state.">AOShellView</a>.  
+<p>Implements the API shared by AOShell&lt;AOType&gt; and AOShellView&lt;AOType&gt;.  
  <a href="classchemist_1_1experimental_1_1AOShellCommon.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="ao__shell__common_8hpp_source.html">ao_shell_common.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for chemist::experimental::AOShellCommon&lt; BaseType, AOType &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="classchemist_1_1experimental_1_1AOShellCommon__inherit__graph.png" border="0" usemap="#achemist_1_1experimental_1_1AOShellCommon_3_01BaseType_00_01AOType_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="achemist_1_1experimental_1_1AOShellCommon_3_01BaseType_00_01AOType_01_4_inherit__map" id="achemist_1_1experimental_1_1AOShellCommon_3_01BaseType_00_01AOType_01_4_inherit__map">
+<area shape="rect" title="Implements the API shared by AOShell&lt;AOType&gt; and AOShellView&lt;AOType&gt;." alt="" coords="137,5,359,60"/>
+<area shape="rect" href="classchemist_1_1experimental_1_1AOShellView.html" title=" " alt="" coords="407,5,657,60"/>
+<area shape="poly" title=" " alt="" coords="373,30,406,30,406,35,373,35"/>
+<area shape="rect" title=" " alt="" coords="5,20,89,45"/>
+<area shape="poly" title=" " alt="" coords="103,30,137,30,137,35,103,35"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for chemist::experimental::AOShellCommon&lt; BaseType, AOType &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="classchemist_1_1experimental_1_1AOShellCommon__coll__graph.png" border="0" usemap="#achemist_1_1experimental_1_1AOShellCommon_3_01BaseType_00_01AOType_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="achemist_1_1experimental_1_1AOShellCommon_3_01BaseType_00_01AOType_01_4_coll__map" id="achemist_1_1experimental_1_1AOShellCommon_3_01BaseType_00_01AOType_01_4_coll__map">
+<area shape="rect" title="Implements the API shared by AOShell&lt;AOType&gt; and AOShellView&lt;AOType&gt;." alt="" coords="5,79,227,133"/>
+<area shape="rect" title=" " alt="" coords="74,5,158,31"/>
+<area shape="poly" title=" " alt="" coords="119,44,119,79,113,79,113,44"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a6ac41ed3fe5b2dea22805a78efcca5d9" id="r_a6ac41ed3fe5b2dea22805a78efcca5d9"><td class="memItemLeft" align="right" valign="top"><a id="a6ac41ed3fe5b2dea22805a78efcca5d9" name="a6ac41ed3fe5b2dea22805a78efcca5d9"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>angular_momentum_type</b> = typename traits_type::angular_momentum_type</td></tr>
-<tr class="memdesc:a6ac41ed3fe5b2dea22805a78efcca5d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to model the total angular momentum. <br /></td></tr>
-<tr class="separator:a6ac41ed3fe5b2dea22805a78efcca5d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe8e21f0a4216143827b6c6bbd188031" id="r_abe8e21f0a4216143827b6c6bbd188031"><td class="memItemLeft" align="right" valign="top"><a id="abe8e21f0a4216143827b6c6bbd188031" name="abe8e21f0a4216143827b6c6bbd188031"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>contracted_gaussian_type</b> = typename traits_type::contracted_gaussian_type</td></tr>
-<tr class="memdesc:abe8e21f0a4216143827b6c6bbd188031"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the contracted Gaussian *this is built on. <br /></td></tr>
-<tr class="separator:abe8e21f0a4216143827b6c6bbd188031"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae44b0cc4601b218bdf5fab28cc3fa5da" id="r_ae44b0cc4601b218bdf5fab28cc3fa5da"><td class="memItemLeft" align="right" valign="top"><a id="ae44b0cc4601b218bdf5fab28cc3fa5da" name="ae44b0cc4601b218bdf5fab28cc3fa5da"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>const_contracted_gaussian_reference</b> = typename traits_type::const_contracted_gaussian_reference</td></tr>
-<tr class="memdesc:ae44b0cc4601b218bdf5fab28cc3fa5da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only, aliasing view of the contracted Gaussian. <br /></td></tr>
-<tr class="separator:ae44b0cc4601b218bdf5fab28cc3fa5da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b744765a26fe1d6b9b46445e1fe76a0" id="r_a0b744765a26fe1d6b9b46445e1fe76a0"><td class="memItemLeft" align="right" valign="top"><a id="a0b744765a26fe1d6b9b46445e1fe76a0" name="a0b744765a26fe1d6b9b46445e1fe76a0"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>ao_view_pointer</b> = typename traits_type::ao_view_pointer</td></tr>
-<tr class="memdesc:a0b744765a26fe1d6b9b46445e1fe76a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to a polymorphic view of one <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> in *this. <br /></td></tr>
-<tr class="separator:a0b744765a26fe1d6b9b46445e1fe76a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf765d7883a27d98972cfe01ffed139b" id="r_abf765d7883a27d98972cfe01ffed139b"><td class="memItemLeft" align="right" valign="top"><a id="abf765d7883a27d98972cfe01ffed139b" name="abf765d7883a27d98972cfe01ffed139b"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>center_type</b> = typename traits_type::center_type</td></tr>
-<tr class="memdesc:abf765d7883a27d98972cfe01ffed139b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to model the point *this is centered on. <br /></td></tr>
-<tr class="separator:abf765d7883a27d98972cfe01ffed139b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10d33919348c903696f1010b01b43e07" id="r_a10d33919348c903696f1010b01b43e07"><td class="memItemLeft" align="right" valign="top"><a id="a10d33919348c903696f1010b01b43e07" name="a10d33919348c903696f1010b01b43e07"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>const_center_reference</b> = typename traits_type::const_center_reference</td></tr>
-<tr class="memdesc:a10d33919348c903696f1010b01b43e07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only, aliasing view of the center. <br /></td></tr>
-<tr class="separator:a10d33919348c903696f1010b01b43e07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf92452fd006cbf1d5a6ca756aedb8f4" id="r_acf92452fd006cbf1d5a6ca756aedb8f4"><td class="memItemLeft" align="right" valign="top"><a id="acf92452fd006cbf1d5a6ca756aedb8f4" name="acf92452fd006cbf1d5a6ca756aedb8f4"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>coord_type</b> = typename traits_type::coord_type</td></tr>
-<tr class="memdesc:acf92452fd006cbf1d5a6ca756aedb8f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type *this uses to model a single Cartesian coordinate. <br /></td></tr>
-<tr class="separator:acf92452fd006cbf1d5a6ca756aedb8f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46862131a8501baee04d879b057c5ef2" id="r_a46862131a8501baee04d879b057c5ef2"><td class="memItemLeft" align="right" valign="top"><a id="a46862131a8501baee04d879b057c5ef2" name="a46862131a8501baee04d879b057c5ef2"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>numerical_value</b> = <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#acf92452fd006cbf1d5a6ca756aedb8f4">coord_type</a></td></tr>
-<tr class="memdesc:a46862131a8501baee04d879b057c5ef2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a normalization constant. <br /></td></tr>
-<tr class="separator:a46862131a8501baee04d879b057c5ef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd4b036afa7e0fb844df0dcab7b26b7c" id="r_abd4b036afa7e0fb844df0dcab7b26b7c"><td class="memItemLeft" align="right" valign="top"><a id="abd4b036afa7e0fb844df0dcab7b26b7c" name="abd4b036afa7e0fb844df0dcab7b26b7c"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>size_type</b> = std::size_t</td></tr>
-<tr class="memdesc:abd4b036afa7e0fb844df0dcab7b26b7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for indexing and offsets. <br /></td></tr>
-<tr class="separator:abd4b036afa7e0fb844df0dcab7b26b7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1231db1e9f01093dd47458fda542bab" id="r_ad1231db1e9f01093dd47458fda542bab"><td class="memItemLeft" align="right" valign="top"><a id="ad1231db1e9f01093dd47458fda542bab" name="ad1231db1e9f01093dd47458fda542bab"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ao_type</b> = typename traits_type::ao_type</td></tr>
+<tr class="memdesc:ad1231db1e9f01093dd47458fda542bab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the AOs in *this. <br /></td></tr>
+<tr class="separator:ad1231db1e9f01093dd47458fda542bab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5549c261bdf5d5d9e2b489c304d92518" id="r_a5549c261bdf5d5d9e2b489c304d92518"><td class="memItemLeft" align="right" valign="top"><a id="a5549c261bdf5d5d9e2b489c304d92518" name="a5549c261bdf5d5d9e2b489c304d92518"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_ao_reference</b> = typename traits_type::const_ao_reference</td></tr>
+<tr class="memdesc:a5549c261bdf5d5d9e2b489c304d92518"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only view of one of the AOs in *this. <br /></td></tr>
+<tr class="separator:a5549c261bdf5d5d9e2b489c304d92518"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a649b4864c25edb8eac974ea72d707e79" id="r_a649b4864c25edb8eac974ea72d707e79"><td class="memItemLeft" align="right" valign="top"><a id="a649b4864c25edb8eac974ea72d707e79" name="a649b4864c25edb8eac974ea72d707e79"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_ao_pointer</b> = typename traits_type::const_ao_pointer</td></tr>
+<tr class="memdesc:a649b4864c25edb8eac974ea72d707e79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a pointer to a read-only view of one of the AOs in *this. <br /></td></tr>
+<tr class="separator:a649b4864c25edb8eac974ea72d707e79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae84a2a5acea420d5a5f5401f0bbb45f6" id="r_ae84a2a5acea420d5a5f5401f0bbb45f6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#ae84a2a5acea420d5a5f5401f0bbb45f6">const_cartesian_shell_pointer</a> = typename traits_type::const_cartesian_shell_pointer</td></tr>
+<tr class="separator:ae84a2a5acea420d5a5f5401f0bbb45f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad79a3da82c0c34ce83ae6e954aa68e3e" id="r_ad79a3da82c0c34ce83ae6e954aa68e3e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#ad79a3da82c0c34ce83ae6e954aa68e3e">ao_index_type</a> = typename traits_type::ao_index_type</td></tr>
+<tr class="separator:ad79a3da82c0c34ce83ae6e954aa68e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d6abf9412cc66db3c689a75dbdf9c9e" id="r_a7d6abf9412cc66db3c689a75dbdf9c9e"><td class="memItemLeft" align="right" valign="top"><a id="a7d6abf9412cc66db3c689a75dbdf9c9e" name="a7d6abf9412cc66db3c689a75dbdf9c9e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>cartesian_powers_type</b> = typename traits_type::cartesian_powers_type</td></tr>
+<tr class="memdesc:a7d6abf9412cc66db3c689a75dbdf9c9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type holding the powers <picture><source srcset="form_33_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$(i,j,k)$" src="form_33.png"/></picture> of one Cartesian <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>. <br /></td></tr>
+<tr class="separator:a7d6abf9412cc66db3c689a75dbdf9c9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48bddc92755e2053a9d7bb643e52c279" id="r_a48bddc92755e2053a9d7bb643e52c279"><td class="memItemLeft" align="right" valign="top"><a id="a48bddc92755e2053a9d7bb643e52c279" name="a48bddc92755e2053a9d7bb643e52c279"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>magnetic_index_type</b> = typename traits_type::magnetic_index_type</td></tr>
+<tr class="memdesc:a48bddc92755e2053a9d7bb643e52c279"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to model the component, <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>, of one spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>. <br /></td></tr>
+<tr class="separator:a48bddc92755e2053a9d7bb643e52c279"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a11be2fbf18b07627fdb47c0a0149c1a0" id="r_a11be2fbf18b07627fdb47c0a0149c1a0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a6ac41ed3fe5b2dea22805a78efcca5d9">angular_momentum_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a11be2fbf18b07627fdb47c0a0149c1a0">get_l</a> () const noexcept</td></tr>
-<tr class="memdesc:a11be2fbf18b07627fdb47c0a0149c1a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the total angular momentum shared by the AOs in *this.  <br /></td></tr>
-<tr class="separator:a11be2fbf18b07627fdb47c0a0149c1a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32acfc1b3ffbec3473cbba1fd55d484a" id="r_a32acfc1b3ffbec3473cbba1fd55d484a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a32acfc1b3ffbec3473cbba1fd55d484a">is_pure</a> () const noexcept</td></tr>
-<tr class="memdesc:a32acfc1b3ffbec3473cbba1fd55d484a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is *this a pure (spherical) shell?  <br /></td></tr>
-<tr class="separator:a32acfc1b3ffbec3473cbba1fd55d484a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06887cc638f75d3d06b67e354aaabe5c" id="r_a06887cc638f75d3d06b67e354aaabe5c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a06887cc638f75d3d06b67e354aaabe5c">is_cartesian</a> () const noexcept</td></tr>
-<tr class="memdesc:a06887cc638f75d3d06b67e354aaabe5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is *this a Cartesian shell?  <br /></td></tr>
-<tr class="separator:a06887cc638f75d3d06b67e354aaabe5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4573f836efa396128418d3c239d1603a" id="r_a4573f836efa396128418d3c239d1603a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#abd4b036afa7e0fb844df0dcab7b26b7c">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a4573f836efa396128418d3c239d1603a">size</a> () const noexcept</td></tr>
-<tr class="memdesc:a4573f836efa396128418d3c239d1603a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of AOs in *this.  <br /></td></tr>
-<tr class="separator:a4573f836efa396128418d3c239d1603a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad21ea11e9b1c884fe7cfceb606055461" id="r_ad21ea11e9b1c884fe7cfceb606055461"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a10d33919348c903696f1010b01b43e07">const_center_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#ad21ea11e9b1c884fe7cfceb606055461">get_center</a> () const</td></tr>
-<tr class="memdesc:ad21ea11e9b1c884fe7cfceb606055461"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the point *this is centered on.  <br /></td></tr>
-<tr class="separator:ad21ea11e9b1c884fe7cfceb606055461"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a239482ea047a8c379c3014f270203cf8" id="r_a239482ea047a8c379c3014f270203cf8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#ae44b0cc4601b218bdf5fab28cc3fa5da">const_contracted_gaussian_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a239482ea047a8c379c3014f270203cf8">get_contracted_gaussian</a> () const</td></tr>
-<tr class="memdesc:a239482ea047a8c379c3014f270203cf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the contracted Gaussian every <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> in *this is built on.  <br /></td></tr>
-<tr class="separator:a239482ea047a8c379c3014f270203cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbd7892061922408a5cc5a9e76961251" id="r_afbd7892061922408a5cc5a9e76961251"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a0b744765a26fe1d6b9b46445e1fe76a0">ao_view_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#afbd7892061922408a5cc5a9e76961251">at</a> (<a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#abd4b036afa7e0fb844df0dcab7b26b7c">size_type</a> i) const</td></tr>
-<tr class="memdesc:afbd7892061922408a5cc5a9e76961251"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> at offset <code>i</code>.  <br /></td></tr>
-<tr class="separator:afbd7892061922408a5cc5a9e76961251"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4dbdd8761c4db70cf08260fb3b575569" id="r_a4dbdd8761c4db70cf08260fb3b575569"><td class="memItemLeft" align="right" valign="top"><a id="a4dbdd8761c4db70cf08260fb3b575569" name="a4dbdd8761c4db70cf08260fb3b575569"></a>
-<a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a0b744765a26fe1d6b9b46445e1fe76a0">ao_view_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (<a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#abd4b036afa7e0fb844df0dcab7b26b7c">size_type</a> i) const</td></tr>
-<tr class="memdesc:a4dbdd8761c4db70cf08260fb3b575569"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#afbd7892061922408a5cc5a9e76961251" title="Returns the AO at offset i.">at()</a> <br /></td></tr>
-<tr class="separator:a4dbdd8761c4db70cf08260fb3b575569"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43ba155477c3f17ccf0b1046546a76e1" id="r_a43ba155477c3f17ccf0b1046546a76e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a46862131a8501baee04d879b057c5ef2">numerical_value</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a43ba155477c3f17ccf0b1046546a76e1">normalization_constant</a> () const</td></tr>
-<tr class="memdesc:a43ba155477c3f17ccf0b1046546a76e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the normalization constant of *this.  <br /></td></tr>
-<tr class="separator:a43ba155477c3f17ccf0b1046546a76e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a788da5170bdd73c4a3643676876f3ad1" id="r_a788da5170bdd73c4a3643676876f3ad1"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a788da5170bdd73c4a3643676876f3ad1">is_pure</a> () const noexcept</td></tr>
+<tr class="memdesc:a788da5170bdd73c4a3643676876f3ad1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is *this a pure (spherical) shell?  <br /></td></tr>
+<tr class="separator:a788da5170bdd73c4a3643676876f3ad1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4da61775a68bd1481b3c7d55b733903b" id="r_a4da61775a68bd1481b3c7d55b733903b"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a4da61775a68bd1481b3c7d55b733903b">is_cartesian</a> () const noexcept</td></tr>
+<tr class="memdesc:a4da61775a68bd1481b3c7d55b733903b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is *this a Cartesian shell?  <br /></td></tr>
+<tr class="separator:a4da61775a68bd1481b3c7d55b733903b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62cd22bf6267d0cbd1266701922f3358" id="r_a62cd22bf6267d0cbd1266701922f3358"><td class="memTemplParams" colspan="2">template&lt;typename U  = AOType&gt; </td></tr>
+<tr class="memitem:a62cd22bf6267d0cbd1266701922f3358"><td class="memTemplItemLeft" align="right" valign="top">enable_if_cartesian_t&lt; U, <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a7d6abf9412cc66db3c689a75dbdf9c9e">cartesian_powers_type</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a62cd22bf6267d0cbd1266701922f3358">cartesian_powers</a> (size_type i) const</td></tr>
+<tr class="memdesc:a62cd22bf6267d0cbd1266701922f3358"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Cartesian powers of the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> at offset <code>i</code>.  <br /></td></tr>
+<tr class="separator:a62cd22bf6267d0cbd1266701922f3358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad52ce48d8f25436cf648a7c8dd1f340a" id="r_ad52ce48d8f25436cf648a7c8dd1f340a"><td class="memTemplParams" colspan="2">template&lt;typename U  = AOType&gt; </td></tr>
+<tr class="memitem:ad52ce48d8f25436cf648a7c8dd1f340a"><td class="memTemplItemLeft" align="right" valign="top">enable_if_pure_t&lt; U, <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a48bddc92755e2053a9d7bb643e52c279">magnetic_index_type</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#ad52ce48d8f25436cf648a7c8dd1f340a">magnetic_index</a> (size_type i) const</td></tr>
+<tr class="memdesc:ad52ce48d8f25436cf648a7c8dd1f340a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the component, <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>, of the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> at offset <code>i</code>.  <br /></td></tr>
+<tr class="separator:ad52ce48d8f25436cf648a7c8dd1f340a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6793627eecdd864836ed037b032c11de" id="r_a6793627eecdd864836ed037b032c11de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a649b4864c25edb8eac974ea72d707e79">const_ao_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a6793627eecdd864836ed037b032c11de">at</a> (size_type i) const</td></tr>
+<tr class="memdesc:a6793627eecdd864836ed037b032c11de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> at offset <code>i</code>.  <br /></td></tr>
+<tr class="separator:a6793627eecdd864836ed037b032c11de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0bd1aa6d003e4fc7c3a426ed3117f4e" id="r_ab0bd1aa6d003e4fc7c3a426ed3117f4e"><td class="memItemLeft" align="right" valign="top"><a id="ab0bd1aa6d003e4fc7c3a426ed3117f4e" name="ab0bd1aa6d003e4fc7c3a426ed3117f4e"></a>
+<a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a649b4864c25edb8eac974ea72d707e79">const_ao_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (size_type i) const</td></tr>
+<tr class="memdesc:ab0bd1aa6d003e4fc7c3a426ed3117f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a6793627eecdd864836ed037b032c11de" title="Returns the AO at offset i.">at()</a> <br /></td></tr>
+<tr class="separator:ab0bd1aa6d003e4fc7c3a426ed3117f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3441e1d2bd7f38d157275616c7002857" id="r_a3441e1d2bd7f38d157275616c7002857"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#ae84a2a5acea420d5a5f5401f0bbb45f6">const_cartesian_shell_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a3441e1d2bd7f38d157275616c7002857">get_cartesian_shell</a> () const</td></tr>
+<tr class="memdesc:a3441e1d2bd7f38d157275616c7002857"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the Cartesian shell underneath *this.  <br /></td></tr>
+<tr class="separator:a3441e1d2bd7f38d157275616c7002857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:a20278bf9e8e9fd0eaffc4af43189e8ee" id="r_a20278bf9e8e9fd0eaffc4af43189e8ee"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#ad79a3da82c0c34ce83ae6e954aa68e3e">ao_index_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a20278bf9e8e9fd0eaffc4af43189e8ee">ao_index_</a> (size_type i) const =0</td></tr>
+<tr class="memdesc:a20278bf9e8e9fd0eaffc4af43189e8ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hook for the ordering: the angular index of the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> at <code>i</code>.  <br /></td></tr>
+<tr class="separator:a20278bf9e8e9fd0eaffc4af43189e8ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15fb1afb40d29b197c500cb4197d1a76" id="r_a15fb1afb40d29b197c500cb4197d1a76"><td class="memItemLeft" align="right" valign="top"><a id="a15fb1afb40d29b197c500cb4197d1a76" name="a15fb1afb40d29b197c500cb4197d1a76"></a>
+virtual <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#ae84a2a5acea420d5a5f5401f0bbb45f6">const_cartesian_shell_pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cartesian_shell_</b> () const =0</td></tr>
+<tr class="memdesc:a15fb1afb40d29b197c500cb4197d1a76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements get_cartesian_shell. <br /></td></tr>
+<tr class="separator:a15fb1afb40d29b197c500cb4197d1a76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b44c76a97fa7b94054a24e0d832e81c" id="r_a0b44c76a97fa7b94054a24e0d832e81c"><td class="memItemLeft" align="right" valign="top"><a id="a0b44c76a97fa7b94054a24e0d832e81c" name="a0b44c76a97fa7b94054a24e0d832e81c"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_pure_</b> () const noexcept final</td></tr>
+<tr class="memdesc:a0b44c76a97fa7b94054a24e0d832e81c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the base's is_pure from the purity *this knows statically. <br /></td></tr>
+<tr class="separator:a0b44c76a97fa7b94054a24e0d832e81c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70a885179928b7d255458f3b013e8e91" id="r_a70a885179928b7d255458f3b013e8e91"><td class="memItemLeft" align="right" valign="top">ao_view_pointer&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a70a885179928b7d255458f3b013e8e91">at_</a> (size_type i) const final</td></tr>
+<tr class="separator:a70a885179928b7d255458f3b013e8e91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
-<tr class="memitem:a1cf4783256b8bb8ab16673199d6640aa" id="r_a1cf4783256b8bb8ab16673199d6640aa"><td class="memItemLeft" align="right" valign="top"><a id="a1cf4783256b8bb8ab16673199d6640aa" name="a1cf4783256b8bb8ab16673199d6640aa"></a>
+<tr class="memitem:ae9070e636be20356f7268f558a3da08b" id="r_ae9070e636be20356f7268f558a3da08b"><td class="memItemLeft" align="right" valign="top"><a id="ae9070e636be20356f7268f558a3da08b" name="ae9070e636be20356f7268f558a3da08b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>AOShellCommon</b> (const <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">AOShellCommon</a> &amp;) noexcept=default</td></tr>
-<tr class="separator:a1cf4783256b8bb8ab16673199d6640aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3eb81689df1589d10ada5030ebd8eae" id="r_aa3eb81689df1589d10ada5030ebd8eae"><td class="memItemLeft" align="right" valign="top"><a id="aa3eb81689df1589d10ada5030ebd8eae" name="aa3eb81689df1589d10ada5030ebd8eae"></a>
+<tr class="separator:ae9070e636be20356f7268f558a3da08b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae35153e76d55247c94e84f945909049d" id="r_ae35153e76d55247c94e84f945909049d"><td class="memItemLeft" align="right" valign="top"><a id="ae35153e76d55247c94e84f945909049d" name="ae35153e76d55247c94e84f945909049d"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>AOShellCommon</b> (<a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">AOShellCommon</a> &amp;&amp;) noexcept=default</td></tr>
-<tr class="separator:aa3eb81689df1589d10ada5030ebd8eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04682694c98434ef183eb33d178ef209" id="r_a04682694c98434ef183eb33d178ef209"><td class="memItemLeft" align="right" valign="top"><a id="a04682694c98434ef183eb33d178ef209" name="a04682694c98434ef183eb33d178ef209"></a>
+<tr class="separator:ae35153e76d55247c94e84f945909049d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af19a2312f46b004f4ccfecccbc5ee9da" id="r_af19a2312f46b004f4ccfecccbc5ee9da"><td class="memItemLeft" align="right" valign="top"><a id="af19a2312f46b004f4ccfecccbc5ee9da" name="af19a2312f46b004f4ccfecccbc5ee9da"></a>
 <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">AOShellCommon</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">AOShellCommon</a> &amp;) noexcept=default</td></tr>
-<tr class="separator:a04682694c98434ef183eb33d178ef209"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1d2a78c560112fb61bd219c254bbcad" id="r_aa1d2a78c560112fb61bd219c254bbcad"><td class="memItemLeft" align="right" valign="top"><a id="aa1d2a78c560112fb61bd219c254bbcad" name="aa1d2a78c560112fb61bd219c254bbcad"></a>
+<tr class="separator:af19a2312f46b004f4ccfecccbc5ee9da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad133daaae384ea26514fbf57e1e0b37b" id="r_ad133daaae384ea26514fbf57e1e0b37b"><td class="memItemLeft" align="right" valign="top"><a id="ad133daaae384ea26514fbf57e1e0b37b" name="ad133daaae384ea26514fbf57e1e0b37b"></a>
 <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">AOShellCommon</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">AOShellCommon</a> &amp;&amp;) noexcept=default</td></tr>
-<tr class="separator:aa1d2a78c560112fb61bd219c254bbcad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ad133daaae384ea26514fbf57e1e0b37b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename DerivedType&gt;<br />
-class chemist::experimental::AOShellCommon&lt; DerivedType &gt;</div><p>Implements the API shared by <a class="el" href="classchemist_1_1experimental_1_1AOShell.html" title="Abstract base class of the shells which own their state.">AOShell</a> and <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html" title="Abstract base class of the shells which alias their state.">AOShellView</a>. </p>
-<p>Per docs/source/developer/design/basis_set/ao_hierarchy.rst, a shell is a set of AOs sharing one contracted Gaussian, a total angular momentum, and a purity, and the order in which it enumerates those AOs is part of its type: the classes deriving from <a class="el" href="classchemist_1_1experimental_1_1AOShell.html" title="Abstract base class of the shells which own their state.">AOShell</a> (e.g. <a class="el" href="classchemist_1_1experimental_1_1CCAShell.html" title="Models a shell, in CCA order, by value.">CCAShell</a>) <em>are</em> the orderings. *this is the ordering-agnostic API those classes share, written once.</p>
-<p>The purity decides what the shell holds: the <picture><source srcset="form_31_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$(\ell+1)(\ell+2)/2$" src="form_31.png"/></picture> Cartesian AOs built on the contracted Gaussian, or the <picture><source srcset="form_32_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$2\ell+1$" src="form_32.png"/></picture> spherical AOs built on the Cartesian shell of that contracted Gaussian.</p>
-<p>Note what is NOT here: the angular index at an offset (the powers <picture><source srcset="form_33_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$(i,j,k)$" src="form_33.png"/></picture> of a Cartesian shell, <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture> of a pure one). Which of the two a shell has depends on its purity, so it is provided by the concrete shells, which know their purity statically (e.g. <a class="el" href="classchemist_1_1experimental_1_1CCAShellCommon.html#a165435ebe88a4e94406249f40ac0c470" title="Returns the Cartesian powers of the AO at offset i.">CCAShell&lt;CartesianAO&gt;::cartesian_powers</a>), rather than here, where asking the wrong one could only be a runtime error. Code holding an <a class="el" href="classchemist_1_1experimental_1_1AOShell.html" title="Abstract base class of the shells which own their state.">AOShell</a> can still ask each <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> it indexes about itself.</p>
-<p>Exactly as <a class="el" href="classchemist_1_1experimental_1_1AOCommon.html" title="Implements the API shared by AO and AOView.">AOCommon</a> does for <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> and <a class="el" href="classchemist_1_1experimental_1_1AOView.html" title="Abstract base class of the atomic orbitals which alias their state.">AOView</a>, *this implements each public method by calling a virtual hook on DerivedType (which is <a class="el" href="classchemist_1_1experimental_1_1AOShell.html" title="Abstract base class of the shells which own their state.">AOShell</a> or <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html" title="Abstract base class of the shells which alias their state.">AOShellView</a>, not the concrete class). Methods which follow from other methods, e.g. <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a4573f836efa396128418d3c239d1603a" title="Returns the number of AOs in *this.">size()</a> from <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a11be2fbf18b07627fdb47c0a0149c1a0" title="Returns the total angular momentum shared by the AOs in *this.">get_l()</a> and <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a32acfc1b3ffbec3473cbba1fd55d484a" title="Is *this a pure (spherical) shell?">is_pure()</a>, are computed here rather than being hooks, so the derived classes can not disagree about them.</p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename BaseType, typename AOType&gt;<br />
+class chemist::experimental::AOShellCommon&lt; BaseType, AOType &gt;</div><p>Implements the API shared by AOShell&lt;AOType&gt; and AOShellView&lt;AOType&gt;. </p>
+<p>Per docs/source/developer/design/basis_set/ao_hierarchy.rst, a shell's purity and its ordering are independent, and a great deal of code needs to know the former without caring about the latter. AOShell&lt;AOType&gt; and AOShellView&lt;AOType&gt; are the shells whose purity, but not ordering, is known statically, and *this is the API that knowledge buys them, written once:</p>
+<ul>
+<li><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a788da5170bdd73c4a3643676876f3ad1" title="Is *this a pure (spherical) shell?">is_pure()</a>/is_cartesian() are compile-time constants,</li>
+<li>the angular index of the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> at an offset is available, as cartesian_powers for a Cartesian shell and magnetic_index for a pure one (each only exists for the purity it makes sense for), and</li>
+<li>indexing returns a pointer to the concrete <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> view, rather than to a polymorphic <a class="el" href="classchemist_1_1experimental_1_1AOView.html" title="Abstract base class of the atomic orbitals which alias their state.">AOView</a>.</li>
+</ul>
+<p>How the angular index depends on the offset is the ordering, so it is the one thing *this asks the derived class for, through the ao_index_ hook. Everything else follows from the purity and from <a class="el" href="classchemist_1_1experimental_1_1AOShellBaseCommon.html" title="Implements the API shared by AOShellBase and AOShellBaseView.">AOShellBaseCommon</a>.</p>
+<p>Unlike the other *Common classes, *this is a mixin which derives from the base it extends, rather than a CRTP sibling of it, so that a concrete shell does not inherit the same names from three unrelated bases. It is instantiated once with <a class="el" href="classchemist_1_1experimental_1_1AOShellBase.html" title="Abstract base class of the shells which own their state.">AOShellBase</a> (by <a class="el" href="classchemist_1_1experimental_1_1AOShell.html" title="Abstract base class of the owning shells of one purity.">AOShell</a>) and once with <a class="el" href="classchemist_1_1experimental_1_1AOShellBaseView.html" title="Abstract base class of the shells which alias their state.">AOShellBaseView</a> (by <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html" title="Abstract base class of the aliasing shells of one purity.">AOShellView</a>).</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">DerivedType</td><td>The class deriving from *this. Must define the <code>*_()</code> hooks called below and declare *this a friend. </td></tr>
+    <tr><td class="paramname">BaseType</td><td>The base *this extends: <a class="el" href="classchemist_1_1experimental_1_1AOShellBase.html" title="Abstract base class of the shells which own their state.">AOShellBase</a> or <a class="el" href="classchemist_1_1experimental_1_1AOShellBaseView.html" title="Abstract base class of the shells which alias their state.">AOShellBaseView</a>. </td></tr>
+    <tr><td class="paramname">AOType</td><td>The kind of <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> the shell holds: <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" title="Models a Cartesian atomic orbital by value.">CartesianAO</a> or <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html" title="Models a spherical atomic orbital by value.">SphericalAO</a>. </td></tr>
   </table>
   </dd>
 </dl>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a68d669d611bbe4e6ddfbb9d984656cdd" name="a68d669d611bbe4e6ddfbb9d984656cdd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68d669d611bbe4e6ddfbb9d984656cdd">&#9670;&#160;</a></span>AOShellCommon()</h2>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="ad79a3da82c0c34ce83ae6e954aa68e3e" name="ad79a3da82c0c34ce83ae6e954aa68e3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad79a3da82c0c34ce83ae6e954aa68e3e">&#9670;&#160;</a></span>ao_index_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename DerivedType &gt; </div>
+template&lt;typename BaseType , typename AOType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; BaseType, AOType &gt;::ao_index_type =  typename traits_type::ao_index_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Type of the index picking one <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> out of *this: the powers for a Cartesian shell and <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture> for a pure one </p>
+
+</div>
+</div>
+<a id="ae84a2a5acea420d5a5f5401f0bbb45f6" name="ae84a2a5acea420d5a5f5401f0bbb45f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae84a2a5acea420d5a5f5401f0bbb45f6">&#9670;&#160;</a></span>const_cartesian_shell_pointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BaseType , typename AOType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; BaseType, AOType &gt;::const_cartesian_shell_pointer =  typename traits_type::const_cartesian_shell_pointer</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Type of a pointer to a read-only view of the Cartesian shell underneath *this </p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a552ed6cc66fa3110e605b4ab1e76fffd" name="a552ed6cc66fa3110e605b4ab1e76fffd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a552ed6cc66fa3110e605b4ab1e76fffd">&#9670;&#160;</a></span>AOShellCommon()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BaseType , typename AOType &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; DerivedType &gt;::AOShellCommon </td>
+          <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; BaseType, AOType &gt;::AOShellCommon </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -215,21 +275,121 @@ template&lt;typename DerivedType &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="afbd7892061922408a5cc5a9e76961251" name="afbd7892061922408a5cc5a9e76961251"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afbd7892061922408a5cc5a9e76961251">&#9670;&#160;</a></span>at()</h2>
+<a id="a20278bf9e8e9fd0eaffc4af43189e8ee" name="a20278bf9e8e9fd0eaffc4af43189e8ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20278bf9e8e9fd0eaffc4af43189e8ee">&#9670;&#160;</a></span>ao_index_()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename DerivedType &gt; </div>
+template&lt;typename BaseType , typename AOType &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a0b744765a26fe1d6b9b46445e1fe76a0">ao_view_pointer</a> <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; DerivedType &gt;::at </td>
+          <td class="memname">virtual <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#ad79a3da82c0c34ce83ae6e954aa68e3e">ao_index_type</a> <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; BaseType, AOType &gt;::ao_index_ </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#abd4b036afa7e0fb844df0dcab7b26b7c">size_type</a>&#160;</td>
+          <td class="paramtype">size_type&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Hook for the ordering: the angular index of the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> at <code>i</code>. </p>
+<p><code>i</code> has already been checked. The derived class returns the powers <picture><source srcset="form_33_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$(i,j,k)$" src="form_33.png"/></picture> for a Cartesian shell and <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture> for a pure one. This is one hook, rather than one per purity, because a virtual method can not be conditionally declared. </p>
+
+</div>
+</div>
+<a id="a6793627eecdd864836ed037b032c11de" name="a6793627eecdd864836ed037b032c11de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6793627eecdd864836ed037b032c11de">&#9670;&#160;</a></span>at()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BaseType , typename AOType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; BaseType, AOType &gt;::at </td>
+          <td>(</td>
+          <td class="paramtype">size_type&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> at offset <code>i</code>. </p>
+<p>The result is a read-only view which aliases the state of *this: a <a class="el" href="classchemist_1_1experimental_1_1CartesianAOView.html" title="An object which behaves like a CartesianAO, but aliases the contracted Gaussian it is built on.">CartesianAOView</a> whose contracted Gaussian is *this's for a Cartesian shell, and a <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html" title="An object which behaves like a SphericalAO, but aliases the Cartesian shell it is built on.">SphericalAOView</a> of <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a3441e1d2bd7f38d157275616c7002857" title="Returns the Cartesian shell underneath *this.">get_cartesian_shell()</a> for a pure one. The view is built on demand and the caller owns the returned pointer, but since the view aliases *this it must not outlive *this. This hides the base's version, which returns a pointer to a polymorphic <a class="el" href="classchemist_1_1experimental_1_1AOView.html" title="Abstract base class of the atomic orbitals which alias their state.">AOView</a>.</p>
+<p>Defined out of line, because <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html" title="An object which behaves like a SphericalAO, but aliases the Cartesian shell it is built on.">SphericalAOView</a> needs this header and so is incomplete here. For the same reason, using the result requires including <a class="el" href="cartesian__ao__view_8hpp_source.html">cartesian_ao_view.hpp</a> or <a class="el" href="spherical__ao__view_8hpp_source.html">spherical_ao_view.hpp</a>, as the concrete shell headers (e.g. <a class="el" href="cca__shell__class_8hpp_source.html">cca_shell_class.hpp</a>) already do.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The offset of the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>. Must be in [0, size()).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to a newly allocated, read-only view of the requested <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>if <code>i</code> is not in [0, size()). Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the view. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a70a885179928b7d255458f3b013e8e91" name="a70a885179928b7d255458f3b013e8e91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70a885179928b7d255458f3b013e8e91">&#9670;&#160;</a></span>at_()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BaseType , typename AOType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; BaseType, AOType &gt;::at_ </td>
+          <td>(</td>
+          <td class="paramtype">size_type&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">final</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Implements the base's at in terms of *this's. Defined out of line for the same reason as at. </p>
+
+</div>
+</div>
+<a id="a62cd22bf6267d0cbd1266701922f3358" name="a62cd22bf6267d0cbd1266701922f3358"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62cd22bf6267d0cbd1266701922f3358">&#9670;&#160;</a></span>cartesian_powers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BaseType , typename AOType &gt; </div>
+<div class="memtemplate">
+template&lt;typename U  = AOType&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enable_if_cartesian_t&lt; U, <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a7d6abf9412cc66db3c689a75dbdf9c9e">cartesian_powers_type</a> &gt; <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; BaseType, AOType &gt;::cartesian_powers </td>
+          <td>(</td>
+          <td class="paramtype">size_type&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -241,18 +401,54 @@ template&lt;typename DerivedType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> at offset <code>i</code>. </p>
-<p>Which kind of <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> a shell holds is only known to its derived class, so the result is a polymorphic, read-only view: a <a class="el" href="classchemist_1_1experimental_1_1CartesianAOView.html" title="An object which behaves like a CartesianAO, but aliases the contracted Gaussian it is built on.">CartesianAOView</a> for a Cartesian shell and a <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html" title="An object which behaves like a SphericalAO, but aliases the Cartesian shell it is built on.">SphericalAOView</a> for a pure one. The view is built on demand and the caller owns the returned pointer, but the view aliases the state of *this; it is not a copy, and so must not outlive *this. Code which knows the concrete shell type can index it directly instead, and get a pointer to the concrete view.</p>
+<p>Returns the Cartesian powers of the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> at offset <code>i</code>. </p>
+<p>Which powers sit at which offset is the ordering, and is supplied by the derived class. When *this is a pure shell this method does not participate in overload resolution.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The offset of the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>. Must be in [0, <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a4573f836efa396128418d3c239d1603a" title="Returns the number of AOs in *this.">size()</a>).</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The offset of the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>. Must be in [0, size()).</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A pointer to a newly allocated, read-only view of the requested <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The powers of <picture><source srcset="form_38_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$x$" src="form_38.png"/></picture>, <picture><source srcset="form_39_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$y$" src="form_39.png"/></picture>, and <picture><source srcset="form_40_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$z$" src="form_40.png"/></picture>, in that order.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::out_of_range</td><td>if <code>i</code> is not in [0, <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a4573f836efa396128418d3c239d1603a" title="Returns the number of AOs in *this.">size()</a>). Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::out_of_range</td><td>if <code>i</code> is not in [0, size()). Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3441e1d2bd7f38d157275616c7002857" name="a3441e1d2bd7f38d157275616c7002857"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3441e1d2bd7f38d157275616c7002857">&#9670;&#160;</a></span>get_cartesian_shell()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BaseType , typename AOType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#ae84a2a5acea420d5a5f5401f0bbb45f6">const_cartesian_shell_pointer</a> <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; BaseType, AOType &gt;::get_cartesian_shell </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the Cartesian shell underneath *this. </p>
+<p>For a pure shell this is the Cartesian shell its spherical AOs are linear combinations of. For a Cartesian shell it is a view of *this. Either way the result has the ordering of *this and aliases its contracted Gaussian, so it must not outlive *this.</p>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to a newly allocated, read-only view of the Cartesian shell.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
     <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the view. Strong throw guarantee. </td></tr>
   </table>
   </dd>
@@ -260,19 +456,19 @@ template&lt;typename DerivedType &gt; </div>
 
 </div>
 </div>
-<a id="ad21ea11e9b1c884fe7cfceb606055461" name="ad21ea11e9b1c884fe7cfceb606055461"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad21ea11e9b1c884fe7cfceb606055461">&#9670;&#160;</a></span>get_center()</h2>
+<a id="a4da61775a68bd1481b3c7d55b733903b" name="a4da61775a68bd1481b3c7d55b733903b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4da61775a68bd1481b3c7d55b733903b">&#9670;&#160;</a></span>is_cartesian()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename DerivedType &gt; </div>
+template&lt;typename BaseType , typename AOType &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a10d33919348c903696f1010b01b43e07">const_center_reference</a> <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; DerivedType &gt;::get_center </td>
+          <td class="memname">constexpr bool <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; BaseType, AOType &gt;::is_cartesian </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -280,113 +476,7 @@ template&lt;typename DerivedType &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the point *this is centered on. </p>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a239482ea047a8c379c3014f270203cf8" name="a239482ea047a8c379c3014f270203cf8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a239482ea047a8c379c3014f270203cf8">&#9670;&#160;</a></span>get_contracted_gaussian()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename DerivedType &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#ae44b0cc4601b218bdf5fab28cc3fa5da">const_contracted_gaussian_reference</a> <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; DerivedType &gt;::get_contracted_gaussian </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the contracted Gaussian every <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> in *this is built on. </p>
-<p>For a pure shell this is the contracted Gaussian of the Cartesian shell its AOs transform. Either way the returned view aliases the one contracted Gaussian *this owns or aliases.</p>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a11be2fbf18b07627fdb47c0a0149c1a0" name="a11be2fbf18b07627fdb47c0a0149c1a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11be2fbf18b07627fdb47c0a0149c1a0">&#9670;&#160;</a></span>get_l()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename DerivedType &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a6ac41ed3fe5b2dea22805a78efcca5d9">angular_momentum_type</a> <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; DerivedType &gt;::get_l </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the total angular momentum shared by the AOs in *this. </p>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a06887cc638f75d3d06b67e354aaabe5c" name="a06887cc638f75d3d06b67e354aaabe5c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06887cc638f75d3d06b67e354aaabe5c">&#9670;&#160;</a></span>is_cartesian()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename DerivedType &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; DerivedType &gt;::is_cartesian </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -402,19 +492,19 @@ template&lt;typename DerivedType &gt; </div>
 
 </div>
 </div>
-<a id="a32acfc1b3ffbec3473cbba1fd55d484a" name="a32acfc1b3ffbec3473cbba1fd55d484a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32acfc1b3ffbec3473cbba1fd55d484a">&#9670;&#160;</a></span>is_pure()</h2>
+<a id="a788da5170bdd73c4a3643676876f3ad1" name="a788da5170bdd73c4a3643676876f3ad1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a788da5170bdd73c4a3643676876f3ad1">&#9670;&#160;</a></span>is_pure()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename DerivedType &gt; </div>
+template&lt;typename BaseType , typename AOType &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; DerivedType &gt;::is_pure </td>
+          <td class="memname">constexpr bool <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; BaseType, AOType &gt;::is_pure </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -422,13 +512,13 @@ template&lt;typename DerivedType &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Is *this a pure (spherical) shell? </p>
-<dl class="section return"><dt>Returns</dt><dd>True if the AOs in *this are spherical AOs and false if they are Cartesian AOs.</dd></dl>
+<p>Known statically: AOShell&lt;SphericalAO&gt; is pure and AOShell&lt;CartesianAO&gt; is not. Hides the base's virtually dispatched version.</p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
@@ -438,21 +528,24 @@ template&lt;typename DerivedType &gt; </div>
 
 </div>
 </div>
-<a id="a43ba155477c3f17ccf0b1046546a76e1" name="a43ba155477c3f17ccf0b1046546a76e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a43ba155477c3f17ccf0b1046546a76e1">&#9670;&#160;</a></span>normalization_constant()</h2>
+<a id="ad52ce48d8f25436cf648a7c8dd1f340a" name="ad52ce48d8f25436cf648a7c8dd1f340a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad52ce48d8f25436cf648a7c8dd1f340a">&#9670;&#160;</a></span>magnetic_index()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename DerivedType &gt; </div>
+template&lt;typename BaseType , typename AOType &gt; </div>
+<div class="memtemplate">
+template&lt;typename U  = AOType&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a46862131a8501baee04d879b057c5ef2">numerical_value</a> <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; DerivedType &gt;::normalization_constant </td>
+          <td class="memname">enable_if_pure_t&lt; U, <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#a48bddc92755e2053a9d7bb643e52c279">magnetic_index_type</a> &gt; <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; BaseType, AOType &gt;::magnetic_index </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">size_type&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -463,55 +556,27 @@ template&lt;typename DerivedType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns the normalization constant of *this. </p>
-<p>This is <picture><source srcset="form_35_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{G}$" src="form_35.png"/></picture>, the contracted Gaussian's own constant, which is the one scalar all the AOs in a shell share. Per docs/source/developer/design/basis_set/normalization.rst it is what integral libraries expect (together with the per-primitive <picture><source srcset="form_36_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{\chi}$" src="form_36.png"/></picture>). It does not include the per-AO factors, i.e. <picture><source srcset="form_37_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$N^{AO}_{ijk}$" src="form_37.png"/></picture> for a Cartesian shell and the transformation coefficients for a pure one, which the AOs *this hands out apply themselves.</p>
+<p>Returns the component, <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>, of the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> at offset <code>i</code>. </p>
+<p>Which component sits at which offset is the ordering, and is supplied by the derived class. When *this is a Cartesian shell this method does not participate in overload resolution.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>The offset of the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>. Must be in [0, size()).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The component of the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> at offset <code>i</code>.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::runtime_error</td><td>if the parameters of the contraction are not all holding the same concrete floating-point type. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::out_of_range</td><td>if <code>i</code> is not in [0, size()). Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a4573f836efa396128418d3c239d1603a" name="a4573f836efa396128418d3c239d1603a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4573f836efa396128418d3c239d1603a">&#9670;&#160;</a></span>size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename DerivedType &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html#abd4b036afa7e0fb844df0dcab7b26b7c">size_type</a> <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html">chemist::experimental::AOShellCommon</a>&lt; DerivedType &gt;::size </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the number of AOs in *this. </p>
-<p>This is <picture><source srcset="form_32_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$2\ell+1$" src="form_32.png"/></picture> for a pure shell and <picture><source srcset="form_31_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$(\ell+1)(\ell+2)/2$" src="form_31.png"/></picture> (the number of ways of writing <picture><source srcset="form_20_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell$" src="form_20.png"/></picture> as <picture><source srcset="form_28_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$i + j + k$" src="form_28.png"/></picture>) for a Cartesian one. It depends only on <picture><source srcset="form_20_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$\ell$" src="form_20.png"/></picture> and the purity, not on the ordering, and so is computed here.</p>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>cxx/include/chemist/experimental/basis_set/<a class="el" href="ao__shell__common_8hpp_source.html">ao_shell_common.hpp</a></li>
+<li>cxx/src/chemist/experimental/basis_set/<b>ao_shell.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

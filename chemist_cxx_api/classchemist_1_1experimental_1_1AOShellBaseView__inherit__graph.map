@@ -1,0 +1,17 @@
+<map id="chemist::experimental::AOShellBaseView" name="chemist::experimental::AOShellBaseView">
+<area shape="rect" id="Node000001" title="Abstract base class of the shells which alias their state." alt="" coords="236,118,405,158"/>
+<area shape="rect" id="Node000003" href="$classchemist_1_1experimental_1_1AOShellCommon.html" title=" " alt="" coords="453,67,692,121"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="418,118,453,112,453,118,419,124"/>
+<area shape="rect" id="Node000008" href="$classchemist_1_1experimental_1_1AOShellCommon.html" title=" " alt="" coords="453,146,692,215"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="419,152,453,158,453,163,418,157"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1AOShellBaseCommon.html" title=" " alt="" coords="5,111,188,165"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,135,236,135,236,141,201,141"/>
+<area shape="rect" id="Node000004" href="$classchemist_1_1experimental_1_1AOShellView.html" title="Abstract base class of the aliasing shells of one purity." alt="" coords="740,74,932,114"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="706,91,740,91,740,97,706,97"/>
+<area shape="rect" id="Node000005" href="$classchemist_1_1experimental_1_1detail___1_1AOShellViewImpl.html" title=" " alt="" coords="980,5,1253,89"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="945,73,979,68,980,73,946,78"/>
+<area shape="rect" id="Node000007" href="$classchemist_1_1experimental_1_1detail___1_1AOShellViewImpl.html" title="Code factorization for implementing AOShellBaseView&#39;s virtual methods." alt="" coords="1019,113,1214,168"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="946,110,1019,122,1019,127,945,115"/>
+<area shape="rect" id="Node000006" href="$classchemist_1_1experimental_1_1CCAShellView.html" title="An object which behaves like a CCAShell, but aliases the contracted Gaussian it is built on." alt="" coords="1301,27,1541,67"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1267,45,1301,45,1301,50,1267,50"/>
+</map>

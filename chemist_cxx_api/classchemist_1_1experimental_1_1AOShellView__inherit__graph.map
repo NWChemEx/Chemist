@@ -1,11 +1,15 @@
-<map id="chemist::experimental::AOShellView" name="chemist::experimental::AOShellView">
-<area shape="rect" id="Node000001" title="Abstract base class of the shells which alias their state." alt="" coords="307,53,476,93"/>
-<area shape="rect" id="Node000003" href="$classchemist_1_1experimental_1_1detail___1_1AOShellViewImpl.html" title=" " alt="" coords="524,5,787,60"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="489,55,523,50,524,55,490,60"/>
-<area shape="rect" id="Node000005" href="$classchemist_1_1experimental_1_1detail___1_1AOShellViewImpl.html" title="Code factorization for implementing AOShellView&#39;s virtual methods." alt="" coords="558,84,753,139"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="490,84,558,94,557,100,489,90"/>
-<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1AOShellCommon.html" title=" " alt="" coords="5,53,259,93"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="273,70,307,70,307,75,273,75"/>
-<area shape="rect" id="Node000004" href="$classchemist_1_1experimental_1_1CCAShellView.html" title="An object which behaves like a CCAShell, but aliases the contracted Gaussian it is built on." alt="" coords="835,13,1075,53"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="800,30,835,30,835,35,800,35"/>
+<map id="chemist::experimental::AOShellView&lt; AOType &gt;" name="chemist::experimental::AOShellView&lt; AOType &gt;">
+<area shape="rect" id="Node000001" title="Abstract base class of the aliasing shells of one purity." alt="" coords="740,74,932,114"/>
+<area shape="rect" id="Node000005" href="$classchemist_1_1experimental_1_1detail___1_1AOShellViewImpl.html" title=" " alt="" coords="980,5,1253,89"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="945,73,979,68,980,73,946,78"/>
+<area shape="rect" id="Node000007" href="$classchemist_1_1experimental_1_1detail___1_1AOShellViewImpl.html" title="Code factorization for implementing AOShellBaseView&#39;s virtual methods." alt="" coords="1019,113,1214,168"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="946,110,1019,122,1019,127,945,115"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1AOShellCommon.html" title=" " alt="" coords="453,67,692,121"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="706,91,740,91,740,97,706,97"/>
+<area shape="rect" id="Node000003" href="$classchemist_1_1experimental_1_1AOShellBaseView.html" title="Abstract base class of the shells which alias their state." alt="" coords="236,74,405,114"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="419,91,453,91,453,97,419,97"/>
+<area shape="rect" id="Node000004" href="$classchemist_1_1experimental_1_1AOShellBaseCommon.html" title=" " alt="" coords="5,67,188,121"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="201,91,236,91,236,97,201,97"/>
+<area shape="rect" id="Node000006" href="$classchemist_1_1experimental_1_1CCAShellView.html" title="An object which behaves like a CCAShell, but aliases the contracted Gaussian it is built on." alt="" coords="1301,27,1541,67"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="1267,45,1301,45,1301,50,1267,50"/>
 </map>

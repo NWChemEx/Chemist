@@ -254,6 +254,25 @@ not checked, by each consumer.</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="simple" id="aoh-purity-dispatch">
+<dt>Purity and ordering are independent</dt><dd><p>Following from <a class="reference internal" href="#aoh-two-kinds-of-ao"><span class="std std-ref">Two kinds of AO, one interface</span></a> and <a class="reference internal" href="#aoh-ordering"><span class="std std-ref">AO ordering is part of the design</span></a>, a shell
+has both a purity and an ordering, and the two are separate questions.</p>
+<ul class="simple">
+<li><p>A great deal of code needs to know whether a shell is Cartesian or
+spherical without caring what order its AOs are in. A spherical AO needs a
+Cartesian shell, but sums over all of its AOs. Code applying the
+Cartesian-to-spherical transformation, or choosing an integral kernel by
+purity, needs the purity but not the order.</p></li>
+<li><p>Such code should be able to require a purity without also having to name
+an ordering, and, having required one, should get the API that purity
+implies: the powers <span class="math notranslate nohighlight">\((i,j,k)\)</span> of a Cartesian shell, or the
+<span class="math notranslate nohighlight">\(m_\ell\)</span> of a spherical one.</p></li>
+<li><p>Code which does not know the purity until runtime, e.g., code reading a
+basis set whose purity is chosen by the user, must still be able to hold
+a shell, and to recover its purity in one checked step.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="simple" id="aoh-normalization-placement">
 <dt>Each level owns its normalization factor</dt><dd><p><a class="reference internal" href="normalization.html#designing-basis-set-normalization"><span class="std std-ref">Designing Basis Set Normalization</span></a> factors the normalization constant
 into one term per layer of the hierarchy.</p>
@@ -295,7 +314,7 @@ design.</p>
 <dl class="simple">
 <dt>General contractions</dt><dd><p>The design assumes segmented contractions: each contracted Gaussian owns its
 primitives, and shells do not share them. General contractions would need a
-class parallel to <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> which is keyed into the sharing.</p>
+class parallel to <code class="docutils literal notranslate"><span class="pre">AOShellBase</span></code> which is keyed into the sharing.</p>
 </dd>
 <dt>Mixed purity within a shell</dt><dd><p>A shell is either Cartesian or spherical. Shells which mix the two are not
 represented.</p>
@@ -358,8 +377,8 @@ only needs those never learns which kind it holds.</p>
 those powers, and it owns the factor <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>, which per
 <a class="reference internal" href="normalization.html#designing-basis-set-normalization"><span class="std std-ref">Designing Basis Set Normalization</span></a> is the only factor distinguishing the
 members of a shell.</p>
-<p><code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> pairs a Cartesian <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> with a component
-<span class="math notranslate nohighlight">\(m_\ell\)</span>. It reports <span class="math notranslate nohighlight">\(m_\ell\)</span>, and its value is the linear
+<p><code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> pairs a Cartesian shell, <code class="docutils literal notranslate"><span class="pre">AOShell&lt;CartesianAO&gt;</span></code>, with a
+component <span class="math notranslate nohighlight">\(m_\ell\)</span>. It reports <span class="math notranslate nohighlight">\(m_\ell\)</span>, and its value is the linear
 combination</p>
 <div class="math notranslate nohighlight">
 \[\mu_{\ell m}(r; d,\zeta) = \sum_{i+j+k=\ell}
@@ -388,20 +407,22 @@ solid harmonic, but they are part of the angular function rather than a
 constant in front of it. Should a second Cartesian convention ever be
 introduced, this is where it would have to be checked.</p>
 <p>The sum runs over every AO in the shell, so its value does not depend on the
-order the shell enumerates them in. <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> therefore holds its shell
-polymorphically, as an <code class="docutils literal notranslate"><span class="pre">AOShell</span></code>, and accepts a shell of any ordering.</p>
+order the shell enumerates them in. Per <a class="reference internal" href="#aoh-purity-dispatch"><span class="std std-ref">Purity and ordering are independent</span></a>,
+<code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> therefore holds its shell as an <code class="docutils literal notranslate"><span class="pre">AOShell&lt;CartesianAO&gt;</span></code>: the
+purity is part of that type, but the ordering is not, so it accepts a Cartesian
+shell of any ordering, and a spherical shell does not compile.</p>
 <p>Note this also means a <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> reaches its contracted Gaussian through
 its Cartesian shell, all of whose AOs share one. The base class accessor is
 therefore well defined for both kinds.</p>
 </section>
 <section id="the-container-classes">
 <h3>The container classes<a class="headerlink" href="#the-container-classes" title="Link to this heading"></a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">AOShell</span></code> is a container of <code class="docutils literal notranslate"><span class="pre">AO</span></code> sharing a total angular momentum and a
-purity. The purity determines both what it contains and what it is built on:</p>
+<p>A shell is a container of <code class="docutils literal notranslate"><span class="pre">AO</span></code> sharing a total angular momentum and a purity.
+The purity determines both what it contains and what it is built on:</p>
 <ul class="simple">
 <li><p>A Cartesian shell holds one <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> and contains the
 <span class="math notranslate nohighlight">\((\ell+1)(\ell+2)/2\)</span> <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> objects built from it.</p></li>
-<li><p>A spherical shell holds one Cartesian <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> and contains the
+<li><p>A spherical shell holds one Cartesian shell and contains the
 <span class="math notranslate nohighlight">\(2\ell+1\)</span> <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> objects built from it.</p></li>
 </ul>
 <p>The second case nests: a spherical shell owns the Cartesian shell its AOs
@@ -412,21 +433,34 @@ Cartesian shell returns a <code class="docutils literal notranslate"><span class
 <code class="docutils literal notranslate"><span class="pre">ContractedGaussianView</span></code> aliasing the shell’s one copy; indexing a spherical
 shell returns a <code class="docutils literal notranslate"><span class="pre">SphericalAOView</span></code> aliasing the one Cartesian shell. Editing
 the exponents once is visible through every AO above them.</p>
-<p><code class="docutils literal notranslate"><span class="pre">AOShell</span></code> also carries the normalization convention in force, per
+<p>A shell also carries the normalization convention in force, per
 <a class="reference internal" href="#aoh-normalization-placement"><span class="std std-ref">Each level owns its normalization factor</span></a>, and can report the product
 <span class="math notranslate nohighlight">\(N^{\chi} N^{G}\)</span> which integral libraries expect. For a spherical shell
 this is also what <a class="reference internal" href="#aoh-transform-coupling"><span class="std std-ref">The spherical transform assumes a convention</span></a> requires of the Cartesian shell
 underneath it.</p>
-<p><code class="docutils literal notranslate"><span class="pre">AOShell</span></code> and <code class="docutils literal notranslate"><span class="pre">AOShellView</span></code> are the abstract bases, sharing an
-<code class="docutils literal notranslate"><span class="pre">AOShellCommon</span></code> exactly as <code class="docutils literal notranslate"><span class="pre">AO</span></code> and <code class="docutils literal notranslate"><span class="pre">AOView</span></code> share <code class="docutils literal notranslate"><span class="pre">AOCommon</span></code>. The
-purity is reported by <code class="docutils literal notranslate"><span class="pre">is_pure</span></code> (with <code class="docutils literal notranslate"><span class="pre">is_cartesian</span></code> as its negation), and
+<p>The shell classes form three layers, each fixing one more thing in the type,
+and each layer comes as an owning class and a view (see
+<a class="reference internal" href="#aoh-value-view"><span class="std std-ref">Value and view semantics</span></a>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">AOShellBase</span></code> and <code class="docutils literal notranslate"><span class="pre">AOShellBaseView</span></code> fix nothing: neither the purity nor
+the ordering is part of the type. They share an <code class="docutils literal notranslate"><span class="pre">AOShellBaseCommon</span></code>,
+exactly as <code class="docutils literal notranslate"><span class="pre">AO</span></code> and <code class="docutils literal notranslate"><span class="pre">AOView</span></code> share <code class="docutils literal notranslate"><span class="pre">AOCommon</span></code>. The purity is reported
+at runtime by <code class="docutils literal notranslate"><span class="pre">is_pure</span></code> (with <code class="docutils literal notranslate"><span class="pre">is_cartesian</span></code> as its negation), and
 <code class="docutils literal notranslate"><span class="pre">size</span></code> follows from it: <span class="math notranslate nohighlight">\(2\ell+1\)</span> for a pure shell and
-<span class="math notranslate nohighlight">\((\ell+1)(\ell+2)/2\)</span> for a Cartesian one.</p>
+<span class="math notranslate nohighlight">\((\ell+1)(\ell+2)/2\)</span> for a Cartesian one.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">AOShellView&lt;T&gt;</span></code>, with <code class="docutils literal notranslate"><span class="pre">T</span></code> either <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> or
+<code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code>, derive from those and fix the purity. This is the layer
+described in <a class="reference internal" href="#ao-hierarchy-purity-as-a-type"><span class="std std-ref">Purity as a type</span></a>.</p></li>
+<li><p>The orderings, e.g. <code class="docutils literal notranslate"><span class="pre">CCAShell&lt;T&gt;</span></code> and its view, derive from those and fix
+the ordering. This is the layer described in
+<a class="reference internal" href="#ao-hierarchy-ordering-as-a-type"><span class="std std-ref">Ordering as a type</span></a>.</p></li>
+</ul>
 <p>A shell does not store the views of its AOs. Indexing builds the requested
-view on demand and returns an owning pointer to it. Because the kind of AO is
-only known to the derived class, indexing a shell through a base returns a
-pointer to a polymorphic <code class="docutils literal notranslate"><span class="pre">AOView</span></code>. Indexing a concrete shell returns a
-pointer to the concrete view, since the caller then knows which kind it holds.
+view on demand and returns an owning pointer to it. Indexing an
+<code class="docutils literal notranslate"><span class="pre">AOShellBase</span></code>, which does not know the kind of AO it holds, returns a pointer
+to a polymorphic <code class="docutils literal notranslate"><span class="pre">AOView</span></code>. Indexing an <code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code>, or anything deriving
+from one, returns a pointer to the concrete view, since the caller then knows
+which kind it holds.
 Either way the view aliases the shell’s contracted Gaussian, so it must not
 outlive the shell, and writes made through the shell are visible through it.
 With nothing stored, there is nothing for copying, assigning, swapping, or
@@ -446,29 +480,64 @@ from the same parameters can share every line of code except the ordering. The
 <p><code class="docutils literal notranslate"><span class="pre">normalization_constant</span></code> reports <span class="math notranslate nohighlight">\(N^{G}\)</span> for either purity, with
 <span class="math notranslate nohighlight">\(N^{\chi}\)</span> applied per primitive, following <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code>. There is no
 convention enumerator yet, since there is only one convention.</p>
-<p>In addition to the value/view members described below, <code class="docutils literal notranslate"><span class="pre">AOShell::as_view</span></code>
-returns a polymorphic view of a shell. This is what lets a <code class="docutils literal notranslate"><span class="pre">SphericalAOView</span></code>
-alias a Cartesian shell without knowing its ordering. <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> and
-<code class="docutils literal notranslate"><span class="pre">SphericalAOView</span></code> check on construction that the shell they are given is
-Cartesian.</p>
+<p>In addition to the value/view members described below, <code class="docutils literal notranslate"><span class="pre">as_view</span></code> returns a
+polymorphic view of a shell, of the same purity when called on an
+<code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code>. This is what lets a <code class="docutils literal notranslate"><span class="pre">SphericalAOView</span></code> alias a Cartesian shell
+without knowing its ordering. <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> and <code class="docutils literal notranslate"><span class="pre">SphericalAOView</span></code> only
+accept a Cartesian shell, so that they are given one is checked by the
+compiler rather than on construction.</p>
+</section>
+<section id="purity-as-a-type">
+<span id="ao-hierarchy-purity-as-a-type"></span><h3>Purity as a type<a class="headerlink" href="#purity-as-a-type" title="Link to this heading"></a></h3>
+<p>Per <a class="reference internal" href="#aoh-purity-dispatch"><span class="std std-ref">Purity and ordering are independent</span></a>, <code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code> is the layer of the shell
+hierarchy whose purity, but not ordering, is part of the type:
+<code class="docutils literal notranslate"><span class="pre">AOShell&lt;CartesianAO&gt;</span></code> holds Cartesian AOs and <code class="docutils literal notranslate"><span class="pre">AOShell&lt;SphericalAO&gt;</span></code> holds
+spherical ones. A function which needs a Cartesian shell, but does not care
+about the order of its AOs, takes an <code class="docutils literal notranslate"><span class="pre">AOShell&lt;CartesianAO&gt;</span></code>, and every
+ordering of Cartesian shell satisfies it.</p>
+<p>Knowing the purity statically is what lets a shell answer questions which only
+make sense for one purity. <code class="docutils literal notranslate"><span class="pre">AOShell&lt;CartesianAO&gt;</span></code> reports the powers
+<span class="math notranslate nohighlight">\((i,j,k)\)</span> at an offset, through <code class="docutils literal notranslate"><span class="pre">cartesian_powers</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">AOShell&lt;SphericalAO&gt;</span></code> reports <span class="math notranslate nohighlight">\(m_\ell\)</span>, through <code class="docutils literal notranslate"><span class="pre">magnetic_index</span></code>.
+Each has only the method for its purity, so asking a spherical shell for its
+Cartesian powers does not compile. Which angular index sits at which offset is
+the ordering, so the derived classes supply it; everything else at this layer
+follows from the purity alone and is implemented once, for every ordering:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">is_pure</span></code> and <code class="docutils literal notranslate"><span class="pre">is_cartesian</span></code> are compile-time constants,</p></li>
+<li><p>indexing returns a pointer to the concrete AO view, <code class="docutils literal notranslate"><span class="pre">CartesianAOView</span></code> or
+<code class="docutils literal notranslate"><span class="pre">SphericalAOView</span></code>, rather than to a polymorphic <code class="docutils literal notranslate"><span class="pre">AOView</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_cartesian_shell</span></code> returns a view of the Cartesian shell underneath,
+which for a Cartesian shell is the shell itself, and</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">clone</span></code>, <code class="docutils literal notranslate"><span class="pre">as_view</span></code>, and <code class="docutils literal notranslate"><span class="pre">as_shell</span></code> return pointers to the same layer,
+so that the purity is not lost in a round trip.</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">AOShellView&lt;T&gt;</span></code> share this API through an
+<code class="docutils literal notranslate"><span class="pre">AOShellCommon</span></code>, in the same way as the other value/view pairs.</p>
+<p><code class="docutils literal notranslate"><span class="pre">AOShellBase</span></code> remains for code which only learns the purity at runtime, the
+main example being <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> (see below). Going from an
+<code class="docutils literal notranslate"><span class="pre">AOShellBase</span></code> to an <code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code> is the one place a purity is checked at
+runtime, and is done by <code class="docutils literal notranslate"><span class="pre">as_cartesian_shell</span></code> or <code class="docutils literal notranslate"><span class="pre">as_spherical_shell</span></code>
+(overloaded for <code class="docutils literal notranslate"><span class="pre">AOShellBaseView</span></code>, giving an <code class="docutils literal notranslate"><span class="pre">AOShellView&lt;T&gt;</span></code>), which
+return the same shell with its purity in its type, or throw if the shell does
+not have that purity.</p>
 </section>
 <section id="ordering-as-a-type">
-<h3>Ordering as a type<a class="headerlink" href="#ordering-as-a-type" title="Link to this heading"></a></h3>
-<p>Per <a class="reference internal" href="#aoh-ordering"><span class="std std-ref">AO ordering is part of the design</span></a>, <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> is itself abstract, and its derived
-classes are the orderings. The base owns all of the state described above and
+<span id="ao-hierarchy-ordering-as-a-type"></span><h3>Ordering as a type<a class="headerlink" href="#ordering-as-a-type" title="Link to this heading"></a></h3>
+<p>Per <a class="reference internal" href="#aoh-ordering"><span class="std std-ref">AO ordering is part of the design</span></a>, <code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code> is itself abstract, and its derived
+classes are the orderings. The bases own all of the state described above and
 all of the behavior which does not depend on the order; what a derived class
 supplies is one thing only: the map from an offset within the shell to the
 angular index at that offset. For a Cartesian shell that is the powers
 <span class="math notranslate nohighlight">\((i,j,k)\)</span>, reported by <code class="docutils literal notranslate"><span class="pre">cartesian_powers</span></code>; for a spherical shell it is
 the component <span class="math notranslate nohighlight">\(m_\ell\)</span>, reported by <code class="docutils literal notranslate"><span class="pre">magnetic_index</span></code>. Which of the two a
-shell has depends on its purity, so neither is part of <code class="docutils literal notranslate"><span class="pre">AOShell</span></code>, where
-asking for the wrong one could only fail at runtime. The concrete shells know
-their purity statically: <code class="docutils literal notranslate"><span class="pre">CCAShell&lt;CartesianAO&gt;</span></code> has only
-<code class="docutils literal notranslate"><span class="pre">cartesian_powers</span></code> and <code class="docutils literal notranslate"><span class="pre">CCAShell&lt;SphericalAO&gt;</span></code> has only
-<code class="docutils literal notranslate"><span class="pre">magnetic_index</span></code>. Code holding an <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> can still ask each AO it
-indexes about itself. <code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code>, the one consumer which needs the powers
-of a shell it holds polymorphically, needs them for every <span class="math notranslate nohighlight">\((i,j,k)\)</span>
-rather than in any particular order, so it enumerates them itself.</p>
+shell has depends on its purity, so neither is part of <code class="docutils literal notranslate"><span class="pre">AOShellBase</span></code>, where
+asking for the wrong one could only fail at runtime; per
+<a class="reference internal" href="#ao-hierarchy-purity-as-a-type"><span class="std std-ref">Purity as a type</span></a> they are part of <code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code>. Code
+holding an <code class="docutils literal notranslate"><span class="pre">AOShellBase</span></code> can still ask each AO it indexes about itself.
+<code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code>, the one consumer which needs the powers of a shell whose
+ordering it does not know, needs them for every <span class="math notranslate nohighlight">\((i,j,k)\)</span> rather than in
+any particular order, so it enumerates them itself.</p>
 <p><code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> implements the Common Component Architecture ordering, which is
 what libint calls its <em>standard</em> ordering. Its Cartesian order is generated by
 letting <span class="math notranslate nohighlight">\(i\)</span> run from <span class="math notranslate nohighlight">\(\ell\)</span> down to zero and, within each
@@ -492,12 +561,12 @@ cannot be handed another. A tensor built over a <code class="docutils literal no
 built over a GAMESS-ordered basis are not interchangeable, and that is
 something the compiler can enforce rather than something each consumer must
 remember to check.</p>
-<p>The cost is that a container of <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> can, in principle, hold shells of
-different orderings. That is not meaningful, and <code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> treats
+<p>The cost is that a container of <code class="docutils literal notranslate"><span class="pre">AOShellBase</span></code> can, in principle, hold shells
+of different orderings. That is not meaningful, and <code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> treats
 it the same way it treats a mixture of normalization conventions: it can be
 asked whether all of its shells agree, and the answer is part of what makes a
 basis set usable with a given integral library.</p>
-<p><code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> is a container of <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> sharing one center, and owns
+<p><code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> is a container of shells sharing one center, and owns
 the <code class="docutils literal notranslate"><span class="pre">Point</span></code> per <a class="reference internal" href="#aoh-center-ownership"><span class="std std-ref">The center is stored once</span></a>. It also carries the basis set
 name and atomic number, which are per-center rather than per-shell because
 mixing basis sets across centers is not unusual.</p>
@@ -519,7 +588,9 @@ to interface with those codes.</p>
 <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code> is not templated on it. Instead the type is chosen at runtime
 from two enumerations, <code class="docutils literal notranslate"><span class="pre">ShellPurity</span></code> and <code class="docutils literal notranslate"><span class="pre">AOOrdering</span></code>, which select the
 implementation the set holds (a PIMPL templated on the shell type), and the
-set hands its shells out polymorphically, as <code class="docutils literal notranslate"><span class="pre">AOShellView</span></code>. The
+set hands its shells out polymorphically, as <code class="docutils literal notranslate"><span class="pre">AOShellBaseView</span></code>, since their
+purity is only known at runtime; code which needs it statically uses
+<code class="docutils literal notranslate"><span class="pre">as_cartesian_shell</span></code> or <code class="docutils literal notranslate"><span class="pre">as_spherical_shell</span></code> on the result. The
 implementations come in an owning and an aliasing form sharing one CRTP base,
 and <code class="docutils literal notranslate"><span class="pre">AtomicBasisSetView</span></code> holds the aliasing one. Because that form aliases
 each piece of the state separately, rather than aliasing an
@@ -588,14 +659,24 @@ down.</p></li>
 </ul>
 <p>The abstract bases are there for different reasons at the two layers, though.
 <code class="docutils literal notranslate"><span class="pre">AO</span></code> and <code class="docutils literal notranslate"><span class="pre">AOView</span></code> are polymorphic because a shell genuinely does not know
-which kind of AO it holds until it is built. <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> is polymorphic so that
-the ordering reaches the type system, per <a class="reference internal" href="#aoh-ordering"><span class="std std-ref">AO ordering is part of the design</span></a>; code which knows
-statically that it wants CCA ordering can say <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> and never pay for
-dispatch at all.</p>
+which kind of AO it holds until it is built. The shell bases are polymorphic so
+that the purity and the ordering reach the type system, per
+<a class="reference internal" href="#aoh-purity-dispatch"><span class="std std-ref">Purity and ordering are independent</span></a> and <a class="reference internal" href="#aoh-ordering"><span class="std std-ref">AO ordering is part of the design</span></a>; code which knows statically
+that it wants CCA ordering can say <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> and never pay for dispatch at
+all.</p>
+<p>The shell layer has one more level than the AO layer, and so one more shared
+API. <code class="docutils literal notranslate"><span class="pre">AOShellBaseCommon</span></code> is shared by <code class="docutils literal notranslate"><span class="pre">AOShellBase</span></code> and
+<code class="docutils literal notranslate"><span class="pre">AOShellBaseView</span></code>, and <code class="docutils literal notranslate"><span class="pre">AOShellCommon</span></code> by <code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code> and
+<code class="docutils literal notranslate"><span class="pre">AOShellView&lt;T&gt;</span></code>. Unlike the other <code class="docutils literal notranslate"><span class="pre">*Common</span></code> classes, <code class="docutils literal notranslate"><span class="pre">AOShellCommon</span></code>
+derives from the base it extends, rather than sitting beside it as a CRTP base,
+so that a concrete shell does not inherit the same names from three unrelated
+bases. <code class="docutils literal notranslate"><span class="pre">CCAShellCommon</span></code> is then the CRTP base shared by <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> and its
+view, and carries only what is specific to the CCA ordering, plus the state
+access which differs between owning and aliasing.</p>
 <p>The views compose. A <code class="docutils literal notranslate"><span class="pre">ContractedGaussianView</span></code> obtained from a
-<code class="docutils literal notranslate"><span class="pre">CartesianAOView</span></code> obtained from an <code class="docutils literal notranslate"><span class="pre">AOShellView</span></code> still aliases the one
-contracted Gaussian in the original shell, and for a spherical shell the chain
-simply has one more link in it.</p>
+<code class="docutils literal notranslate"><span class="pre">CartesianAOView</span></code> obtained from an <code class="docutils literal notranslate"><span class="pre">AOShellView&lt;CartesianAO&gt;</span></code> still aliases
+the one contracted Gaussian in the original shell, and for a spherical shell
+the chain simply has one more link in it.</p>
 </section>
 </section>
 <section id="summary">
@@ -612,7 +693,7 @@ contracted Gaussian, the normalization constant, and the value at a point.
 common interface never learns which kind it holds.</p>
 </dd>
 <dt><a class="reference internal" href="#aoh-composition"><span class="std std-ref">An AO is built by composition</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> pairs a <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> with <span class="math notranslate nohighlight">\((i,j,k)\)</span>;
-<code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> pairs a Cartesian <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> with <span class="math notranslate nohighlight">\(m_\ell\)</span>. Both
+<code class="docutils literal notranslate"><span class="pre">SphericalAO</span></code> pairs an <code class="docutils literal notranslate"><span class="pre">AOShell&lt;CartesianAO&gt;</span></code> with <span class="math notranslate nohighlight">\(m_\ell\)</span>. Both
 check that the two halves agree on <span class="math notranslate nohighlight">\(\ell\)</span>.</p>
 </dd>
 <dt><a class="reference internal" href="#aoh-shared-radial"><span class="std std-ref">The shared part is shared, not copied</span></a></dt><dd><p>A Cartesian shell stores one <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> and a spherical shell
@@ -629,11 +710,17 @@ contains reach it rather than owning it.</p>
 </dd>
 <dt><a class="reference internal" href="#aoh-center-ownership"><span class="std std-ref">The center is stored once</span></a></dt><dd><p>The center is owned by <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>; everything below sees it as a view.</p>
 </dd>
-<dt><a class="reference internal" href="#aoh-ordering"><span class="std std-ref">AO ordering is part of the design</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">AOShell</span></code> is abstract and its derived classes are the orderings, so the
+<dt><a class="reference internal" href="#aoh-ordering"><span class="std std-ref">AO ordering is part of the design</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code> is abstract and its derived classes are the orderings, so the
 order a shell enumerates its AOs in is part of its type. <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code>
 implements the Common Component Architecture ordering; other conventions
 become sibling classes. <code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> can be asked whether all of
 its shells agree.</p>
+</dd>
+<dt><a class="reference internal" href="#aoh-purity-dispatch"><span class="std std-ref">Purity and ordering are independent</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">AOShellBase</span></code> fixes neither the purity nor the ordering, <code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code>
+fixes the purity, and the orderings derive from <code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code>. Code which
+needs only the purity takes an <code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code> and gets the angular index
+for that purity; <code class="docutils literal notranslate"><span class="pre">as_cartesian_shell</span></code> and <code class="docutils literal notranslate"><span class="pre">as_spherical_shell</span></code> recover
+the purity of an <code class="docutils literal notranslate"><span class="pre">AOShellBase</span></code> in one checked step.</p>
 </dd>
 <dt><a class="reference internal" href="#aoh-normalization-placement"><span class="std std-ref">Each level owns its normalization factor</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">Primitive</span></code> owns <span class="math notranslate nohighlight">\(N^{\chi}\)</span>, <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> owns
 <span class="math notranslate nohighlight">\(N^{G}\)</span>, and <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> owns <span class="math notranslate nohighlight">\(N^{AO}_{ijk}\)</span>. Each class’s
@@ -641,7 +728,7 @@ its shells agree.</p>
 front of the contraction sum, so <code class="docutils literal notranslate"><span class="pre">CartesianAO</span></code> reports
 <span class="math notranslate nohighlight">\(N^{AO}_{ijk} N^{G}\)</span>; <span class="math notranslate nohighlight">\(N^{\chi}\)</span> differs from primitive to
 primitive and so is applied inside the sum, by <code class="docutils literal notranslate"><span class="pre">normalized_evaluate</span></code>.
-<code class="docutils literal notranslate"><span class="pre">AOShell</span></code> carries the convention.</p>
+The shell carries the convention.</p>
 </dd>
 <dt><a class="reference internal" href="#aoh-value-view"><span class="std std-ref">Value and view semantics</span></a></dt><dd><p>Every class is a value/view pair sharing one CRTP-implemented API, following
 <a class="reference internal" href="../point/point.html#designing-the-point-component"><span class="std std-ref">Designing the Point Component</span></a>. At the AO layer the split reaches the

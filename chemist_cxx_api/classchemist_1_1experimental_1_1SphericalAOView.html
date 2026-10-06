@@ -120,10 +120,22 @@ Collaboration diagram for chemist::experimental::SphericalAOView&lt; SAOType &gt
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:a0e030d864f42ccee911a3643f3759611" id="r_a0e030d864f42ccee911a3643f3759611"><td class="memItemLeft" align="right" valign="top"><a id="a0e030d864f42ccee911a3643f3759611" name="a0e030d864f42ccee911a3643f3759611"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>shell_type</b> = typename <a class="el" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt; SAOType &gt;::shell_type</td></tr>
+<tr class="memdesc:a0e030d864f42ccee911a3643f3759611"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the ordering-agnostic Cartesian shell *this can alias. <br /></td></tr>
+<tr class="separator:a0e030d864f42ccee911a3643f3759611"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa447d178111f08ce8e2349a251e79dbb" id="r_aa447d178111f08ce8e2349a251e79dbb"><td class="memItemLeft" align="right" valign="top"><a id="aa447d178111f08ce8e2349a251e79dbb" name="aa447d178111f08ce8e2349a251e79dbb"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>shell_view_type</b> = typename <a class="el" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt; SAOType &gt;::shell_view_type</td></tr>
+<tr class="memdesc:aa447d178111f08ce8e2349a251e79dbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the polymorphic view *this aliases its shell through. <br /></td></tr>
+<tr class="separator:aa447d178111f08ce8e2349a251e79dbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af99dcb5ff8f4bb3b459fbd513f0bfcb1" id="r_af99dcb5ff8f4bb3b459fbd513f0bfcb1"><td class="memItemLeft" align="right" valign="top"><a id="af99dcb5ff8f4bb3b459fbd513f0bfcb1" name="af99dcb5ff8f4bb3b459fbd513f0bfcb1"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>shell_view_pointer</b> = typename shell_view_type::pointer</td></tr>
+<tr class="memdesc:af99dcb5ff8f4bb3b459fbd513f0bfcb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the pointer *this holds its shell view through. <br /></td></tr>
+<tr class="separator:af99dcb5ff8f4bb3b459fbd513f0bfcb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2caf404c0fce23aa5941aad3683f4ea3" id="r_a2caf404c0fce23aa5941aad3683f4ea3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#a2caf404c0fce23aa5941aad3683f4ea3">ao_type</a> = typename <a class="el" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt; SAOType &gt;<a class="el" href="classchemist_1_1experimental_1_1SphericalAOCommon.html#a19eb2db7580a9d881a291df0f3d71409">::value_type</a></td></tr>
 <tr class="separator:a2caf404c0fce23aa5941aad3683f4ea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2af2c20a814bc10d86a81bf0df7fcd11" id="r_a2af2c20a814bc10d86a81bf0df7fcd11"><td class="memItemLeft" align="right" valign="top"><a id="a2af2c20a814bc10d86a81bf0df7fcd11" name="a2af2c20a814bc10d86a81bf0df7fcd11"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>const_shell_reference</b> = const shell_view_type &amp;</td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_shell_reference</b> = const <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#aa447d178111f08ce8e2349a251e79dbb">shell_view_type</a> &amp;</td></tr>
 <tr class="memdesc:a2af2c20a814bc10d86a81bf0df7fcd11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to the shell view *this holds. <br /></td></tr>
 <tr class="separator:a2af2c20a814bc10d86a81bf0df7fcd11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
@@ -244,12 +256,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1cb54d6bc7252a01cbc5cc46f13083d3" id="r_a1cb54d6bc7252a01cbc5cc46f13083d3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#a1cb54d6bc7252a01cbc5cc46f13083d3">SphericalAOView</a> (const <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#a2caf404c0fce23aa5941aad3683f4ea3">ao_type</a> &amp;sao)</td></tr>
 <tr class="memdesc:a1cb54d6bc7252a01cbc5cc46f13083d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a view of <code>sao</code>.  <br /></td></tr>
 <tr class="separator:a1cb54d6bc7252a01cbc5cc46f13083d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2b4268bcb7c49181b46614bb9d7d7e3" id="r_af2b4268bcb7c49181b46614bb9d7d7e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#af2b4268bcb7c49181b46614bb9d7d7e3">SphericalAOView</a> (const shell_type &amp;shell, <a class="el" href="classchemist_1_1experimental_1_1SphericalAOCommon.html#ad83e14a201e8a0117a1f5a9132a572e6">magnetic_index_type</a> m)</td></tr>
+<tr class="memitem:af2b4268bcb7c49181b46614bb9d7d7e3" id="r_af2b4268bcb7c49181b46614bb9d7d7e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#af2b4268bcb7c49181b46614bb9d7d7e3">SphericalAOView</a> (const <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#a0e030d864f42ccee911a3643f3759611">shell_type</a> &amp;shell, <a class="el" href="classchemist_1_1experimental_1_1SphericalAOCommon.html#ad83e14a201e8a0117a1f5a9132a572e6">magnetic_index_type</a> m)</td></tr>
 <tr class="memdesc:af2b4268bcb7c49181b46614bb9d7d7e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates the component <code>m</code> of <code>shell</code>, aliasing <code>shell</code>.  <br /></td></tr>
 <tr class="separator:af2b4268bcb7c49181b46614bb9d7d7e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8373cc50abf60a4fc4f4d92d6071ddd" id="r_ac8373cc50abf60a4fc4f4d92d6071ddd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#ac8373cc50abf60a4fc4f4d92d6071ddd">SphericalAOView</a> (const shell_view_type &amp;shell, <a class="el" href="classchemist_1_1experimental_1_1SphericalAOCommon.html#ad83e14a201e8a0117a1f5a9132a572e6">magnetic_index_type</a> m)</td></tr>
+<tr class="memitem:ac8373cc50abf60a4fc4f4d92d6071ddd" id="r_ac8373cc50abf60a4fc4f4d92d6071ddd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#ac8373cc50abf60a4fc4f4d92d6071ddd">SphericalAOView</a> (const <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#aa447d178111f08ce8e2349a251e79dbb">shell_view_type</a> &amp;shell, <a class="el" href="classchemist_1_1experimental_1_1SphericalAOCommon.html#ad83e14a201e8a0117a1f5a9132a572e6">magnetic_index_type</a> m)</td></tr>
 <tr class="memdesc:ac8373cc50abf60a4fc4f4d92d6071ddd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates the component <code>m</code> of the shell <code>shell</code> aliases.  <br /></td></tr>
 <tr class="separator:ac8373cc50abf60a4fc4f4d92d6071ddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f7aee12272cbe71dc47b05d466b3e2f" id="r_a5f7aee12272cbe71dc47b05d466b3e2f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#a5f7aee12272cbe71dc47b05d466b3e2f">SphericalAOView</a> (<a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#af99dcb5ff8f4bb3b459fbd513f0bfcb1">shell_view_pointer</a> shell, <a class="el" href="classchemist_1_1experimental_1_1SphericalAOCommon.html#ad83e14a201e8a0117a1f5a9132a572e6">magnetic_index_type</a> m)</td></tr>
+<tr class="memdesc:a5f7aee12272cbe71dc47b05d466b3e2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates the component <code>m</code> of the shell <code>shell</code> aliases, taking ownership of <code>shell</code>.  <br /></td></tr>
+<tr class="separator:a5f7aee12272cbe71dc47b05d466b3e2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a557e92231e460646a2bd32a69b0589ce" id="r_a557e92231e460646a2bd32a69b0589ce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#a557e92231e460646a2bd32a69b0589ce">SphericalAOView</a> (const <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html">SphericalAOView</a> &amp;other)</td></tr>
 <tr class="memdesc:a557e92231e460646a2bd32a69b0589ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a view aliasing the same shell as <code>other</code>.  <br /></td></tr>
 <tr class="separator:a557e92231e460646a2bd32a69b0589ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -422,7 +437,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename SAOType&gt;<br />
 class chemist::experimental::SphericalAOView&lt; SAOType &gt;</div><p>An object which behaves like a <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html" title="Models a spherical atomic orbital by value.">SphericalAO</a>, but aliases the Cartesian shell it is built on. </p>
 <p>*this is the spherical counterpart of <a class="el" href="classchemist_1_1experimental_1_1CartesianAOView.html" title="An object which behaves like a CartesianAO, but aliases the contracted Gaussian it is built on.">CartesianAOView</a>. Per docs/source/developer/design/basis_set/ao_hierarchy.rst, it is what a spherical shell will hand out when indexed: every spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> in such a shell is built on the one Cartesian shell it owns, and handing out views of it, rather than <picture><source srcset="form_32_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$2\ell+1$" src="form_32.png"/></picture> copies, is what keeps them from drifting.</p>
-<p>The Cartesian shell is aliased through a polymorphic <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html" title="Abstract base class of the shells which alias their state.">AOShellView</a>, so *this can alias a shell of any ordering. <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture> is stored by value, for the same reason <a class="el" href="classchemist_1_1experimental_1_1CartesianAOView.html" title="An object which behaves like a CartesianAO, but aliases the contracted Gaussian it is built on.">CartesianAOView</a> stores its powers by value.</p>
+<p>The Cartesian shell is aliased through an AOShellView&lt;CartesianAO&gt;, so *this can alias a Cartesian shell of any ordering, and only a Cartesian one. <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture> is stored by value, for the same reason <a class="el" href="classchemist_1_1experimental_1_1CartesianAOView.html" title="An object which behaves like a CartesianAO, but aliases the contracted Gaussian it is built on.">CartesianAOView</a> stores its powers by value.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">SAOType</td><td>A const-qualified <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html" title="Models a spherical atomic orbital by value.">SphericalAO</a>. Only read-only views are supported for now: the polymorphic shell API is read-only, so a mutable view would have nothing to write through. The parameter is kept so that *this has the same shape as <a class="el" href="classchemist_1_1experimental_1_1CartesianAOView.html" title="An object which behaves like a CartesianAO, but aliases the contracted Gaussian it is built on.">CartesianAOView</a>, and so that a mutable view can be added without changing the spelling of the read-only one. </td></tr>
@@ -449,7 +464,7 @@ template&lt;typename SAOType &gt; </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1cb54d6bc7252a01cbc5cc46f13083d3" name="a1cb54d6bc7252a01cbc5cc46f13083d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1cb54d6bc7252a01cbc5cc46f13083d3">&#9670;&#160;</a></span>SphericalAOView() <span class="overload">[1/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cb54d6bc7252a01cbc5cc46f13083d3">&#9670;&#160;</a></span>SphericalAOView() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -492,7 +507,7 @@ template&lt;typename SAOType &gt; </div>
 </div>
 </div>
 <a id="af2b4268bcb7c49181b46614bb9d7d7e3" name="af2b4268bcb7c49181b46614bb9d7d7e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2b4268bcb7c49181b46614bb9d7d7e3">&#9670;&#160;</a></span>SphericalAOView() <span class="overload">[2/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af2b4268bcb7c49181b46614bb9d7d7e3">&#9670;&#160;</a></span>SphericalAOView() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -505,7 +520,7 @@ template&lt;typename SAOType &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html">chemist::experimental::SphericalAOView</a>&lt; SAOType &gt;::SphericalAOView </td>
           <td>(</td>
-          <td class="paramtype">const shell_type &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#a0e030d864f42ccee911a3643f3759611">shell_type</a> &amp;&#160;</td>
           <td class="paramname"><em>shell</em>, </td>
         </tr>
         <tr>
@@ -537,7 +552,7 @@ template&lt;typename SAOType &gt; </div>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::invalid_argument</td><td>if <code>shell</code> is pure or <code>m</code> is out of range. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::invalid_argument</td><td>if <code>m</code> is out of range. Strong throw guarantee. </td></tr>
     <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the shell view. Strong throw guarantee. </td></tr>
   </table>
   </dd>
@@ -546,7 +561,7 @@ template&lt;typename SAOType &gt; </div>
 </div>
 </div>
 <a id="ac8373cc50abf60a4fc4f4d92d6071ddd" name="ac8373cc50abf60a4fc4f4d92d6071ddd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8373cc50abf60a4fc4f4d92d6071ddd">&#9670;&#160;</a></span>SphericalAOView() <span class="overload">[3/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8373cc50abf60a4fc4f4d92d6071ddd">&#9670;&#160;</a></span>SphericalAOView() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -559,7 +574,7 @@ template&lt;typename SAOType &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html">chemist::experimental::SphericalAOView</a>&lt; SAOType &gt;::SphericalAOView </td>
           <td>(</td>
-          <td class="paramtype">const shell_view_type &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#aa447d178111f08ce8e2349a251e79dbb">shell_view_type</a> &amp;&#160;</td>
           <td class="paramname"><em>shell</em>, </td>
         </tr>
         <tr>
@@ -592,7 +607,7 @@ template&lt;typename SAOType &gt; </div>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::invalid_argument</td><td>if <code>shell</code> is pure or <code>m</code> is out of range. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::invalid_argument</td><td>if <code>m</code> is out of range. Strong throw guarantee. </td></tr>
     <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem allocating the shell view. Strong throw guarantee. </td></tr>
   </table>
   </dd>
@@ -600,8 +615,62 @@ template&lt;typename SAOType &gt; </div>
 
 </div>
 </div>
+<a id="a5f7aee12272cbe71dc47b05d466b3e2f" name="a5f7aee12272cbe71dc47b05d466b3e2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f7aee12272cbe71dc47b05d466b3e2f">&#9670;&#160;</a></span>SphericalAOView() <span class="overload">[4/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SAOType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html">chemist::experimental::SphericalAOView</a>&lt; SAOType &gt;::SphericalAOView </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html#af99dcb5ff8f4bb3b459fbd513f0bfcb1">shell_view_pointer</a>&#160;</td>
+          <td class="paramname"><em>shell</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classchemist_1_1experimental_1_1SphericalAOCommon.html#ad83e14a201e8a0117a1f5a9132a572e6">magnetic_index_type</a>&#160;</td>
+          <td class="paramname"><em>m</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates the component <code>m</code> of the shell <code>shell</code> aliases, taking ownership of <code>shell</code>. </p>
+<p>Identical to the ctor taking a view by reference, except that *this keeps <code>shell</code> rather than cloning it. This is what lets a pure shell, which builds a new view of its Cartesian shell for each <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> it hands out, give that view to the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> without a second allocation.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">shell</td><td>A pointer to a view of the Cartesian shell *this will alias. Must not be null. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">m</td><td>The component. Must satisfy <picture><source srcset="form_62_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| \le \ell$" src="form_62.png"/></picture>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::invalid_argument</td><td>if <code>shell</code> is null or <code>m</code> is out of range. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a557e92231e460646a2bd32a69b0589ce" name="a557e92231e460646a2bd32a69b0589ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a557e92231e460646a2bd32a69b0589ce">&#9670;&#160;</a></span>SphericalAOView() <span class="overload">[4/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a557e92231e460646a2bd32a69b0589ce">&#9670;&#160;</a></span>SphericalAOView() <span class="overload">[5/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -638,7 +707,7 @@ template&lt;typename SAOType &gt; </div>
 </div>
 </div>
 <a id="a671ff49d67a73760797e62caf614513e" name="a671ff49d67a73760797e62caf614513e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a671ff49d67a73760797e62caf614513e">&#9670;&#160;</a></span>SphericalAOView() <span class="overload">[5/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a671ff49d67a73760797e62caf614513e">&#9670;&#160;</a></span>SphericalAOView() <span class="overload">[6/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

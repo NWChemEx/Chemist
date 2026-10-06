@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classchemist_1_1Atom.html" title="A class for holding the details of an atomic unit." alt="" coords="5,5,123,31"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,20,89,45"/>
+<area shape="rect" id="Node000001" href="$classchemist_1_1experimental_1_1AOShellCommon.html" title="Implements the API shared by AOShell&lt;AOType&gt; and AOShellView&lt;AOType&gt;." alt="" coords="137,5,359,60"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="103,30,137,30,137,35,103,35"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1AOShellView.html" title=" " alt="" coords="407,5,657,60"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="373,30,406,30,406,35,373,35"/>
 </map>

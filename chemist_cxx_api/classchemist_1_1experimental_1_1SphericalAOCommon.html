@@ -221,7 +221,7 @@ class chemist::experimental::SphericalAOCommon&lt; DerivedType, SAOType &gt;</di
 <p>Exactly as with <a class="el" href="classchemist_1_1experimental_1_1CartesianAOCommon.html" title="Implements the API shared by CartesianAO and CartesianAOView.">CartesianAOCommon</a>, *this is a plain CRTP mixin, and it is the concrete classes which pick up <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> or <a class="el" href="classchemist_1_1experimental_1_1AOView.html" title="Abstract base class of the atomic orbitals which alias their state.">AOView</a>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">DerivedType</td><td>The class deriving from *this. Must define <code>shell_()</code>, returning a read-only reference to something with the <a class="el" href="classchemist_1_1experimental_1_1AOShellCommon.html" title="Implements the API shared by AOShell and AOShellView.">AOShellCommon</a> API (an <a class="el" href="classchemist_1_1experimental_1_1AOShell.html" title="Abstract base class of the shells which own their state.">AOShell</a> or an <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html" title="Abstract base class of the shells which alias their state.">AOShellView</a>), and <code>m_()</code>, and must declare *this a friend. </td></tr>
+    <tr><td class="paramname">DerivedType</td><td>The class deriving from *this. Must define <code>shell_()</code>, returning a read-only reference to a Cartesian shell (an AOShell&lt;CartesianAO&gt; or an AOShellView&lt;CartesianAO&gt;), and <code>m_()</code>, and must declare *this a friend. </td></tr>
     <tr><td class="paramname">SAOType</td><td>The, possibly const-qualified, <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html" title="Models a spherical atomic orbital by value.">SphericalAO</a> type the derived class models. This decides whether set_m exists. </td></tr>
   </table>
   </dd>
@@ -349,10 +349,10 @@ template&lt;typename ShellType &gt; </div>
 </div><div class="memdoc">
 
 <p>Throws if <code>shell</code> and <code>m</code> can not make a spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>. </p>
-<p>A spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> is a linear combination of Cartesian AOs, so the shell it is built on must be a Cartesian shell, and <code>m</code> must be valid for that shell's angular momentum. Public for the same reason as check_m.</p>
+<p>A spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> is a linear combination of Cartesian AOs, so the shell it is built on must be a Cartesian shell, and <code>m</code> must be valid for that shell's angular momentum. The former is part of <code>shell's</code> type, so it is checked at compile time; only the latter can fail at runtime. Public for the same reason as check_m.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">ShellType</td><td>The type of <code>shell:</code> <a class="el" href="classchemist_1_1experimental_1_1AOShell.html" title="Abstract base class of the shells which own their state.">AOShell</a>, <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html" title="Abstract base class of the shells which alias their state.">AOShellView</a>, or anything else with their API.</td></tr>
+    <tr><td class="paramname">ShellType</td><td>The type of <code>shell:</code> AOShell&lt;CartesianAO&gt;, AOShellView&lt;CartesianAO&gt;, or a class deriving from either.</td></tr>
   </table>
   </dd>
 </dl>
@@ -365,7 +365,7 @@ template&lt;typename ShellType &gt; </div>
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::invalid_argument</td><td>if <code>shell</code> is pure, or if <picture><source srcset="form_69_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| &gt; \ell$" src="form_69.png"/></picture>. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::invalid_argument</td><td>if <picture><source srcset="form_69_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$|m| &gt; \ell$" src="form_69.png"/></picture>. Strong throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>

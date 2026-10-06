@@ -1,11 +1,15 @@
 <map id="chemist::experimental::CCAShell&lt; AOType &gt;" name="chemist::experimental::CCAShell&lt; AOType &gt;">
-<area shape="rect" id="Node000001" title="Models a shell, in CCA order, by value." alt="" coords="803,53,972,93"/>
-<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1CCAShellCommon.html" title=" " alt="" coords="492,5,755,60"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="769,52,803,57,802,62,768,57"/>
-<area shape="rect" id="Node000003" href="$classchemist_1_1experimental_1_1detail___1_1AOShellImpl.html" title=" " alt="" coords="528,84,719,139"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="732,93,802,82,803,88,733,98"/>
-<area shape="rect" id="Node000004" href="$classchemist_1_1experimental_1_1AOShell.html" title="Abstract base class of the shells which own their state." alt="" coords="275,91,444,131"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="458,109,528,109,528,114,458,114"/>
-<area shape="rect" id="Node000005" href="$classchemist_1_1experimental_1_1AOShellCommon.html" title=" " alt="" coords="5,91,227,131"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="240,109,274,109,274,114,240,114"/>
+<area shape="rect" id="Node000001" title="Models a shell, in CCA order, by value." alt="" coords="1272,53,1441,93"/>
+<area shape="rect" id="Node000002" href="$classchemist_1_1experimental_1_1CCAShellCommon.html" title=" " alt="" coords="961,5,1224,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1238,52,1272,57,1271,62,1237,57"/>
+<area shape="rect" id="Node000003" href="$classchemist_1_1experimental_1_1detail___1_1AOShellImpl.html" title=" " alt="" coords="969,84,1216,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1229,89,1272,82,1272,88,1230,94"/>
+<area shape="rect" id="Node000004" href="$classchemist_1_1experimental_1_1AOShell.html" title="Abstract base class of the owning shells of one purity." alt="" coords="744,91,913,131"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="927,109,969,109,969,114,927,114"/>
+<area shape="rect" id="Node000005" href="$classchemist_1_1experimental_1_1AOShellCommon.html" title=" " alt="" coords="453,84,696,139"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="710,109,744,109,744,114,710,114"/>
+<area shape="rect" id="Node000006" href="$classchemist_1_1experimental_1_1AOShellBase.html" title="Abstract base class of the shells which own their state." alt="" coords="236,91,405,131"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="419,109,453,109,453,114,419,114"/>
+<area shape="rect" id="Node000007" href="$classchemist_1_1experimental_1_1AOShellBaseCommon.html" title=" " alt="" coords="5,84,188,139"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="201,109,236,109,236,114,201,114"/>
 </map>

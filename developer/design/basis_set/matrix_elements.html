@@ -228,7 +228,7 @@ three groups rather than two.</p>
 <p><code class="docutils literal notranslate"><span class="pre">AO</span></code> derives from <code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code>, and is the only class which does.</p>
 <p>The sets derive from <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">AOShell</span></code>, and hence <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> and its siblings</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AOShellBase</span></code>, and hence <code class="docutils literal notranslate"><span class="pre">AOShell&lt;T&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">CCAShell</span></code> and its siblings</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code></p></li>
 </ul>
@@ -269,10 +269,10 @@ nothing would catch.</p>
 <section id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
 <dl class="simple">
-<dt><a class="reference internal" href="#me-one-or-many"><span class="std std-ref">One function or a set of them</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">AO</span></code> derives from <code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code>; <code class="docutils literal notranslate"><span class="pre">AOShell</span></code>, <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> derive from <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code>, whose <code class="docutils literal notranslate"><span class="pre">size</span></code> is the
-number of AOs. An <code class="docutils literal notranslate"><span class="pre">AOShell</span></code> is therefore a <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> whose elements
-are <code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code> objects.</p>
+<dt><a class="reference internal" href="#me-one-or-many"><span class="std std-ref">One function or a set of them</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">AO</span></code> derives from <code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code>; <code class="docutils literal notranslate"><span class="pre">AOShellBase</span></code>, <code class="docutils literal notranslate"><span class="pre">AtomicBasisSet</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">MolecularBasisSet</span></code> derive from <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code>, whose <code class="docutils literal notranslate"><span class="pre">size</span></code> is the
+number of AOs. A shell is therefore a <code class="docutils literal notranslate"><span class="pre">VectorSpace</span></code> whose elements are
+<code class="docutils literal notranslate"><span class="pre">Wavefunction</span></code> objects.</p>
 </dd>
 <dt><a class="reference internal" href="#me-ao-is-the-floor"><span class="std std-ref">The AO is the smallest unit</span></a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">Primitive</span></code> and <code class="docutils literal notranslate"><span class="pre">ContractedGaussian</span></code> derive from neither. They are
 ingredients of a basis function rather than basis functions, and admitting

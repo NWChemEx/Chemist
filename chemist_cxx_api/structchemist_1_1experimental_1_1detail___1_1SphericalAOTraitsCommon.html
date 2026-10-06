@@ -99,10 +99,10 @@ Inheritance diagram for chemist::experimental::detail_::SphericalAOTraitsCommon:
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a9078c202628d5b7384771e6b90991130" id="r_a9078c202628d5b7384771e6b90991130"><td class="memItemLeft" align="right" valign="top"><a id="a9078c202628d5b7384771e6b90991130" name="a9078c202628d5b7384771e6b90991130"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>ao_shell_traits</b> = <a class="el" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt; <a class="el" href="classchemist_1_1experimental_1_1AOShell.html">experimental::AOShell</a> &gt;</td></tr>
-<tr class="memdesc:a9078c202628d5b7384771e6b90991130"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traits of the Cartesian shell *this is built on. <br /></td></tr>
-<tr class="separator:a9078c202628d5b7384771e6b90991130"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10b9315aee3b6c341f0a380f2d9eaa1d" id="r_a10b9315aee3b6c341f0a380f2d9eaa1d"><td class="memItemLeft" align="right" valign="top"><a id="a10b9315aee3b6c341f0a380f2d9eaa1d" name="a10b9315aee3b6c341f0a380f2d9eaa1d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ao_shell_traits</b> = <a class="el" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt; <a class="el" href="classchemist_1_1experimental_1_1AOShell.html">experimental::AOShell</a>&lt; <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html">experimental::CartesianAO</a> &gt; &gt;</td></tr>
+<tr class="memdesc:a10b9315aee3b6c341f0a380f2d9eaa1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traits of the Cartesian shell *this is built on. <br /></td></tr>
+<tr class="separator:a10b9315aee3b6c341f0a380f2d9eaa1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32550aa490b85ed7081ac42f8fd38cd3" id="r_a32550aa490b85ed7081ac42f8fd38cd3"><td class="memItemLeft" align="right" valign="top"><a id="a32550aa490b85ed7081ac42f8fd38cd3" name="a32550aa490b85ed7081ac42f8fd38cd3"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>value_type</b> = <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html">experimental::SphericalAO</a></td></tr>
 <tr class="memdesc:a32550aa490b85ed7081ac42f8fd38cd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> *this describes. <br /></td></tr>
@@ -116,47 +116,68 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>const_view_type</b> 
 <tr class="memdesc:aee7f74bbf1b4d6afaf2427f7c2f9e231"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type acting like a read-only reference to a spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>. <br /></td></tr>
 <tr class="separator:aee7f74bbf1b4d6afaf2427f7c2f9e231"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf3ce227bd1047177e3cae0d515aad28" id="r_acf3ce227bd1047177e3cae0d515aad28"><td class="memItemLeft" align="right" valign="top"><a id="acf3ce227bd1047177e3cae0d515aad28" name="acf3ce227bd1047177e3cae0d515aad28"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>angular_momentum_type</b> = typename <a class="el" href="structchemist_1_1ChemistClassTraits_3_01experimental_1_1AOShell_01_4.html#adea5de87c32a2a9afe2dc7bafbf8d565">ao_shell_traits::angular_momentum_type</a></td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>angular_momentum_type</b> = typename ao_shell_traits::angular_momentum_type</td></tr>
 <tr class="memdesc:acf3ce227bd1047177e3cae0d515aad28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to model the total angular momentum. <br /></td></tr>
 <tr class="separator:acf3ce227bd1047177e3cae0d515aad28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa4ad1631c922a497d1e82d2fbab7a34" id="r_afa4ad1631c922a497d1e82d2fbab7a34"><td class="memItemLeft" align="right" valign="top"><a id="afa4ad1631c922a497d1e82d2fbab7a34" name="afa4ad1631c922a497d1e82d2fbab7a34"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>magnetic_index_type</b> = typename <a class="el" href="structchemist_1_1ChemistClassTraits_3_01experimental_1_1AOShell_01_4.html#a8101544628bcef208f96bcad76a13a74">ao_shell_traits::magnetic_index_type</a></td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>magnetic_index_type</b> = typename ao_shell_traits::magnetic_index_type</td></tr>
 <tr class="memdesc:afa4ad1631c922a497d1e82d2fbab7a34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to model the component, <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>. <br /></td></tr>
 <tr class="separator:afa4ad1631c922a497d1e82d2fbab7a34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a215a578cdb7e954755f71b396a802c07" id="r_a215a578cdb7e954755f71b396a802c07"><td class="memItemLeft" align="right" valign="top"><a id="a215a578cdb7e954755f71b396a802c07" name="a215a578cdb7e954755f71b396a802c07"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>shell_type</b> = <a class="el" href="classchemist_1_1experimental_1_1AOShell.html">experimental::AOShell</a></td></tr>
-<tr class="memdesc:a215a578cdb7e954755f71b396a802c07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the ordering-agnostic Cartesian shell *this is built on. <br /></td></tr>
-<tr class="separator:a215a578cdb7e954755f71b396a802c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a604a9f1ca87ee0f678874aaf50de09bf" id="r_a604a9f1ca87ee0f678874aaf50de09bf"><td class="memItemLeft" align="right" valign="top"><a id="a604a9f1ca87ee0f678874aaf50de09bf" name="a604a9f1ca87ee0f678874aaf50de09bf"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>shell_view_type</b> = <a class="el" href="classchemist_1_1experimental_1_1AOShellView.html">experimental::AOShellView</a></td></tr>
-<tr class="memdesc:a604a9f1ca87ee0f678874aaf50de09bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only, aliasing view of a Cartesian shell. <br /></td></tr>
-<tr class="separator:a604a9f1ca87ee0f678874aaf50de09bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9e6d4d82468347c3dd6636ae7c32d90" id="r_ac9e6d4d82468347c3dd6636ae7c32d90"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structchemist_1_1experimental_1_1detail___1_1SphericalAOTraitsCommon.html#ac9e6d4d82468347c3dd6636ae7c32d90">shell_type</a> = typename ao_shell_traits::value_type</td></tr>
+<tr class="memdesc:ac9e6d4d82468347c3dd6636ae7c32d90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the ordering-agnostic Cartesian shell *this is built on.  <br /></td></tr>
+<tr class="separator:ac9e6d4d82468347c3dd6636ae7c32d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c5f8e52dedbf08d919b0df460643ee5" id="r_a4c5f8e52dedbf08d919b0df460643ee5"><td class="memItemLeft" align="right" valign="top"><a id="a4c5f8e52dedbf08d919b0df460643ee5" name="a4c5f8e52dedbf08d919b0df460643ee5"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>shell_view_type</b> = typename ao_shell_traits::const_view_type</td></tr>
+<tr class="memdesc:a4c5f8e52dedbf08d919b0df460643ee5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only, aliasing view of a Cartesian shell. <br /></td></tr>
+<tr class="separator:a4c5f8e52dedbf08d919b0df460643ee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb2a54198c8092052e44dc3628ff8a35" id="r_afb2a54198c8092052e44dc3628ff8a35"><td class="memItemLeft" align="right" valign="top"><a id="afb2a54198c8092052e44dc3628ff8a35" name="afb2a54198c8092052e44dc3628ff8a35"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_cartesian_ao_reference</b> = typename ao_shell_traits::const_cartesian_ao_reference</td></tr>
+<tr class="memdesc:afb2a54198c8092052e44dc3628ff8a35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only view of one Cartesian <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> of the shell. <br /></td></tr>
+<tr class="separator:afb2a54198c8092052e44dc3628ff8a35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb97ae1cd5a1c1fb5812835c642825cd" id="r_afb97ae1cd5a1c1fb5812835c642825cd"><td class="memItemLeft" align="right" valign="top"><a id="afb97ae1cd5a1c1fb5812835c642825cd" name="afb97ae1cd5a1c1fb5812835c642825cd"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>contracted_gaussian_type</b> = typename <a class="el" href="structchemist_1_1ChemistClassTraits_3_01experimental_1_1AOShell_01_4.html#aae66fcf729fd5d7a96716e0b37b322b9">ao_shell_traits::contracted_gaussian_type</a></td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>contracted_gaussian_type</b> = typename ao_shell_traits::contracted_gaussian_type</td></tr>
 <tr class="memdesc:afb97ae1cd5a1c1fb5812835c642825cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the contracted Gaussian *this is built on. <br /></td></tr>
 <tr class="separator:afb97ae1cd5a1c1fb5812835c642825cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cba9bd3093d865c427f6832c04576c1" id="r_a8cba9bd3093d865c427f6832c04576c1"><td class="memItemLeft" align="right" valign="top"><a id="a8cba9bd3093d865c427f6832c04576c1" name="a8cba9bd3093d865c427f6832c04576c1"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>const_contracted_gaussian_reference</b> = typename <a class="el" href="structchemist_1_1ChemistClassTraits_3_01experimental_1_1AOShell_01_4.html#aeb8facdbfced4919fdbd4a9ed0082bce">ao_shell_traits::const_contracted_gaussian_reference</a></td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_contracted_gaussian_reference</b> = typename ao_shell_traits::const_contracted_gaussian_reference</td></tr>
 <tr class="memdesc:a8cba9bd3093d865c427f6832c04576c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only, aliasing view of the contracted Gaussian. <br /></td></tr>
 <tr class="separator:a8cba9bd3093d865c427f6832c04576c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34232fbaca2312daa6a91f2e815239de" id="r_a34232fbaca2312daa6a91f2e815239de"><td class="memItemLeft" align="right" valign="top"><a id="a34232fbaca2312daa6a91f2e815239de" name="a34232fbaca2312daa6a91f2e815239de"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>center_type</b> = typename <a class="el" href="structchemist_1_1ChemistClassTraits_3_01experimental_1_1AOShell_01_4.html#a4a1aa969a59db6ab9209688f316c42d6">ao_shell_traits::center_type</a></td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>center_type</b> = typename ao_shell_traits::center_type</td></tr>
 <tr class="memdesc:a34232fbaca2312daa6a91f2e815239de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to model the point *this is centered on. <br /></td></tr>
 <tr class="separator:a34232fbaca2312daa6a91f2e815239de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1274444dad558897cb3ed7e41ecd8373" id="r_a1274444dad558897cb3ed7e41ecd8373"><td class="memItemLeft" align="right" valign="top"><a id="a1274444dad558897cb3ed7e41ecd8373" name="a1274444dad558897cb3ed7e41ecd8373"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>const_center_reference</b> = typename <a class="el" href="structchemist_1_1ChemistClassTraits_3_01experimental_1_1AOShell_01_4.html#adfd8156775ea7a2c3e94263a1a8ef0d1">ao_shell_traits::const_center_reference</a></td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_center_reference</b> = typename ao_shell_traits::const_center_reference</td></tr>
 <tr class="memdesc:a1274444dad558897cb3ed7e41ecd8373"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only, aliasing view of the center. <br /></td></tr>
 <tr class="separator:a1274444dad558897cb3ed7e41ecd8373"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a947adbb2cfa109efceadf42440c3b68a" id="r_a947adbb2cfa109efceadf42440c3b68a"><td class="memItemLeft" align="right" valign="top"><a id="a947adbb2cfa109efceadf42440c3b68a" name="a947adbb2cfa109efceadf42440c3b68a"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>coord_type</b> = typename <a class="el" href="structchemist_1_1ChemistClassTraits_3_01experimental_1_1AOShell_01_4.html#a74da70918d75d62d674b23eca9bd6945">ao_shell_traits::coord_type</a></td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>coord_type</b> = typename ao_shell_traits::coord_type</td></tr>
 <tr class="memdesc:a947adbb2cfa109efceadf42440c3b68a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to model a single Cartesian coordinate. <br /></td></tr>
 <tr class="separator:a947adbb2cfa109efceadf42440c3b68a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Types shared by both ChemistClassTraits&lt;SphericalAO&gt; specializations. </p>
-<p>Per docs/source/developer/design/basis_set/ao_hierarchy.rst, a spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> pairs a Cartesian shell with a component <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>. The types describing the shell half are therefore pulled from ChemistClassTraits&lt;AOShell&gt;; what is genuinely new is the type used for <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>.</p>
+<p>Per docs/source/developer/design/basis_set/ao_hierarchy.rst, a spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> pairs a Cartesian shell with a component <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>. The types describing the shell half are therefore pulled from ChemistClassTraits&lt;AOShell&lt;CartesianAO&gt;&gt;; what is genuinely new is the type used for <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>.</p>
 <p>Unlike the Cartesian <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> traits, the reference types do not change with the const-qualification of the <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a>. The shell is held polymorphically, and the polymorphic shell API is read-only, so there is no mutable reference to the shell (or to the contracted Gaussian beneath it) to hand out. </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="ac9e6d4d82468347c3dd6636ae7c32d90" name="ac9e6d4d82468347c3dd6636ae7c32d90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9e6d4d82468347c3dd6636ae7c32d90">&#9670;&#160;</a></span>shell_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="structchemist_1_1experimental_1_1detail___1_1SphericalAOTraitsCommon.html#ac9e6d4d82468347c3dd6636ae7c32d90">chemist::experimental::detail_::SphericalAOTraitsCommon::shell_type</a> =  typename ao_shell_traits::value_type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Type of the ordering-agnostic Cartesian shell *this is built on. </p>
+<p>The shell's purity is part of this type, so a <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html" title="Models a spherical atomic orbital by value.">SphericalAO</a> can not be built on a pure shell. </p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li>cxx/include/chemist/experimental/traits/<a class="el" href="spherical__ao__traits_8hpp_source.html">spherical_ao_traits.hpp</a></li>
 </ul>
 </div><!-- contents -->

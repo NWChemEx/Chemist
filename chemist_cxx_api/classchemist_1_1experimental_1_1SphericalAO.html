@@ -120,8 +120,16 @@ Collaboration diagram for chemist::experimental::SphericalAO:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:aa7516503d55d2a641b003881e3c7ffca" id="r_aa7516503d55d2a641b003881e3c7ffca"><td class="memItemLeft" align="right" valign="top"><a id="aa7516503d55d2a641b003881e3c7ffca" name="aa7516503d55d2a641b003881e3c7ffca"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>shell_type</b> = typename <a class="el" href="structchemist_1_1ChemistClassTraits.html">ChemistClassTraits</a>&lt; <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html">SphericalAO</a> &gt;::shell_type</td></tr>
+<tr class="memdesc:aa7516503d55d2a641b003881e3c7ffca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the (polymorphic) Cartesian shell *this is built on. <br /></td></tr>
+<tr class="separator:aa7516503d55d2a641b003881e3c7ffca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a507a440308fe4ba4d7982a7159875ea3" id="r_a507a440308fe4ba4d7982a7159875ea3"><td class="memItemLeft" align="right" valign="top"><a id="a507a440308fe4ba4d7982a7159875ea3" name="a507a440308fe4ba4d7982a7159875ea3"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>shell_pointer</b> = typename shell_type::pointer</td></tr>
+<tr class="memdesc:a507a440308fe4ba4d7982a7159875ea3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of the pointer *this owns its shell through. <br /></td></tr>
+<tr class="separator:a507a440308fe4ba4d7982a7159875ea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33b633bfb9a025ec5ae5a711b7654fb7" id="r_a33b633bfb9a025ec5ae5a711b7654fb7"><td class="memItemLeft" align="right" valign="top"><a id="a33b633bfb9a025ec5ae5a711b7654fb7" name="a33b633bfb9a025ec5ae5a711b7654fb7"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>const_shell_reference</b> = const shell_type &amp;</td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_shell_reference</b> = const <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html#aa7516503d55d2a641b003881e3c7ffca">shell_type</a> &amp;</td></tr>
 <tr class="memdesc:a33b633bfb9a025ec5ae5a711b7654fb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a read-only reference to the Cartesian shell *this is built on. <br /></td></tr>
 <tr class="separator:a33b633bfb9a025ec5ae5a711b7654fb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
@@ -237,7 +245,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab0eec2d4bc4c009648d82f746e555f63" id="r_ab0eec2d4bc4c009648d82f746e555f63"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html#ab0eec2d4bc4c009648d82f746e555f63">SphericalAO</a> (<a class="el" href="classchemist_1_1experimental_1_1SphericalAOCommon.html#a1ea3fb0096b6f9fcc72e825fd4a7a98e">contracted_gaussian_type</a> cg, <a class="el" href="classchemist_1_1experimental_1_1SphericalAOCommon.html#ad83e14a201e8a0117a1f5a9132a572e6">magnetic_index_type</a> m)</td></tr>
 <tr class="memdesc:ab0eec2d4bc4c009648d82f746e555f63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates the component <code>m</code> of the Cartesian shell built on <code>cg</code>.  <br /></td></tr>
 <tr class="separator:ab0eec2d4bc4c009648d82f746e555f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74a6a7607c2ca1e56041c083a16c6638" id="r_a74a6a7607c2ca1e56041c083a16c6638"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html#a74a6a7607c2ca1e56041c083a16c6638">SphericalAO</a> (const shell_type &amp;shell, <a class="el" href="classchemist_1_1experimental_1_1SphericalAOCommon.html#ad83e14a201e8a0117a1f5a9132a572e6">magnetic_index_type</a> m)</td></tr>
+<tr class="memitem:a74a6a7607c2ca1e56041c083a16c6638" id="r_a74a6a7607c2ca1e56041c083a16c6638"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html#a74a6a7607c2ca1e56041c083a16c6638">SphericalAO</a> (const <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html#aa7516503d55d2a641b003881e3c7ffca">shell_type</a> &amp;shell, <a class="el" href="classchemist_1_1experimental_1_1SphericalAOCommon.html#ad83e14a201e8a0117a1f5a9132a572e6">magnetic_index_type</a> m)</td></tr>
 <tr class="memdesc:a74a6a7607c2ca1e56041c083a16c6638"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates the component <code>m</code> of <code>shell</code>.  <br /></td></tr>
 <tr class="separator:a74a6a7607c2ca1e56041c083a16c6638"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0068e2c7c0cbf091bc1292ac7ec720bb" id="r_a0068e2c7c0cbf091bc1292ac7ec720bb"><td class="memTemplParams" colspan="2">template&lt;typename CoefBeginItr , typename CoefEndItr , typename ExpBeginItr , typename ExpEndItr &gt; </td></tr>
@@ -411,7 +419,7 @@ Additional Inherited Members</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Models a spherical atomic orbital by value. </p>
 <p>See <a class="el" href="classchemist_1_1experimental_1_1SphericalAOCommon.html" title="Implements the API shared by SphericalAO and SphericalAOView.">SphericalAOCommon</a> for the function *this models and for the shared API, and <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> for the interface *this satisfies as one of the two kinds of atomic orbital.</p>
-<p>*this owns the Cartesian shell it is built on, and with it that shell's contracted Gaussian, center, and angular momentum; the only state *this adds is <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>. The shell must be a Cartesian shell, but is held polymorphically, as an <a class="el" href="classchemist_1_1experimental_1_1AOShell.html" title="Abstract base class of the shells which own their state.">AOShell</a>, because the value of a spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> does not depend on the shell's ordering. The ctors which have no shell to copy build a CCAShell&lt;CartesianAO&gt;. See <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html" title="An object which behaves like a SphericalAO, but aliases the Cartesian shell it is built on.">SphericalAOView</a> for a class with the same API which aliases a shell owned by something else.</p>
+<p>*this owns the Cartesian shell it is built on, and with it that shell's contracted Gaussian, center, and angular momentum; the only state *this adds is <picture><source srcset="form_34_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell$" src="form_34.png"/></picture>. The shell must be a Cartesian shell, and is held as an AOShell&lt;CartesianAO&gt;, so that being Cartesian is part of its type. It is otherwise held polymorphically, because the value of a spherical <a class="el" href="classchemist_1_1experimental_1_1AO.html" title="Abstract base class of the atomic orbitals which own their state.">AO</a> does not depend on the shell's ordering. The ctors which have no shell to copy build a CCAShell&lt;CartesianAO&gt;. See <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html" title="An object which behaves like a SphericalAO, but aliases the Cartesian shell it is built on.">SphericalAOView</a> for a class with the same API which aliases a shell owned by something else.</p>
 <p>A default-constructed instance is an s function ( <picture><source srcset="form_61_dark.png" media="(prefers-color-scheme: dark)"/><img class="formulaInl" alt="$m_\ell = 0$" src="form_61.png"/></picture>) built on an empty CCAShell&lt;CartesianAO&gt;.</p>
 <dl class="section note"><dt>Note</dt><dd>Every ctor which has to build a shell does so in the source file. CCAShell&lt;SphericalAO&gt; hands out <a class="el" href="classchemist_1_1experimental_1_1SphericalAOView.html" title="An object which behaves like a SphericalAO, but aliases the Cartesian shell it is built on.">SphericalAOView</a> objects, so the shell headers include this one, and this one can not include them.</dd>
 <dd>
@@ -499,7 +507,7 @@ Unlike <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" tit
         <tr>
           <td class="memname">chemist::experimental::SphericalAO::SphericalAO </td>
           <td>(</td>
-          <td class="paramtype">const shell_type &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1experimental_1_1SphericalAO.html#aa7516503d55d2a641b003881e3c7ffca">shell_type</a> &amp;&#160;</td>
           <td class="paramname"><em>shell</em>, </td>
         </tr>
         <tr>
@@ -532,7 +540,7 @@ Unlike <a class="el" href="classchemist_1_1experimental_1_1CartesianAO.html" tit
 </dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::invalid_argument</td><td>if <code>shell</code> is pure or <code>m</code> is out of range. Strong throw guarantee. </td></tr>
+    <tr><td class="paramname">std::invalid_argument</td><td>if <code>m</code> is out of range. Strong throw guarantee. </td></tr>
     <tr><td class="paramname">std::bad_alloc</td><td>if there is a problem copying <code>shell</code>. Strong throw guarantee. </td></tr>
   </table>
   </dd>

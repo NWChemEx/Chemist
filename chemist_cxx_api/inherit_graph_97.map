@@ -1,7 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structchemist_1_1experimental_1_1detail___1_1CCAShellTraitsCommon.html" title="Types shared by every ChemistClassTraits&lt;CCAShell&lt;AOType&gt;&gt; specialization." alt="" coords="5,45,240,100"/>
-<area shape="rect" id="Node000001" href="$structchemist_1_1ChemistClassTraits_3_01const_01experimental_1_1CCAShell_3_01AOType_01_4_01_4.html" title="Traits for a read&#45;only experimental::CCAShell." alt="" coords="288,5,519,60"/>
-<area shape="poly" id="edge59_Node000000_Node000001" title=" " alt="" coords="253,51,288,46,288,52,254,57"/>
-<area shape="rect" id="Node000002" href="$structchemist_1_1ChemistClassTraits_3_01experimental_1_1CCAShell_3_01AOType_01_4_01_4.html" title="Traits for a mutable experimental::CCAShell." alt="" coords="300,84,507,139"/>
-<area shape="poly" id="edge60_Node000000_Node000002" title=" " alt="" coords="254,88,300,94,300,100,253,93"/>
+<area shape="rect" id="Node000000" href="$structchemist_1_1experimental_1_1detail___1_1AtomicBasisSetTraitsCommon.html" title="Types shared by both ChemistClassTraits&lt;AtomicBasisSet&gt; specializations." alt="" coords="5,30,224,85"/>
+<area shape="rect" id="Node000001" href="$structchemist_1_1ChemistClassTraits_3_01const_01experimental_1_1AtomicBasisSet_01_4.html" title="Traits for a read&#45;only experimental::AtomicBasisSet." alt="" coords="272,5,560,45"/>
+<area shape="poly" id="edge62_Node000000_Node000001" title=" " alt="" coords="237,42,271,38,272,43,238,47"/>
+<area shape="rect" id="Node000002" href="$structchemist_1_1ChemistClassTraits_3_01experimental_1_1AtomicBasisSet_01_4.html" title="Traits for a mutable experimental::AtomicBasisSet." alt="" coords="291,69,541,109"/>
+<area shape="poly" id="edge63_Node000000_Node000002" title=" " alt="" coords="238,68,291,73,291,79,237,73"/>
 </map>
