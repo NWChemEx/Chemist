@@ -69,11 +69,13 @@ class TestImmutableSphericalAOView(unittest.TestCase):
         self.shell.get_contracted_gaussian().set_center(Point(4.0, 5.0, 6.0))
         self.assertEqual(v.get_center(), Point(4.0, 5.0, 6.0))
 
-    def test_from_a_shell_throws_if_the_shell_is_pure(self):
+    def test_from_a_shell_rejects_a_pure_shell(self):
+        # The C++ ctors only accept a Cartesian shell, so a pure one matches
+        # no overload.
         pure = SphericalCCAShell(CS, ES, 2, 1.0, 2.0, 3.0)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             ImmutableSphericalAOView(pure, 1)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             ImmutableSphericalAOView(ImmutableSphericalCCAShellView(pure), 1)
 
     def test_from_a_shell_throws_if_m_is_too_big(self):
