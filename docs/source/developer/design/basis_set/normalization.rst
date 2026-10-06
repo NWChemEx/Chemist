@@ -231,7 +231,7 @@ Summary
    they depend on, and every class-level accessor delegates to them.
 
 :ref:`n_component_vs_shell`
-   ``AOShell`` reports :math:`N^{\chi} N^{G}`; ``AO`` completes the product
+   ``AOShellBase`` reports :math:`N^{\chi} N^{G}`; ``AO`` completes the product
    with :math:`N^{AO}_{ijk}`. The two consumers want the same product truncated at
    different points, not two different calculations.
 

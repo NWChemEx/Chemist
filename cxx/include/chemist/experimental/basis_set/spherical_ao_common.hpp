@@ -59,9 +59,10 @@ namespace chemist::experimental {
  *  the concrete classes which pick up AO or AOView.
  *
  *  @tparam DerivedType The class deriving from *this. Must define `shell_()`,
- *                      returning a read-only reference to something with the
- *                      AOShellCommon API (an AOShell or an AOShellView), and
- *                      `m_()`, and must declare *this a friend.
+ *                      returning a read-only reference to a Cartesian shell
+ *                      (an AOShell<CartesianAO> or an
+ *                      AOShellView<CartesianAO>), and `m_()`, and must declare
+ *                      *this a friend.
  *  @tparam SAOType The, possibly const-qualified, SphericalAO type the derived
  *                  class models. This decides whether set_m exists.
  */
@@ -343,23 +344,25 @@ public:
      *
      *  A spherical AO is a linear combination of Cartesian AOs, so the shell
      *  it is built on must be a Cartesian shell, and @p m must be valid for
-     *  that shell's angular momentum. Public for the same reason as check_m.
+     *  that shell's angular momentum. The former is part of @p shell's type,
+     *  so it is checked at compile time; only the latter can fail at runtime.
+     *  Public for the same reason as check_m.
      *
-     *  @tparam ShellType The type of @p shell: AOShell, AOShellView, or
-     *                    anything else with their API.
+     *  @tparam ShellType The type of @p shell: AOShell<CartesianAO>,
+     *                    AOShellView<CartesianAO>, or a class deriving from
+     *                    either.
      *
      *  @param[in] shell The shell to check.
      *  @param[in] m The component to check.
      *
-     *  @throw std::invalid_argument if @p shell is pure, or if
-     *                               @f$|m| > \ell@f$. Strong throw guarantee.
+     *  @throw std::invalid_argument if @f$|m| > \ell@f$. Strong throw
+     *                               guarantee.
      */
     template<typename ShellType>
     static void check_shell(const ShellType& shell, magnetic_index_type m) {
-        if(shell.is_pure())
-            throw std::invalid_argument(
-              "chemist::experimental::SphericalAO: must be built on a "
-              "Cartesian shell, not a pure one.");
+        static_assert(
+          !ChemistClassTraits<AOShell<typename ShellType::ao_type>>::is_pure,
+          "A SphericalAO must be built on a Cartesian shell.");
         check_m(shell.get_l(), m);
     }
 
@@ -387,7 +390,7 @@ private:
 
     /// Type of a read-only view of one Cartesian AO of the shell
     using const_cartesian_ao_reference =
-      typename ChemistClassTraits<AOShell>::const_cartesian_ao_reference;
+      typename traits_type::const_cartesian_ao_reference;
 
     /** @brief Sums the Cartesian AOs of the shell with the transformation
      *         coefficients.

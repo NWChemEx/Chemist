@@ -41,7 +41,7 @@ class AtomicBasisSetPIMPLBase;
  *  An atomic basis set stores the parameters of its shells as one contracted
  *  Gaussian's worth of state per shell, so the parameter types are pulled out
  *  of ChemistClassTraits<ContractedGaussian> and the shell types out of
- *  ChemistClassTraits<AOShell>, rather than being redeclared here.
+ *  ChemistClassTraits<AOShellBase>, rather than being redeclared here.
  */
 struct AtomicBasisSetTraitsCommon {
     /// Traits of the contracted Gaussians the shells are built on
@@ -49,7 +49,7 @@ struct AtomicBasisSetTraitsCommon {
       ChemistClassTraits<experimental::ContractedGaussian>;
 
     /// Traits of the shells the set hands out
-    using ao_shell_traits = ChemistClassTraits<experimental::AOShell>;
+    using ao_shell_traits = ChemistClassTraits<experimental::AOShellBase>;
 
     /// Traits of the primitives the set hands out
     using primitive_traits = ChemistClassTraits<experimental::Primitive>;
@@ -63,8 +63,20 @@ struct AtomicBasisSetTraitsCommon {
     /// Type of a pointer to the object implementing an atomic basis set
     using pimpl_pointer = std::unique_ptr<pimpl_type>;
 
+    /// Type of the polymorphic, owning shell a set accepts
+    using shell_type = typename ao_shell_traits::value_type;
+
+    /// Type of the polymorphic view of a shell a set accepts and hands out
+    using shell_view_type = typename ao_shell_traits::const_view_type;
+
+    /// Type of a read-only reference to a polymorphic, owning shell
+    using const_shell_reference = const shell_type&;
+
+    /// Type of a read-only reference to a polymorphic view of a shell
+    using const_shell_view_reference = const shell_view_type&;
+
     /// Type of a pointer to a read-only, polymorphic view of one shell
-    using shell_pointer = std::unique_ptr<experimental::AOShellView>;
+    using shell_pointer = std::unique_ptr<shell_view_type>;
 
     /// Type used to model the name of the basis set, e.g. "cc-pVDZ"
     using name_type = std::string;

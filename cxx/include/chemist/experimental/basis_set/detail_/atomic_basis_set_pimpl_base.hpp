@@ -15,8 +15,8 @@
  */
 
 #pragma once
+#include <chemist/experimental/basis_set/ao_shell_base_view.hpp>
 #include <chemist/experimental/basis_set/ao_shell_enums.hpp>
-#include <chemist/experimental/basis_set/ao_shell_view.hpp>
 #include <chemist/experimental/basis_set/primitive_view.hpp>
 #include <chemist/experimental/point/point_view.hpp>
 #include <chemist/experimental/traits/atomic_basis_set_traits.hpp>
@@ -34,7 +34,8 @@ namespace chemist::experimental::detail_ {
  *  shell encodes its purity and its AO ordering, but AtomicBasisSet is not
  *  templated on it; instead it holds one of these, selected at runtime from a
  *  ShellPurity and an AOOrdering. Every set therefore holds shells of exactly
- *  one type, and *this exposes them polymorphically, as AOShellView objects.
+ *  one type, and *this exposes them polymorphically, as AOShellBaseView
+ *  objects.
  *
  *  The derived classes are AtomicBasisSetPIMPL, which owns the state, and
  *  AtomicBasisSetViewPIMPL, which aliases state owned by something else. The
@@ -49,7 +50,7 @@ namespace chemist::experimental::detail_ {
  *
  *  No shell owns any of this; indexing builds a view of the shell from it.
  *
- *  Following AOShellCommon, the public members are non-virtual. They check
+ *  Following AOShellBaseCommon, the public members are non-virtual. They check
  *  their arguments and then call the corresponding unchecked `*_` hook.
  *  Anything which follows from other members, e.g. n_aos(), is computed here
  *  rather than being a hook.
@@ -78,6 +79,8 @@ public:
     using const_name_reference   = typename traits_type::const_name_reference;
     using const_primitive_reference =
       typename traits_type::const_primitive_reference;
+    using const_shell_view_reference =
+      typename traits_type::const_shell_view_reference;
     using name_reference      = typename traits_type::name_reference;
     using name_type           = typename traits_type::name_type;
     using primitive_reference = typename traits_type::primitive_reference;
@@ -143,7 +146,7 @@ public:
     /** @brief Returns the total number of AOs in *this.
      *
      *  This is the sum of the shell sizes, which follow from their angular
-     *  momenta and the purity exactly as in AOShellCommon::size.
+     *  momenta and the purity exactly as in AOShellBaseCommon::size.
      *
      *  @throw None No throw guarantee.
      */
@@ -193,7 +196,7 @@ public:
      *  @throw std::bad_alloc if there is a problem allocating the new state.
      *                        Strong throw guarantee.
      */
-    void push_back(const AOShellView& shell) {
+    void push_back(const_shell_view_reference shell) {
         const bool pure = purity() == ShellPurity::pure;
         if(shell.is_pure() != pure)
             throw_bad_shell_("its purity differs from that of the set");
@@ -354,34 +357,34 @@ protected:
 
     /// Hooks implementing the public API. Offsets have already been checked.
     ///@{
-    virtual ShellPurity purity_() const noexcept                      = 0;
-    virtual AOOrdering ordering_() const noexcept                     = 0;
-    virtual size_type size_() const noexcept                          = 0;
-    virtual shell_pointer at_(size_type i) const                      = 0;
-    virtual angular_momentum_type l_(size_type i) const noexcept      = 0;
-    virtual void set_l_(size_type i, angular_momentum_type l)         = 0;
-    virtual bool is_same_ordering_(const AOShellView& shell) const    = 0;
+    virtual ShellPurity purity_() const noexcept                           = 0;
+    virtual AOOrdering ordering_() const noexcept                          = 0;
+    virtual size_type size_() const noexcept                               = 0;
+    virtual shell_pointer at_(size_type i) const                           = 0;
+    virtual angular_momentum_type l_(size_type i) const noexcept           = 0;
+    virtual void set_l_(size_type i, angular_momentum_type l)              = 0;
+    virtual bool is_same_ordering_(const_shell_view_reference shell) const = 0;
     virtual void add_shell_(angular_momentum_type l,
                             const_buffer_reference coefficients,
-                            const_buffer_reference exponents)         = 0;
-    virtual size_type n_primitives_() const noexcept                  = 0;
-    virtual range_type primitive_range_(size_type i) const noexcept   = 0;
-    virtual size_type primitive_to_shell_(size_type i) const noexcept = 0;
-    virtual primitive_reference primitive_(size_type i)               = 0;
-    virtual const_primitive_reference primitive_(size_type i) const   = 0;
-    virtual buffer_reference coefficient_buffer_()                    = 0;
-    virtual const_buffer_reference coefficient_buffer_() const        = 0;
-    virtual buffer_reference exponent_buffer_()                       = 0;
-    virtual const_buffer_reference exponent_buffer_() const           = 0;
-    virtual center_reference center_()                                = 0;
-    virtual const_center_reference center_() const                    = 0;
-    virtual name_reference name_()                                    = 0;
-    virtual const_name_reference name_() const                        = 0;
-    virtual atomic_number_reference atomic_number_()                  = 0;
-    virtual const_atomic_number_reference atomic_number_() const      = 0;
-    virtual pimpl_pointer clone_() const                              = 0;
-    virtual pimpl_pointer as_view_()                                  = 0;
-    virtual pimpl_pointer as_const_view_() const                      = 0;
+                            const_buffer_reference exponents)              = 0;
+    virtual size_type n_primitives_() const noexcept                       = 0;
+    virtual range_type primitive_range_(size_type i) const noexcept        = 0;
+    virtual size_type primitive_to_shell_(size_type i) const noexcept      = 0;
+    virtual primitive_reference primitive_(size_type i)                    = 0;
+    virtual const_primitive_reference primitive_(size_type i) const        = 0;
+    virtual buffer_reference coefficient_buffer_()                         = 0;
+    virtual const_buffer_reference coefficient_buffer_() const             = 0;
+    virtual buffer_reference exponent_buffer_()                            = 0;
+    virtual const_buffer_reference exponent_buffer_() const                = 0;
+    virtual center_reference center_()                                     = 0;
+    virtual const_center_reference center_() const                         = 0;
+    virtual name_reference name_()                                         = 0;
+    virtual const_name_reference name_() const                             = 0;
+    virtual atomic_number_reference atomic_number_()                       = 0;
+    virtual const_atomic_number_reference atomic_number_() const           = 0;
+    virtual pimpl_pointer clone_() const                                   = 0;
+    virtual pimpl_pointer as_view_()                                       = 0;
+    virtual pimpl_pointer as_const_view_() const                           = 0;
     ///@}
 
 private:

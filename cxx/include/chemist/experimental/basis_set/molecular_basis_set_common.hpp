@@ -357,7 +357,7 @@ public:
      *
      *  This is the sum of the sizes of the shells, each of which follows from
      *  its angular momentum and its atom's purity exactly as in
-     *  AOShellCommon::size.
+     *  AOShellBaseCommon::size.
      *
      *  @throw None No throw guarantee.
      */

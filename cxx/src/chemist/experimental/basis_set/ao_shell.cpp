@@ -16,14 +16,52 @@
 
 #include <chemist/experimental/basis_set/ao_shell.hpp>
 #include <chemist/experimental/basis_set/ao_shell_view.hpp>
+#include <chemist/experimental/basis_set/cartesian_ao_view.hpp>
+#include <chemist/experimental/basis_set/spherical_ao_view.hpp>
 
 namespace chemist::experimental {
 
-// These two are defined here, rather than inline, because each returns a
-// unique_ptr to the other class, and so needs both to be complete.
+// The members below are defined here, rather than inline, because they need
+// CartesianAOView, SphericalAOView, or AOShellView to be complete, and those
+// headers (directly or indirectly) include the shell headers.
 
-AOShell::view_pointer AOShell::as_view() const { return as_view_(); }
+template<typename BaseType, typename AOType>
+auto AOShellCommon<BaseType, AOType>::at(size_type i) const
+  -> const_ao_pointer {
+    this->check_offset_(i);
+    if constexpr(traits_type::is_pure) {
+        // Hands the new shell view to the AO, rather than letting the AO
+        // clone it, so that indexing allocates one shell view, not two.
+        return std::make_unique<const_ao_reference>(get_cartesian_shell(),
+                                                    ao_index_(i));
+    } else {
+        const auto [x, y, z] = ao_index_(i);
+        return std::make_unique<const_ao_reference>(
+          this->get_contracted_gaussian(), x, y, z);
+    }
+}
 
-AOShellView::shell_pointer AOShellView::as_shell() const { return as_shell_(); }
+template<typename BaseType, typename AOType>
+auto AOShellCommon<BaseType, AOType>::at_(size_type i) const
+  -> ao_view_pointer {
+    return at(i);
+}
+
+template<typename AOType>
+auto AOShell<AOType>::as_view() const -> view_pointer {
+    // Every class deriving from *this views as its own view type, which is an
+    // AOShellView<AOType>, so the downcast can not fail.
+    return view_pointer(
+      static_cast<AOShellView<AOType>*>(this->as_view_().release()));
+}
+
+template class AOShellCommon<AOShellBase, CartesianAO>;
+template class AOShellCommon<AOShellBase, SphericalAO>;
+template class AOShellCommon<AOShellBaseView, CartesianAO>;
+template class AOShellCommon<AOShellBaseView, SphericalAO>;
+template class AOShell<CartesianAO>;
+template class AOShell<SphericalAO>;
+template class AOShellView<CartesianAO>;
+template class AOShellView<SphericalAO>;
 
 } // namespace chemist::experimental

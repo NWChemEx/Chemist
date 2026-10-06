@@ -19,12 +19,15 @@
 /** @file cca_shell.hpp
  *
  *  Convenience header pulling in the entire experimental AO-shell component,
- *  i.e. the AOShell/AOShellView bases and the CCA-ordered shell which
- *  satisfies them. Include the individual class headers instead if you only
- *  need one of them.
+ *  i.e. the AOShellBase/AOShellBaseView bases, the AOShell/AOShellView bases
+ *  of one purity, and the CCA-ordered shell which satisfies them. Include the
+ *  individual class headers instead if you only need one of them.
  */
 
 #include <chemist/experimental/basis_set/ao_shell.hpp>
+#include <chemist/experimental/basis_set/ao_shell_base.hpp>
+#include <chemist/experimental/basis_set/ao_shell_base_common.hpp>
+#include <chemist/experimental/basis_set/ao_shell_base_view.hpp>
 #include <chemist/experimental/basis_set/ao_shell_common.hpp>
 #include <chemist/experimental/basis_set/ao_shell_view.hpp>
 #include <chemist/experimental/basis_set/cca_shell_class.hpp>

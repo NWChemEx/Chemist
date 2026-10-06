@@ -20,58 +20,43 @@
 
 namespace chemist::experimental {
 
-/** @brief Abstract base class of the shells which own their state.
+/** @brief Abstract base class of the owning shells of one purity.
  *
- *  Per docs/source/developer/design/basis_set/ao_hierarchy.rst, the classes
- *  deriving from *this are the AO orderings (e.g. CCAShell), so that the order
- *  a shell enumerates its AOs in is part of its type. Each ordering comes in a
- *  Cartesian and a pure flavor (e.g. CCAShell<CartesianAO> and
- *  CCAShell<SphericalAO>), and *this is what lets code which does not care
- *  about either hold any of them. SphericalAO, for example, needs a Cartesian
- *  shell but, because its value is a sum over all of that shell's AOs, not a
- *  particular ordering of one.
+ *  Per docs/source/developer/design/basis_set/ao_hierarchy.rst, the purity of
+ *  a shell and the order it enumerates its AOs in are independent, and code
+ *  frequently needs the former without caring about the latter. *this is the
+ *  layer of the shell hierarchy which fixes the purity --- AOShell<CartesianAO>
+ *  holds Cartesian AOs and AOShell<SphericalAO> holds spherical ones --- but
+ *  not the ordering: the classes deriving from *this (e.g. CCAShell<AOType>)
+ *  are the orderings. SphericalAO, for example, holds an AOShell<CartesianAO>,
+ *  because its value is a sum over all of that shell's AOs, so it needs the
+ *  shell to be Cartesian but not to be in any particular order.
  *
- *  *this is to AOShellView what AO is to AOView; see AOView for why the owning
- *  and aliasing bases are kept separate. The shared, read-only API is in
- *  AOShellCommon.
+ *  *this derives from AOShellBase, which fixes neither; as_cartesian_shell
+ *  and as_spherical_shell are the checked way from an AOShellBase to *this.
+ *  The API *this adds is in AOShellCommon, which *this shares with
+ *  AOShellView<AOType>; the members here are the ones whose result is typed
+ *  by the owning/aliasing distinction.
+ *
+ *  @tparam AOType The kind of AO *this holds: CartesianAO or SphericalAO.
  */
-class AOShell : public AOShellCommon<AOShell> {
+template<typename AOType>
+class AOShell : public AOShellCommon<AOShellBase, AOType> {
 private:
     /// Type *this inherits from
-    using base_type = AOShellCommon<AOShell>;
-
-    /// Lets the CRTP base reach the virtual methods below
-    friend base_type;
+    using base_type = AOShellCommon<AOShellBase, AOType>;
 
 public:
-    /// Type of a pointer to an AOShell, which is how a polymorphic shell is
-    /// owned
-    using base_pointer = std::unique_ptr<AOShell>;
+    /// Type of a pointer to an AOShell<AOType>, which is how a polymorphic
+    /// shell of known purity is owned
+    using pointer = std::unique_ptr<AOShell>;
 
-    /// Type of a, possibly read-only, reference to an AOShell
-    ///@{
-    using base_reference       = AOShell&;
-    using const_base_reference = const AOShell&;
-    ///@}
-
-    /// Type of a pointer to a read-only view of *this
-    using view_pointer = std::unique_ptr<AOShellView>;
-
-    /// Pull the shared API's types into *this's API
-    ///@{
-    using typename base_type::angular_momentum_type;
-    using typename base_type::ao_view_pointer;
-    using typename base_type::center_type;
-    using typename base_type::const_center_reference;
-    using typename base_type::const_contracted_gaussian_reference;
-    using typename base_type::contracted_gaussian_type;
-    using typename base_type::coord_type;
-    using typename base_type::numerical_value;
-    using typename base_type::size_type;
-    ///@}
+    /// Type of a pointer to a read-only view of *this, of the same purity.
+    /// Hides AOShellBase::view_pointer.
+    using view_pointer = std::unique_ptr<AOShellView<AOType>>;
 
     /// Polymorphic, no-throw dtor
-    virtual ~AOShell() noexcept = default;
+    ~AOShell() noexcept override = default;
 
     // -------------------------------------------------------------------------
     // -- Utility
@@ -79,21 +64,23 @@ public:
 
     /** @brief Returns a deep copy of *this.
      *
+     *  This is AOShellBase::clone with the purity kept in the result's type.
+     *
      *  @return A pointer to a newly allocated copy of *this, of the same
      *          derived type.
      *
      *  @throw std::bad_alloc if there is a problem allocating the copy.
      *                        Strong throw guarantee.
      */
-    base_pointer clone() const { return clone_(); }
+    pointer clone() const {
+        // Every class deriving from *this clones into its own type, which is
+        // an AOShell<AOType>, so the downcast can not fail.
+        return pointer(static_cast<AOShell*>(this->clone_().release()));
+    }
 
     /** @brief Returns a read-only view aliasing *this.
      *
-     *  The result is the view counterpart of *this's derived type (a CCAShell
-     *  gives a view of a read-only CCAShell), and aliases *this's state, so it
-     *  must not outlive *this. This is how something wanting to alias a shell
-     *  without knowing its ordering, e.g. SphericalAOView, gets hold of one.
-     *
+     *  This is AOShellBase::as_view with the purity kept in the result's type.
      *  Defined out of line, because AOShellView is incomplete here.
      *
      *  @return A pointer to a newly allocated view of *this.
@@ -102,31 +89,6 @@ public:
      *                        Strong throw guarantee.
      */
     view_pointer as_view() const;
-
-    /** @brief Determines if *this is value equal to @p rhs.
-     *
-     *  Two shells are value equal if they have the same derived type (i.e.
-     *  the same ordering and the same purity) and their contracted Gaussians
-     *  are value equal.
-     *
-     *  @param[in] rhs The shell to compare to *this.
-     *
-     *  @return True if *this is value equal to @p rhs and false otherwise.
-     *
-     *  @throw None No throw guarantee.
-     */
-    bool are_equal(const_base_reference rhs) const noexcept {
-        return are_equal_(rhs);
-    }
-
-    /** @brief Determines if *this differs from @p rhs.
-     *
-     *  This method defines "different" as not value equal. See are_equal for
-     *  the definition of value equal.
-     */
-    bool are_different(const_base_reference rhs) const noexcept {
-        return !are_equal(rhs);
-    }
 
 protected:
     /// Only the derived class should be creating/copying *this
@@ -137,31 +99,50 @@ protected:
     AOShell& operator=(const AOShell&) noexcept = default;
     AOShell& operator=(AOShell&&) noexcept      = default;
     ///@}
-
-    /// Implements get_l
-    virtual angular_momentum_type get_l_() const noexcept = 0;
-
-    /// Implements get_center
-    virtual const_center_reference get_center_() const = 0;
-
-    /// Implements get_contracted_gaussian
-    virtual const_contracted_gaussian_reference get_contracted_gaussian_()
-      const = 0;
-
-    /// Implements is_pure
-    virtual bool is_pure_() const noexcept = 0;
-
-    /// Implements at. The offset has already been checked.
-    virtual ao_view_pointer at_(size_type i) const = 0;
-
-    /// Implements clone
-    virtual base_pointer clone_() const = 0;
-
-    /// Implements as_view
-    virtual view_pointer as_view_() const = 0;
-
-    /// Implements are_equal
-    virtual bool are_equal_(const_base_reference rhs) const noexcept = 0;
 };
+
+/// Type of an owning, Cartesian shell of any ordering
+using cartesian_ao_shell = AOShell<CartesianAO>;
+
+/// Type of an owning, pure shell of any ordering
+using spherical_ao_shell = AOShell<SphericalAO>;
+
+/** @brief Returns @p shell as the Cartesian shell it is.
+ *
+ *  This is the one checked step from a shell whose purity is only known at
+ *  runtime to one whose purity is part of its type.
+ *
+ *  @param[in] shell The shell to downcast.
+ *
+ *  @return @p shell, as an AOShell<CartesianAO>. The result aliases
+ *          @p shell.
+ *
+ *  @throw std::invalid_argument if @p shell is not a Cartesian shell. Strong
+ *                               throw guarantee.
+ */
+inline const AOShell<CartesianAO>& as_cartesian_shell(
+  const AOShellBase& shell) {
+    return detail_::checked_shell_downcast<AOShell<CartesianAO>>(shell);
+}
+
+/** @brief Returns @p shell as the pure shell it is.
+ *
+ *  See as_cartesian_shell.
+ *
+ *  @param[in] shell The shell to downcast.
+ *
+ *  @return @p shell, as an AOShell<SphericalAO>. The result aliases
+ *          @p shell.
+ *
+ *  @throw std::invalid_argument if @p shell is not a pure shell. Strong throw
+ *                               guarantee.
+ */
+inline const AOShell<SphericalAO>& as_spherical_shell(
+  const AOShellBase& shell) {
+    return detail_::checked_shell_downcast<AOShell<SphericalAO>>(shell);
+}
+
+extern template class AOShell<CartesianAO>;
+extern template class AOShell<SphericalAO>;
 
 } // namespace chemist::experimental

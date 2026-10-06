@@ -22,6 +22,10 @@ namespace chemist::experimental {
 
 void export_atomic_basis_set_class(python_module_reference m) {
     using size_type = std::size_t;
+    using const_shell_reference =
+      typename AtomicBasisSet::const_shell_reference;
+    using const_shell_view_reference =
+      typename AtomicBasisSet::const_shell_view_reference;
 
     py::enum_<ShellPurity>(m, "ShellPurity")
       .value("cartesian", ShellPurity::cartesian)
@@ -42,10 +46,12 @@ void export_atomic_basis_set_class(python_module_reference m) {
                 std::vector<double> es) {
                  abs.add_shell(l, cs.begin(), cs.end(), es.begin(), es.end());
              })
-        .def("push_back", [](AtomicBasisSet& abs,
-                             const AOShell& shell) { abs.push_back(shell); })
         .def("push_back",
-             [](AtomicBasisSet& abs, const AOShellView& shell) {
+             [](AtomicBasisSet& abs, const_shell_reference shell) {
+                 abs.push_back(shell);
+             })
+        .def("push_back",
+             [](AtomicBasisSet& abs, const_shell_view_reference shell) {
                  abs.push_back(shell);
              })
         .def("swap", &AtomicBasisSet::swap)

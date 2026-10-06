@@ -19,6 +19,7 @@
 #include <chemist/experimental/basis_set/detail_/ao_view_impl.hpp>
 #include <chemist/experimental/basis_set/spherical_ao_class.hpp>
 #include <memory>
+#include <stdexcept>
 #include <type_traits>
 #include <utility>
 
@@ -33,9 +34,10 @@ namespace chemist::experimental {
  *  shell is built on the one Cartesian shell it owns, and handing out views
  *  of it, rather than @f$2\ell+1@f$ copies, is what keeps them from drifting.
  *
- *  The Cartesian shell is aliased through a polymorphic AOShellView, so *this
- *  can alias a shell of any ordering. @f$m_\ell@f$ is stored by value, for the
- *  same reason CartesianAOView stores its powers by value.
+ *  The Cartesian shell is aliased through an AOShellView<CartesianAO>, so
+ *  *this can alias a Cartesian shell of any ordering, and only a Cartesian
+ *  one. @f$m_\ell@f$ is stored by value, for the same reason CartesianAOView
+ *  stores its powers by value.
  *
  *  @tparam SAOType A const-qualified SphericalAO. Only read-only views are
  *                  supported for now: the polymorphic shell API is read-only,
@@ -64,6 +66,7 @@ private:
     /// Lets the AOView implementation reach as_ao_value_()
     friend impl_type;
 
+public:
     /// Type of the ordering-agnostic Cartesian shell *this can alias
     using shell_type = typename ChemistClassTraits<SAOType>::shell_type;
 
@@ -72,9 +75,8 @@ private:
       typename ChemistClassTraits<SAOType>::shell_view_type;
 
     /// Type of the pointer *this holds its shell view through
-    using shell_view_pointer = typename shell_view_type::base_pointer;
+    using shell_view_pointer = typename shell_view_type::pointer;
 
-public:
     /// Pull the shared API's types into *this's API
     ///@{
     using typename common_type::angular_momentum_type;
@@ -140,8 +142,8 @@ public:
      *  @param[in] shell The Cartesian shell *this will alias.
      *  @param[in] m The component. Must satisfy @f$|m| \le \ell@f$.
      *
-     *  @throw std::invalid_argument if @p shell is pure or @p m is out of
-     *                               range. Strong throw guarantee.
+     *  @throw std::invalid_argument if @p m is out of range. Strong throw
+     *                               guarantee.
      *  @throw std::bad_alloc if there is a problem allocating the shell view.
      *                        Strong throw guarantee.
      */
@@ -157,13 +159,33 @@ public:
      *  @param[in] shell A view of the Cartesian shell *this will alias.
      *  @param[in] m The component. Must satisfy @f$|m| \le \ell@f$.
      *
-     *  @throw std::invalid_argument if @p shell is pure or @p m is out of
-     *                               range. Strong throw guarantee.
+     *  @throw std::invalid_argument if @p m is out of range. Strong throw
+     *                               guarantee.
      *  @throw std::bad_alloc if there is a problem allocating the shell view.
      *                        Strong throw guarantee.
      */
     SphericalAOView(const shell_view_type& shell, magnetic_index_type m) :
       m_shell_((common_type::check_shell(shell, m), shell.clone())), m_m_(m) {}
+
+    /** @brief Creates the component @p m of the shell @p shell aliases,
+     *         taking ownership of @p shell.
+     *
+     *  Identical to the ctor taking a view by reference, except that *this
+     *  keeps @p shell rather than cloning it. This is what lets a pure shell,
+     *  which builds a new view of its Cartesian shell for each AO it hands
+     *  out, give that view to the AO without a second allocation.
+     *
+     *  @param[in] shell A pointer to a view of the Cartesian shell *this will
+     *                   alias. Must not be null.
+     *  @param[in] m The component. Must satisfy @f$|m| \le \ell@f$.
+     *
+     *  @throw std::invalid_argument if @p shell is null or @p m is out of
+     *                               range. Strong throw guarantee.
+     */
+    SphericalAOView(shell_view_pointer shell, magnetic_index_type m) :
+      m_shell_((check_shell_pointer_(shell),
+                common_type::check_shell(*shell, m), std::move(shell))),
+      m_m_(m) {}
 
     /** @brief Creates a view aliasing the same shell as @p other.
      *
@@ -232,6 +254,13 @@ public:
     }
 
 private:
+    /// Throws std::invalid_argument if @p shell is null
+    static void check_shell_pointer_(const shell_view_pointer& shell) {
+        if(shell) return;
+        throw std::invalid_argument(
+          "chemist::experimental::SphericalAOView: the shell view is null.");
+    }
+
     /// Implements AOViewImpl::as_ao_
     ao_type as_ao_value_() const { return as_spherical_ao(); }
 

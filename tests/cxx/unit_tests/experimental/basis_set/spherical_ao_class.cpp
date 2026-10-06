@@ -24,6 +24,7 @@
 #include <chemist/experimental/basis_set/cca_shell_class.hpp>
 #include <chemist/experimental/basis_set/spherical_ao_class.hpp>
 #include <chemist/experimental/point/point_class.hpp>
+#include <type_traits>
 #include <vector>
 
 using namespace chemist::experimental;
@@ -88,12 +89,19 @@ TEST_CASE("experimental::SphericalAO") {
             REQUIRE_THROWS_AS(SphericalAO(cg, 4), std::invalid_argument);
         }
 
-        SECTION("From a shell throws if the shell is pure") {
+        SECTION("Can not be built on a pure shell") {
             // A spherical AO is a combination of Cartesian AOs, so it can not
-            // be built on a shell of spherical ones.
-            CCAShell<SphericalAO> pure(cs.begin(), cs.end(), es.begin(),
-                                       es.end(), std::size_t(3), 1.0, 2.0, 3.0);
-            REQUIRE_THROWS_AS(SphericalAO(pure, -2), std::invalid_argument);
+            // be built on a shell of spherical ones. The shell's purity is
+            // part of its type, so this is a compile-time property.
+            using m_type = SphericalAO::magnetic_index_type;
+            STATIC_REQUIRE(
+              std::is_constructible_v<SphericalAO, const CCAShell<CartesianAO>&,
+                                      m_type>);
+            STATIC_REQUIRE_FALSE(
+              std::is_constructible_v<SphericalAO, const CCAShell<SphericalAO>&,
+                                      m_type>);
+            STATIC_REQUIRE_FALSE(
+              std::is_constructible_v<SphericalAO, const AOShellBase&, m_type>);
         }
 
         SECTION("From a shell throws if |m| > l") {

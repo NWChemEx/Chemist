@@ -33,8 +33,9 @@ namespace detail_ {
  *
  *  Per docs/source/developer/design/basis_set/ao_hierarchy.rst, a spherical AO
  *  pairs a Cartesian shell with a component @f$m_\ell@f$. The types describing
- *  the shell half are therefore pulled from ChemistClassTraits<AOShell>; what
- *  is genuinely new is the type used for @f$m_\ell@f$.
+ *  the shell half are therefore pulled from
+ *  ChemistClassTraits<AOShell<CartesianAO>>; what is genuinely new is the type
+ *  used for @f$m_\ell@f$.
  *
  *  Unlike the Cartesian AO traits, the reference types do not change with the
  *  const-qualification of the AO. The shell is held polymorphically, and the
@@ -43,7 +44,8 @@ namespace detail_ {
  */
 struct SphericalAOTraitsCommon {
     /// Traits of the Cartesian shell *this is built on
-    using ao_shell_traits = ChemistClassTraits<experimental::AOShell>;
+    using ao_shell_traits =
+      ChemistClassTraits<experimental::AOShell<experimental::CartesianAO>>;
 
     /// Type of the spherical AO *this describes
     using value_type = experimental::SphericalAO;
@@ -61,11 +63,19 @@ struct SphericalAOTraitsCommon {
     /// Type used to model the component, @f$m_\ell@f$
     using magnetic_index_type = typename ao_shell_traits::magnetic_index_type;
 
-    /// Type of the ordering-agnostic Cartesian shell *this is built on
-    using shell_type = experimental::AOShell;
+    /** @brief Type of the ordering-agnostic Cartesian shell *this is built on.
+     *
+     *  The shell's purity is part of this type, so a SphericalAO can not be
+     *  built on a pure shell.
+     */
+    using shell_type = typename ao_shell_traits::value_type;
 
     /// Type of a read-only, aliasing view of a Cartesian shell
-    using shell_view_type = experimental::AOShellView;
+    using shell_view_type = typename ao_shell_traits::const_view_type;
+
+    /// Type of a read-only view of one Cartesian AO of the shell
+    using const_cartesian_ao_reference =
+      typename ao_shell_traits::const_cartesian_ao_reference;
 
     /// Type of the contracted Gaussian *this is built on
     using contracted_gaussian_type =

@@ -176,6 +176,25 @@ AO ordering is part of the design
      type system rather than leaving it as a runtime property to be checked, or
      not checked, by each consumer.
 
+.. _aoh_purity_dispatch:
+
+Purity and ordering are independent
+   Following from :ref:`aoh_two_kinds_of_ao` and :ref:`aoh_ordering`, a shell
+   has both a purity and an ordering, and the two are separate questions.
+
+   - A great deal of code needs to know whether a shell is Cartesian or
+     spherical without caring what order its AOs are in. A spherical AO needs a
+     Cartesian shell, but sums over all of its AOs. Code applying the
+     Cartesian-to-spherical transformation, or choosing an integral kernel by
+     purity, needs the purity but not the order.
+   - Such code should be able to require a purity without also having to name
+     an ordering, and, having required one, should get the API that purity
+     implies: the powers :math:`(i,j,k)` of a Cartesian shell, or the
+     :math:`m_\ell` of a spherical one.
+   - Code which does not know the purity until runtime, e.g., code reading a
+     basis set whose purity is chosen by the user, must still be able to hold
+     a shell, and to recover its purity in one checked step.
+
 .. _aoh_normalization_placement:
 
 Each level owns its normalization factor
@@ -220,7 +239,7 @@ design.
 General contractions
    The design assumes segmented contractions: each contracted Gaussian owns its
    primitives, and shells do not share them. General contractions would need a
-   class parallel to ``AOShell`` which is keyed into the sharing.
+   class parallel to ``AOShellBase`` which is keyed into the sharing.
 
 Mixed purity within a shell
    A shell is either Cartesian or spherical. Shells which mix the two are not
@@ -295,8 +314,8 @@ those powers, and it owns the factor :math:`N^{AO}_{ijk}`, which per
 :ref:`designing_basis_set_normalization` is the only factor distinguishing the
 members of a shell.
 
-``SphericalAO`` pairs a Cartesian ``AOShell`` with a component
-:math:`m_\ell`. It reports :math:`m_\ell`, and its value is the linear
+``SphericalAO`` pairs a Cartesian shell, ``AOShell<CartesianAO>``, with a
+component :math:`m_\ell`. It reports :math:`m_\ell`, and its value is the linear
 combination
 
 .. math::
@@ -334,8 +353,10 @@ constant in front of it. Should a second Cartesian convention ever be
 introduced, this is where it would have to be checked.
 
 The sum runs over every AO in the shell, so its value does not depend on the
-order the shell enumerates them in. ``SphericalAO`` therefore holds its shell
-polymorphically, as an ``AOShell``, and accepts a shell of any ordering.
+order the shell enumerates them in. Per :ref:`aoh_purity_dispatch`,
+``SphericalAO`` therefore holds its shell as an ``AOShell<CartesianAO>``: the
+purity is part of that type, but the ordering is not, so it accepts a Cartesian
+shell of any ordering, and a spherical shell does not compile.
 
 Note this also means a ``SphericalAO`` reaches its contracted Gaussian through
 its Cartesian shell, all of whose AOs share one. The base class accessor is
@@ -344,12 +365,12 @@ therefore well defined for both kinds.
 The container classes
 =====================
 
-``AOShell`` is a container of ``AO`` sharing a total angular momentum and a
-purity. The purity determines both what it contains and what it is built on:
+A shell is a container of ``AO`` sharing a total angular momentum and a purity.
+The purity determines both what it contains and what it is built on:
 
 - A Cartesian shell holds one ``ContractedGaussian`` and contains the
   :math:`(\ell+1)(\ell+2)/2` ``CartesianAO`` objects built from it.
-- A spherical shell holds one Cartesian ``AOShell`` and contains the
+- A spherical shell holds one Cartesian shell and contains the
   :math:`2\ell+1` ``SphericalAO`` objects built from it.
 
 The second case nests: a spherical shell owns the Cartesian shell its AOs
@@ -362,23 +383,35 @@ Cartesian shell returns a ``CartesianAOView`` whose contracted Gaussian is a
 shell returns a ``SphericalAOView`` aliasing the one Cartesian shell. Editing
 the exponents once is visible through every AO above them.
 
-``AOShell`` also carries the normalization convention in force, per
+A shell also carries the normalization convention in force, per
 :ref:`aoh_normalization_placement`, and can report the product
 :math:`N^{\chi} N^{G}` which integral libraries expect. For a spherical shell
 this is also what :ref:`aoh_transform_coupling` requires of the Cartesian shell
 underneath it.
 
-``AOShell`` and ``AOShellView`` are the abstract bases, sharing an
-``AOShellCommon`` exactly as ``AO`` and ``AOView`` share ``AOCommon``. The
-purity is reported by ``is_pure`` (with ``is_cartesian`` as its negation), and
-``size`` follows from it: :math:`2\ell+1` for a pure shell and
-:math:`(\ell+1)(\ell+2)/2` for a Cartesian one.
+The shell classes form three layers, each fixing one more thing in the type,
+and each layer comes as an owning class and a view (see
+:ref:`aoh_value_view`):
+
+- ``AOShellBase`` and ``AOShellBaseView`` fix nothing: neither the purity nor
+  the ordering is part of the type. They share an ``AOShellBaseCommon``,
+  exactly as ``AO`` and ``AOView`` share ``AOCommon``. The purity is reported
+  at runtime by ``is_pure`` (with ``is_cartesian`` as its negation), and
+  ``size`` follows from it: :math:`2\ell+1` for a pure shell and
+  :math:`(\ell+1)(\ell+2)/2` for a Cartesian one.
+- ``AOShell<T>`` and ``AOShellView<T>``, with ``T`` either ``CartesianAO`` or
+  ``SphericalAO``, derive from those and fix the purity. This is the layer
+  described in :ref:`ao_hierarchy_purity_as_a_type`.
+- The orderings, e.g. ``CCAShell<T>`` and its view, derive from those and fix
+  the ordering. This is the layer described in
+  :ref:`ao_hierarchy_ordering_as_a_type`.
 
 A shell does not store the views of its AOs. Indexing builds the requested
-view on demand and returns an owning pointer to it. Because the kind of AO is
-only known to the derived class, indexing a shell through a base returns a
-pointer to a polymorphic ``AOView``. Indexing a concrete shell returns a
-pointer to the concrete view, since the caller then knows which kind it holds.
+view on demand and returns an owning pointer to it. Indexing an
+``AOShellBase``, which does not know the kind of AO it holds, returns a pointer
+to a polymorphic ``AOView``. Indexing an ``AOShell<T>``, or anything deriving
+from one, returns a pointer to the concrete view, since the caller then knows
+which kind it holds.
 Either way the view aliases the shell's contracted Gaussian, so it must not
 outlive the shell, and writes made through the shell are visible through it.
 With nothing stored, there is nothing for copying, assigning, swapping, or
@@ -401,30 +434,72 @@ from the same parameters can share every line of code except the ordering. The
 :math:`N^{\chi}` applied per primitive, following ``CartesianAO``. There is no
 convention enumerator yet, since there is only one convention.
 
-In addition to the value/view members described below, ``AOShell::as_view``
-returns a polymorphic view of a shell. This is what lets a ``SphericalAOView``
-alias a Cartesian shell without knowing its ordering. ``SphericalAO`` and
-``SphericalAOView`` check on construction that the shell they are given is
-Cartesian.
+In addition to the value/view members described below, ``as_view`` returns a
+polymorphic view of a shell, of the same purity when called on an
+``AOShell<T>``. This is what lets a ``SphericalAOView`` alias a Cartesian shell
+without knowing its ordering. ``SphericalAO`` and ``SphericalAOView`` only
+accept a Cartesian shell, so that they are given one is checked by the
+compiler rather than on construction.
+
+.. _ao_hierarchy_purity_as_a_type:
+
+Purity as a type
+================
+
+Per :ref:`aoh_purity_dispatch`, ``AOShell<T>`` is the layer of the shell
+hierarchy whose purity, but not ordering, is part of the type:
+``AOShell<CartesianAO>`` holds Cartesian AOs and ``AOShell<SphericalAO>`` holds
+spherical ones. A function which needs a Cartesian shell, but does not care
+about the order of its AOs, takes an ``AOShell<CartesianAO>``, and every
+ordering of Cartesian shell satisfies it.
+
+Knowing the purity statically is what lets a shell answer questions which only
+make sense for one purity. ``AOShell<CartesianAO>`` reports the powers
+:math:`(i,j,k)` at an offset, through ``cartesian_powers``, and
+``AOShell<SphericalAO>`` reports :math:`m_\ell`, through ``magnetic_index``.
+Each has only the method for its purity, so asking a spherical shell for its
+Cartesian powers does not compile. Which angular index sits at which offset is
+the ordering, so the derived classes supply it; everything else at this layer
+follows from the purity alone and is implemented once, for every ordering:
+
+- ``is_pure`` and ``is_cartesian`` are compile-time constants,
+- indexing returns a pointer to the concrete AO view, ``CartesianAOView`` or
+  ``SphericalAOView``, rather than to a polymorphic ``AOView``,
+- ``get_cartesian_shell`` returns a view of the Cartesian shell underneath,
+  which for a Cartesian shell is the shell itself, and
+- ``clone``, ``as_view``, and ``as_shell`` return pointers to the same layer,
+  so that the purity is not lost in a round trip.
+
+``AOShell<T>`` and ``AOShellView<T>`` share this API through an
+``AOShellCommon``, in the same way as the other value/view pairs.
+
+``AOShellBase`` remains for code which only learns the purity at runtime, the
+main example being ``AtomicBasisSet`` (see below). Going from an
+``AOShellBase`` to an ``AOShell<T>`` is the one place a purity is checked at
+runtime, and is done by ``as_cartesian_shell`` or ``as_spherical_shell``
+(overloaded for ``AOShellBaseView``, giving an ``AOShellView<T>``), which
+return the same shell with its purity in its type, or throw if the shell does
+not have that purity.
+
+.. _ao_hierarchy_ordering_as_a_type:
 
 Ordering as a type
 ==================
 
-Per :ref:`aoh_ordering`, ``AOShell`` is itself abstract, and its derived
-classes are the orderings. The base owns all of the state described above and
+Per :ref:`aoh_ordering`, ``AOShell<T>`` is itself abstract, and its derived
+classes are the orderings. The bases own all of the state described above and
 all of the behavior which does not depend on the order; what a derived class
 supplies is one thing only: the map from an offset within the shell to the
 angular index at that offset. For a Cartesian shell that is the powers
 :math:`(i,j,k)`, reported by ``cartesian_powers``; for a spherical shell it is
 the component :math:`m_\ell`, reported by ``magnetic_index``. Which of the two a
-shell has depends on its purity, so neither is part of ``AOShell``, where
-asking for the wrong one could only fail at runtime. The concrete shells know
-their purity statically: ``CCAShell<CartesianAO>`` has only
-``cartesian_powers`` and ``CCAShell<SphericalAO>`` has only
-``magnetic_index``. Code holding an ``AOShell`` can still ask each AO it
-indexes about itself. ``SphericalAO``, the one consumer which needs the powers
-of a shell it holds polymorphically, needs them for every :math:`(i,j,k)`
-rather than in any particular order, so it enumerates them itself.
+shell has depends on its purity, so neither is part of ``AOShellBase``, where
+asking for the wrong one could only fail at runtime; per
+:ref:`ao_hierarchy_purity_as_a_type` they are part of ``AOShell<T>``. Code
+holding an ``AOShellBase`` can still ask each AO it indexes about itself.
+``SphericalAO``, the one consumer which needs the powers of a shell whose
+ordering it does not know, needs them for every :math:`(i,j,k)` rather than in
+any particular order, so it enumerates them itself.
 
 ``CCAShell`` implements the Common Component Architecture ordering, which is
 what libint calls its *standard* ordering. Its Cartesian order is generated by
@@ -455,13 +530,13 @@ built over a GAMESS-ordered basis are not interchangeable, and that is
 something the compiler can enforce rather than something each consumer must
 remember to check.
 
-The cost is that a container of ``AOShell`` can, in principle, hold shells of
-different orderings. That is not meaningful, and ``MolecularBasisSet`` treats
+The cost is that a container of ``AOShellBase`` can, in principle, hold shells
+of different orderings. That is not meaningful, and ``MolecularBasisSet`` treats
 it the same way it treats a mixture of normalization conventions: it can be
 asked whether all of its shells agree, and the answer is part of what makes a
 basis set usable with a given integral library.
 
-``AtomicBasisSet`` is a container of ``AOShell`` sharing one center, and owns
+``AtomicBasisSet`` is a container of shells sharing one center, and owns
 the ``Point`` per :ref:`aoh_center_ownership`. It also carries the basis set
 name and atomic number, which are per-center rather than per-shell because
 mixing basis sets across centers is not unusual.
@@ -485,7 +560,9 @@ Every shell in a set has the same type, i.e. the same purity and ordering, but
 ``AtomicBasisSet`` is not templated on it. Instead the type is chosen at runtime
 from two enumerations, ``ShellPurity`` and ``AOOrdering``, which select the
 implementation the set holds (a PIMPL templated on the shell type), and the
-set hands its shells out polymorphically, as ``AOShellView``. The
+set hands its shells out polymorphically, as ``AOShellBaseView``, since their
+purity is only known at runtime; code which needs it statically uses
+``as_cartesian_shell`` or ``as_spherical_shell`` on the result. The
 implementations come in an owning and an aliasing form sharing one CRTP base,
 and ``AtomicBasisSetView`` holds the aliasing one. Because that form aliases
 each piece of the state separately, rather than aliasing an
@@ -563,15 +640,26 @@ result:
 
 The abstract bases are there for different reasons at the two layers, though.
 ``AO`` and ``AOView`` are polymorphic because a shell genuinely does not know
-which kind of AO it holds until it is built. ``AOShell`` is polymorphic so that
-the ordering reaches the type system, per :ref:`aoh_ordering`; code which knows
-statically that it wants CCA ordering can say ``CCAShell`` and never pay for
-dispatch at all.
+which kind of AO it holds until it is built. The shell bases are polymorphic so
+that the purity and the ordering reach the type system, per
+:ref:`aoh_purity_dispatch` and :ref:`aoh_ordering`; code which knows statically
+that it wants CCA ordering can say ``CCAShell`` and never pay for dispatch at
+all.
+
+The shell layer has one more level than the AO layer, and so one more shared
+API. ``AOShellBaseCommon`` is shared by ``AOShellBase`` and
+``AOShellBaseView``, and ``AOShellCommon`` by ``AOShell<T>`` and
+``AOShellView<T>``. Unlike the other ``*Common`` classes, ``AOShellCommon``
+derives from the base it extends, rather than sitting beside it as a CRTP base,
+so that a concrete shell does not inherit the same names from three unrelated
+bases. ``CCAShellCommon`` is then the CRTP base shared by ``CCAShell`` and its
+view, and carries only what is specific to the CCA ordering, plus the state
+access which differs between owning and aliasing.
 
 The views compose. A ``ContractedGaussianView`` obtained from a
-``CartesianAOView`` obtained from an ``AOShellView`` still aliases the one
-contracted Gaussian in the original shell, and for a spherical shell the chain
-simply has one more link in it.
+``CartesianAOView`` obtained from an ``AOShellView<CartesianAO>`` still aliases
+the one contracted Gaussian in the original shell, and for a spherical shell
+the chain simply has one more link in it.
 
 *******
 Summary
@@ -591,7 +679,7 @@ Summary
 
 :ref:`aoh_composition`
    ``CartesianAO`` pairs a ``ContractedGaussian`` with :math:`(i,j,k)`;
-   ``SphericalAO`` pairs a Cartesian ``AOShell`` with :math:`m_\ell`. Both
+   ``SphericalAO`` pairs an ``AOShell<CartesianAO>`` with :math:`m_\ell`. Both
    check that the two halves agree on :math:`\ell`.
 
 :ref:`aoh_shared_radial`
@@ -613,11 +701,18 @@ Summary
    The center is owned by ``AtomicBasisSet``; everything below sees it as a view.
 
 :ref:`aoh_ordering`
-   ``AOShell`` is abstract and its derived classes are the orderings, so the
+   ``AOShell<T>`` is abstract and its derived classes are the orderings, so the
    order a shell enumerates its AOs in is part of its type. ``CCAShell``
    implements the Common Component Architecture ordering; other conventions
    become sibling classes. ``MolecularBasisSet`` can be asked whether all of
    its shells agree.
+
+:ref:`aoh_purity_dispatch`
+   ``AOShellBase`` fixes neither the purity nor the ordering, ``AOShell<T>``
+   fixes the purity, and the orderings derive from ``AOShell<T>``. Code which
+   needs only the purity takes an ``AOShell<T>`` and gets the angular index
+   for that purity; ``as_cartesian_shell`` and ``as_spherical_shell`` recover
+   the purity of an ``AOShellBase`` in one checked step.
 
 :ref:`aoh_normalization_placement`
    ``Primitive`` owns :math:`N^{\chi}`, ``ContractedGaussian`` owns
@@ -626,7 +721,7 @@ Summary
    front of the contraction sum, so ``CartesianAO`` reports
    :math:`N^{AO}_{ijk} N^{G}`; :math:`N^{\chi}` differs from primitive to
    primitive and so is applied inside the sum, by ``normalized_evaluate``.
-   ``AOShell`` carries the convention.
+   The shell carries the convention.
 
 :ref:`aoh_value_view`
    Every class is a value/view pair sharing one CRTP-implemented API, following

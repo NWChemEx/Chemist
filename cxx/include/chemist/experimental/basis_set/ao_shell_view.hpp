@@ -21,53 +21,33 @@
 
 namespace chemist::experimental {
 
-/** @brief Abstract base class of the shells which alias their state.
+/** @brief Abstract base class of the aliasing shells of one purity.
  *
- *  *this is to AOShell what AOView is to AO: it answers the same questions,
- *  through the same AOShellCommon, but is a separate hierarchy so that not
- *  owning the underlying state is visible in the type system. The only places
- *  the two bases differ are:
+ *  *this is to AOShell<AOType> what AOShellBaseView is to AOShellBase: it
+ *  answers the same questions, through the same AOShellCommon, but aliases
+ *  the state rather than owning it. See AOShell for why the purity is a layer
+ *  of its own. The members here are the ones whose result is typed by the
+ *  owning/aliasing distinction.
  *
- *  - clone() returns another view aliasing the same state, and
- *  - as_shell() materializes the aliased state into an owning AOShell.
+ *  @tparam AOType The kind of AO *this holds: CartesianAO or SphericalAO.
  */
-class AOShellView : public AOShellCommon<AOShellView> {
+template<typename AOType>
+class AOShellView : public AOShellCommon<AOShellBaseView, AOType> {
 private:
     /// Type *this inherits from
-    using base_type = AOShellCommon<AOShellView>;
-
-    /// Lets the CRTP base reach the virtual methods below
-    friend base_type;
+    using base_type = AOShellCommon<AOShellBaseView, AOType>;
 
 public:
-    /// Type of a pointer to an AOShellView, which is how a polymorphic view is
-    /// held
-    using base_pointer = std::unique_ptr<AOShellView>;
+    /// Type of a pointer to an AOShellView<AOType>, which is how a
+    /// polymorphic view of a shell of known purity is held
+    using pointer = std::unique_ptr<AOShellView>;
 
-    /// Type of a, possibly read-only, reference to an AOShellView
-    ///@{
-    using base_reference       = AOShellView&;
-    using const_base_reference = const AOShellView&;
-    ///@}
-
-    /// Type of a pointer to the owning shell *this can be materialized into
-    using shell_pointer = typename AOShell::base_pointer;
-
-    /// Pull the shared API's types into *this's API
-    ///@{
-    using typename base_type::angular_momentum_type;
-    using typename base_type::ao_view_pointer;
-    using typename base_type::center_type;
-    using typename base_type::const_center_reference;
-    using typename base_type::const_contracted_gaussian_reference;
-    using typename base_type::contracted_gaussian_type;
-    using typename base_type::coord_type;
-    using typename base_type::numerical_value;
-    using typename base_type::size_type;
-    ///@}
+    /// Type of a pointer to the owning shell *this can be materialized into.
+    /// Hides AOShellBaseView::shell_pointer.
+    using shell_pointer = typename AOShell<AOType>::pointer;
 
     /// Polymorphic, no-throw dtor. Does not affect the aliased state.
-    virtual ~AOShellView() noexcept = default;
+    ~AOShellView() noexcept override = default;
 
     // -------------------------------------------------------------------------
     // -- Utility
@@ -75,53 +55,35 @@ public:
 
     /** @brief Returns a new view aliasing the same state as *this.
      *
-     *  The copy is shallow; see AOView::clone.
+     *  This is AOShellBaseView::clone with the purity kept in the result's
+     *  type. The copy is shallow.
      *
      *  @return A pointer to a newly allocated view of the same state.
      *
      *  @throw std::bad_alloc if there is a problem allocating the view.
      *                        Strong throw guarantee.
      */
-    base_pointer clone() const { return clone_(); }
+    pointer clone() const {
+        // Every class deriving from *this clones into its own type, which is
+        // an AOShellView<AOType>, so the downcast can not fail.
+        return pointer(static_cast<AOShellView*>(this->clone_().release()));
+    }
 
     /** @brief Returns a shell owning a copy of the state *this aliases.
      *
-     *  The result has the same ordering and purity as *this --- a view of a
-     *  CCAShell<SphericalAO> materializes into a CCAShell<SphericalAO> --- and
-     *  is independent of whatever *this aliases.
-     *
-     *  Defined out of line, for symmetry with AOShell::as_view.
+     *  This is AOShellBaseView::as_shell with the purity kept in the result's
+     *  type.
      *
      *  @return A pointer to a newly allocated, owning shell.
      *
      *  @throw std::bad_alloc if there is a problem allocating the copy.
      *                        Strong throw guarantee.
      */
-    shell_pointer as_shell() const;
-
-    /** @brief Determines if *this is value equal to @p rhs.
-     *
-     *  Two views are value equal if they are views of shells with the same
-     *  ordering and purity and the state they alias is value equal. Whether
-     * they alias the *same* state is not considered.
-     *
-     *  @param[in] rhs The view to compare to *this.
-     *
-     *  @return True if *this is value equal to @p rhs and false otherwise.
-     *
-     *  @throw None No throw guarantee.
-     */
-    bool are_equal(const_base_reference rhs) const noexcept {
-        return are_equal_(rhs);
-    }
-
-    /** @brief Determines if *this differs from @p rhs.
-     *
-     *  This method defines "different" as not value equal. See are_equal for
-     *  the definition of value equal.
-     */
-    bool are_different(const_base_reference rhs) const noexcept {
-        return !are_equal(rhs);
+    shell_pointer as_shell() const {
+        // A view materializes into the shell it is a view of, which has the
+        // same purity, so the downcast can not fail.
+        return shell_pointer(
+          static_cast<AOShell<AOType>*>(this->as_shell_().release()));
     }
 
 protected:
@@ -133,31 +95,49 @@ protected:
     AOShellView& operator=(const AOShellView&) noexcept = default;
     AOShellView& operator=(AOShellView&&) noexcept      = default;
     ///@}
-
-    /// Implements get_l
-    virtual angular_momentum_type get_l_() const noexcept = 0;
-
-    /// Implements get_center
-    virtual const_center_reference get_center_() const = 0;
-
-    /// Implements get_contracted_gaussian
-    virtual const_contracted_gaussian_reference get_contracted_gaussian_()
-      const = 0;
-
-    /// Implements is_pure
-    virtual bool is_pure_() const noexcept = 0;
-
-    /// Implements at. The offset has already been checked.
-    virtual ao_view_pointer at_(size_type i) const = 0;
-
-    /// Implements clone
-    virtual base_pointer clone_() const = 0;
-
-    /// Implements as_shell
-    virtual shell_pointer as_shell_() const = 0;
-
-    /// Implements are_equal
-    virtual bool are_equal_(const_base_reference rhs) const noexcept = 0;
 };
+
+/// Type of a read-only view of a Cartesian shell of any ordering
+using cartesian_ao_shell_view = AOShellView<CartesianAO>;
+
+/// Type of a read-only view of a pure shell of any ordering
+using spherical_ao_shell_view = AOShellView<SphericalAO>;
+
+/** @brief Returns @p shell as the view of a Cartesian shell it is.
+ *
+ *  The view counterpart of as_cartesian_shell(const AOShellBase&).
+ *
+ *  @param[in] shell The shell view to downcast.
+ *
+ *  @return @p shell, as an AOShellView<CartesianAO>. The result aliases
+ *          @p shell.
+ *
+ *  @throw std::invalid_argument if @p shell is not a view of a Cartesian
+ *                               shell. Strong throw guarantee.
+ */
+inline const AOShellView<CartesianAO>& as_cartesian_shell(
+  const AOShellBaseView& shell) {
+    return detail_::checked_shell_downcast<AOShellView<CartesianAO>>(shell);
+}
+
+/** @brief Returns @p shell as the view of a pure shell it is.
+ *
+ *  The view counterpart of as_spherical_shell(const AOShellBase&).
+ *
+ *  @param[in] shell The shell view to downcast.
+ *
+ *  @return @p shell, as an AOShellView<SphericalAO>. The result aliases
+ *          @p shell.
+ *
+ *  @throw std::invalid_argument if @p shell is not a view of a pure shell.
+ *                               Strong throw guarantee.
+ */
+inline const AOShellView<SphericalAO>& as_spherical_shell(
+  const AOShellBaseView& shell) {
+    return detail_::checked_shell_downcast<AOShellView<SphericalAO>>(shell);
+}
+
+extern template class AOShellView<CartesianAO>;
+extern template class AOShellView<SphericalAO>;
 
 } // namespace chemist::experimental

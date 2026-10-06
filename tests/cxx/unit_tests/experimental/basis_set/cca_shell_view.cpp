@@ -18,8 +18,9 @@
 // (including the implicit conversions), assignment (which writes through the
 // alias), swap, and as_cca_shell. None of these depend on the purity, so they
 // are tested for both purities at once. The shared API is tested in
-// cca_shell_common.cpp, and what it inherits from AOShellView in
-// ao_shell_and_ao_shell_view.cpp.
+// cca_shell_common.cpp, and what it inherits from AOShellView<AOType> and
+// AOShellBaseView in ao_shell_and_ao_shell_view.cpp and
+// ao_shell_base_and_ao_shell_base_view.cpp.
 
 #include "../../test_helpers.hpp"
 #include "../experimental_test_helpers.hpp"

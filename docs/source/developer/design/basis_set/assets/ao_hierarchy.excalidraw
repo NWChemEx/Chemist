@@ -252,12 +252,12 @@
    "updated": 1,
    "link": null,
    "locked": false,
-   "text": "AOShell",
+   "text": "AOShellBase",
    "fontSize": 12,
    "fontFamily": 3,
    "textAlign": "center",
    "verticalAlign": "top",
-   "originalText": "AOShell",
+   "originalText": "AOShellBase",
    "lineHeight": 1.35
   },
   {
@@ -1583,12 +1583,12 @@
    "updated": 1,
    "link": null,
    "locked": false,
-   "text": "pairs a Cartesian AOShell with m_l",
+   "text": "pairs an AOShell<CartesianAO> with m_l",
    "fontSize": 10,
    "fontFamily": 2,
    "textAlign": "start",
    "verticalAlign": "top",
-   "originalText": "pairs a Cartesian AOShell with m_l",
+   "originalText": "pairs an AOShell<CartesianAO> with m_l",
    "lineHeight": 1.35
   },
   {

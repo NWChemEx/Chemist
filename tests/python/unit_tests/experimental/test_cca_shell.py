@@ -15,8 +15,9 @@
 import unittest
 
 from chemist.experimental import (
-    AOShell,
+    AOShellBase,
     CartesianAO,
+    CartesianAOShell,
     CartesianCCAShell,
     CartesianCCAShellView,
     ContractedGaussian,
@@ -26,6 +27,7 @@ from chemist.experimental import (
     ImmutableSphericalCCAShellView,
     Point,
     SphericalAO,
+    SphericalAOShell,
     SphericalCCAShell,
     SphericalCCAShellView,
 )
@@ -79,8 +81,12 @@ class TestCCAShell(unittest.TestCase):
                     shell_type(CS, [1.0], 1, 0.0, 0.0, 0.0)
 
     def test_is_an_ao_shell(self):
-        self.assertIsInstance(self.d, AOShell)
-        self.assertIsInstance(self.pd, AOShell)
+        self.assertIsInstance(self.d, AOShellBase)
+        self.assertIsInstance(self.pd, AOShellBase)
+        self.assertIsInstance(self.d, CartesianAOShell)
+        self.assertIsInstance(self.pd, SphericalAOShell)
+        self.assertNotIsInstance(self.d, SphericalAOShell)
+        self.assertNotIsInstance(self.pd, CartesianAOShell)
 
     def test_get_l(self):
         self.assertEqual(self.d.get_l(), 2)

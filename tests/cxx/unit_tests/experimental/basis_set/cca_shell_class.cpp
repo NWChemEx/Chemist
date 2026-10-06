@@ -16,9 +16,11 @@
 
 // Only what CCAShell itself implements is tested here: its ctors, assignment,
 // swap, and serialization. Everything CCAShell inherits from CCAShellCommon is
-// tested in cca_shell_common.cpp, and what it inherits from AOShell (including
-// the polymorphic hooks) in ao_shell_and_ao_shell_view.cpp. CCAShell's members
-// do not depend on the purity, so they are tested for both purities at once.
+// tested in cca_shell_common.cpp, and what it inherits from AOShell<AOType>
+// and AOShellBase (including the polymorphic hooks) in
+// ao_shell_and_ao_shell_view.cpp and ao_shell_base_and_ao_shell_base_view.cpp.
+// CCAShell's members do not depend on the purity, so they are tested for both
+// purities at once.
 
 #include "../../test_helpers.hpp"
 #include "../experimental_test_helpers.hpp"

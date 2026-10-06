@@ -18,6 +18,8 @@
 #include "chemist/pychemist.hpp"
 #include <chemist/experimental/basis_set/ao.hpp>
 #include <chemist/experimental/basis_set/ao_shell.hpp>
+#include <chemist/experimental/basis_set/ao_shell_base.hpp>
+#include <chemist/experimental/basis_set/ao_shell_base_view.hpp>
 #include <chemist/experimental/basis_set/ao_shell_view.hpp>
 #include <chemist/experimental/basis_set/ao_view.hpp>
 #include <chemist/experimental/basis_set/atomic_basis_set.hpp>
@@ -438,7 +440,7 @@ void add_spherical_ao_writers(PyClass& c) {
 /** @brief Adds the API shared by every kind of shell, and every kind of shell
  *         view, to @p c.
  *
- *  This is the Python counterpart of AOShellCommon, minus indexing. The C++
+ *  This is the Python counterpart of AOShellBaseCommon, minus indexing. The C++
  *  at returns a pointer to a newly built AO view, and the type of that view
  *  differs between the abstract and the concrete shells, so each exporter
  *  binds indexing itself. at throws std::out_of_range, which pybind11
@@ -465,21 +467,23 @@ void add_ao_shell_readers(PyClass& c) {
       });
 }
 
-/** @brief Adds the read-only half of the CCAShell API to @p c.
+/** @brief Adds the API shared by every shell, and every shell view, whose
+ *         purity is known to @p c.
  *
- *  Indexing hands Python ownership of a newly built AO view. The view aliases
- *  the shell's contracted Gaussian, so the shell is kept alive for as long as
- *  the view is.
+ *  This is the Python counterpart of AOShellCommon. Indexing hands Python
+ *  ownership of a newly built AO view, and get_cartesian_shell of a view of
+ *  the Cartesian shell. Both alias the shell's contracted Gaussian, so the
+ *  shell is kept alive for as long as they are.
  *
  *  Only the angular index for the shell's purity is bound (cartesian_powers
  *  for a Cartesian shell, magnetic_index for a pure one), mirroring the C++,
  *  where the other one does not exist.
  */
 template<typename PyClass>
-void add_cca_shell_readers(PyClass& c) {
-    using class_type   = typename PyClass::type;
-    using shell_traits = ChemistClassTraits<typename class_type::value_type>;
-    add_ao_shell_readers(c);
+void add_typed_ao_shell_readers(PyClass& c) {
+    using class_type = typename PyClass::type;
+    using shell_traits =
+      ChemistClassTraits<AOShell<typename class_type::ao_type>>;
 
     auto at = [](const class_type& s, std::size_t i) { return s.at(i); };
     c.def("at", at, py::keep_alive<0, 1>())
@@ -499,6 +503,13 @@ void add_cca_shell_readers(PyClass& c) {
             return py::make_tuple(x, y, z);
         });
     }
+}
+
+/// Adds the read-only half of the CCAShell API to @p c
+template<typename PyClass>
+void add_cca_shell_readers(PyClass& c) {
+    add_ao_shell_readers(c);
+    add_typed_ao_shell_readers(c);
 }
 
 /// Adds the writable half of the CCAShell API to @p c

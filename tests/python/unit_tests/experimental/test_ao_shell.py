@@ -15,15 +15,19 @@
 import unittest
 
 from chemist.experimental import (
-    AOShell,
-    AOShellView,
+    AOShellBase,
+    AOShellBaseView,
+    CartesianAOShell,
+    CartesianAOShellView,
     CartesianCCAShell,
     ImmutableCartesianAOView,
     ImmutableCartesianCCAShellView,
     ImmutableSphericalAOView,
-    ImmutableSphericalCCAShellView,
-    Point,
+    SphericalAOShell,
+    SphericalAOShellView,
     SphericalCCAShell,
+    as_cartesian_shell,
+    as_spherical_shell,
 )
 
 CS = [2.0, 3.0]
@@ -31,90 +35,124 @@ ES = [1.0, 2.0]
 
 
 class TestAOShell(unittest.TestCase):
-    """Drives AOShell and AOShellView through their concrete derived classes.
+    """Drives AOShell<T> and AOShellView<T> through their concrete classes.
 
-    See test_ao.py for why the abstract bases are tested this way.
+    The bases are called unbound, as in test_ao_shell_base.py, so that what
+    runs is the binding of the base rather than of the concrete class.
     """
 
     def setUp(self):
         self.d = CartesianCCAShell(CS, ES, 2, 1.0, 2.0, 3.0)
         self.pd = SphericalCCAShell(CS, ES, 2, 1.0, 2.0, 3.0)
 
-    def test_shells_can_not_be_made_directly(self):
-        with self.assertRaises(TypeError):
-            AOShell()
-        with self.assertRaises(TypeError):
-            AOShellView()
+    def kinds(self):
+        """Each shell, its view, and the typed bases they should satisfy."""
+        return (
+            (self.d, CartesianAOShell, CartesianAOShellView),
+            (self.pd, SphericalAOShell, SphericalAOShellView),
+        )
 
-    def test_the_shared_api_agrees_with_the_derived_class(self):
-        for shell in (self.d, self.pd, self.d.as_view(), self.pd.as_view()):
+    def test_shells_can_not_be_made_directly(self):
+        for shell_type in (
+            CartesianAOShell,
+            SphericalAOShell,
+            CartesianAOShellView,
+            SphericalAOShellView,
+        ):
+            with self.assertRaises(TypeError):
+                shell_type()
+
+    def test_typed_bases_derive_from_the_untyped_ones(self):
+        for shell, shell_base, view_base in self.kinds():
+            self.assertTrue(issubclass(shell_base, AOShellBase))
+            self.assertTrue(issubclass(view_base, AOShellBaseView))
+            self.assertIsInstance(shell, shell_base)
+            self.assertIsInstance(shell.as_view(), view_base)
+
+    def test_angular_index_exists_only_for_the_purity(self):
+        self.assertTrue(hasattr(CartesianAOShell, "cartesian_powers"))
+        self.assertFalse(hasattr(CartesianAOShell, "magnetic_index"))
+        self.assertTrue(hasattr(SphericalAOShell, "magnetic_index"))
+        self.assertFalse(hasattr(SphericalAOShell, "cartesian_powers"))
+        self.assertTrue(hasattr(CartesianAOShellView, "cartesian_powers"))
+        self.assertFalse(hasattr(SphericalAOShellView, "cartesian_powers"))
+
+    def test_angular_index_follows_the_shell_ordering(self):
+        for s, base in (
+            (self.d, CartesianAOShell),
+            (self.d.as_view(), CartesianAOShellView),
+        ):
+            with self.subTest(shell=type(s)):
+                for i in range(len(s)):
+                    self.assertEqual(
+                        base.cartesian_powers(s, i), self.d.cartesian_powers(i)
+                    )
+                with self.assertRaises(IndexError):
+                    base.cartesian_powers(s, len(s))
+        for s, base in (
+            (self.pd, SphericalAOShell),
+            (self.pd.as_view(), SphericalAOShellView),
+        ):
+            with self.subTest(shell=type(s)):
+                for i in range(len(s)):
+                    self.assertEqual(
+                        base.magnetic_index(s, i), self.pd.magnetic_index(i)
+                    )
+                with self.assertRaises(IndexError):
+                    base.magnetic_index(s, len(s))
+
+    def test_indexing_hands_out_the_right_ao_views(self):
+        for shell, ao_type, base in (
+            (self.d, ImmutableCartesianAOView, CartesianAOShell),
+            (self.pd, ImmutableSphericalAOView, SphericalAOShell),
+        ):
             with self.subTest(shell=type(shell)):
-                base = (
-                    AOShellView if isinstance(shell, AOShellView) else AOShell
-                )
-                self.assertEqual(base.get_l(shell), 2)
-                self.assertEqual(base.is_pure(shell), shell.is_pure())
+                for i in range(len(shell)):
+                    ao = base.at(shell, i)
+                    self.assertIs(type(ao), ao_type)
+                    self.assertEqual(ao, shell[i])
+                    self.assertEqual(base.__getitem__(shell, i), shell[i])
+
+    def test_get_cartesian_shell(self):
+        for shell, base in (
+            (self.d, CartesianAOShell),
+            (self.pd, SphericalAOShell),
+        ):
+            with self.subTest(shell=type(shell)):
+                cart = base.get_cartesian_shell(shell)
+                self.assertIs(type(cart), ImmutableCartesianCCAShellView)
                 self.assertEqual(
-                    base.is_cartesian(shell), shell.is_cartesian()
-                )
-                self.assertEqual(base.__len__(shell), len(shell))
-                self.assertEqual(base.get_center(shell), Point(1.0, 2.0, 3.0))
-                self.assertEqual(
-                    base.get_contracted_gaussian(shell),
+                    cart.get_contracted_gaussian(),
                     shell.get_contracted_gaussian(),
                 )
-                self.assertEqual(
-                    base.normalization_constant(shell),
-                    shell.normalization_constant(),
-                )
 
-    def test_indexing_through_the_base_hands_out_the_right_ao_views(self):
-        for shell, ao_type in (
-            (self.d, ImmutableCartesianAOView),
-            (self.pd, ImmutableSphericalAOView),
-        ):
-            for s in (shell, shell.as_view()):
-                base = AOShellView if isinstance(s, AOShellView) else AOShell
-                with self.subTest(shell=type(s)):
-                    for i in range(len(s)):
-                        ao = base.__getitem__(s, i)
-                        self.assertIs(type(ao), ao_type)
-                        self.assertEqual(ao, shell[i])
-                        self.assertEqual(base.at(s, i), shell[i])
-                    with self.assertRaises(IndexError):
-                        base.at(s, len(s))
+    def test_clone_as_view_as_shell_keep_the_type(self):
+        for shell, shell_base, view_base in self.kinds():
+            with self.subTest(shell=type(shell)):
+                copy = shell_base.clone(shell)
+                self.assertIs(type(copy), type(shell))
+                view = shell_base.as_view(shell)
+                self.assertIsInstance(view, view_base)
+                self.assertIsInstance(view_base.clone(view), view_base)
+                self.assertIs(type(view_base.as_shell(view)), type(shell))
 
-    def test_the_aos_from_the_base_alias_the_shell(self):
-        ao = AOShell.at(self.d, 1)
-        self.d.get_contracted_gaussian().set_center(Point(4.0, 5.0, 6.0))
-        self.assertEqual(ao.get_center(), Point(4.0, 5.0, 6.0))
+    def test_as_cartesian_shell(self):
+        for s in (self.d, self.d.as_view()):
+            with self.subTest(shell=type(s)):
+                self.assertIs(as_cartesian_shell(s), s)
+        for s in (self.pd, self.pd.as_view()):
+            with self.subTest(shell=type(s)):
+                with self.assertRaises(ValueError):
+                    as_cartesian_shell(s)
 
-    def test_clone_is_a_deep_copy_of_the_same_kind(self):
-        for shell in (self.d, self.pd):
-            copy = AOShell.clone(shell)
-            self.assertIs(type(copy), type(shell))
-            copy.set_l(3)
-            self.assertEqual(shell.get_l(), 2)
-
-    def test_as_view_is_a_shallow_view_of_the_same_kind(self):
-        for shell, view_type in (
-            (self.d, ImmutableCartesianCCAShellView),
-            (self.pd, ImmutableSphericalCCAShellView),
-        ):
-            view = shell.as_view()
-            self.assertIs(type(view), view_type)
-            self.assertIs(type(view.clone()), view_type)
-            self.assertIs(type(view.as_shell()), type(shell))
-            shell.set_l(3)
-            self.assertEqual(view.get_l(), 3)
-
-    def test_are_equal(self):
-        self.assertTrue(self.d.are_equal(self.d.clone()))
-        self.assertFalse(self.d.are_equal(self.pd))
-        self.assertTrue(self.pd.are_different(self.d))
-
-        self.assertTrue(self.d.as_view().are_equal(self.d.as_view()))
-        self.assertFalse(self.d.as_view().are_equal(self.pd.as_view()))
+    def test_as_spherical_shell(self):
+        for s in (self.pd, self.pd.as_view()):
+            with self.subTest(shell=type(s)):
+                self.assertIs(as_spherical_shell(s), s)
+        for s in (self.d, self.d.as_view()):
+            with self.subTest(shell=type(s)):
+                with self.assertRaises(ValueError):
+                    as_spherical_shell(s)
 
 
 if __name__ == "__main__":

@@ -32,8 +32,9 @@ namespace chemist::experimental {
  *
  *  *this owns the Cartesian shell it is built on, and with it that shell's
  *  contracted Gaussian, center, and angular momentum; the only state *this
- *  adds is @f$m_\ell@f$. The shell must be a Cartesian shell, but is held
- *  polymorphically, as an AOShell, because the value of a spherical AO does
+ *  adds is @f$m_\ell@f$. The shell must be a Cartesian shell, and is held as
+ *  an AOShell<CartesianAO>, so that being Cartesian is part of its type. It is
+ *  otherwise held polymorphically, because the value of a spherical AO does
  *  not depend on the shell's ordering. The ctors which have no shell to copy
  *  build a CCAShell<CartesianAO>. See SphericalAOView for a class with the
  *  same API which aliases a shell owned by something else.
@@ -61,13 +62,13 @@ private:
     /// Lets the CRTP base reach shell_() and m_()
     friend common_type;
 
+public:
     /// Type of the (polymorphic) Cartesian shell *this is built on
     using shell_type = typename ChemistClassTraits<SphericalAO>::shell_type;
 
     /// Type of the pointer *this owns its shell through
-    using shell_pointer = typename shell_type::base_pointer;
+    using shell_pointer = typename shell_type::pointer;
 
-public:
     /// Pull the shared API's types into *this's API
     ///@{
     using typename common_type::angular_momentum_type;
@@ -141,8 +142,8 @@ public:
      *  @param[in] m The component. Must satisfy @f$|m| \le \ell@f$, where
      *               @f$\ell@f$ is @p shell's angular momentum.
      *
-     *  @throw std::invalid_argument if @p shell is pure or @p m is out of
-     *                               range. Strong throw guarantee.
+     *  @throw std::invalid_argument if @p m is out of range. Strong throw
+     *                               guarantee.
      *  @throw std::bad_alloc if there is a problem copying @p shell. Strong
      *                        throw guarantee.
      */

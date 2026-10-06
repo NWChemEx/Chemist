@@ -26,7 +26,7 @@ void export_cca_shell(python_module_reference m, const char* name) {
     using shell_type = CCAShell<AOType>;
     using size_type  = std::size_t;
 
-    auto c = python_class_type<shell_type, AOShell>(m, name)
+    auto c = python_class_type<shell_type, AOShell<AOType>>(m, name)
                .def(py::init<>())
                .def(py::init<ContractedGaussian>())
                // Narrows the templated range ctors to double; see CartesianAO.

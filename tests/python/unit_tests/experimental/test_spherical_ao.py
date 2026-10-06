@@ -82,9 +82,11 @@ class TestSphericalAO(unittest.TestCase):
         cg = ContractedGaussian(CS, ES, 3, 1.0, 2.0, 3.0)
         self.assertEqual(SphericalAO(cg, -2), self.f)
 
-    def test_from_a_shell_throws_if_the_shell_is_pure(self):
+    def test_from_a_shell_rejects_a_pure_shell(self):
+        # The C++ ctor only accepts a Cartesian shell, so a pure one matches
+        # no overload.
         pure = SphericalCCAShell(CS, ES, 3, 1.0, 2.0, 3.0)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             SphericalAO(pure, 1)
 
     def test_from_a_shell_throws_if_m_is_too_big(self):
