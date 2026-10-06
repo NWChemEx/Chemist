@@ -89,6 +89,7 @@ public:
     using typename base_type::const_center_reference;
     using typename base_type::const_name_reference;
     using typename base_type::const_primitive_reference;
+    using typename base_type::const_shell_view_reference;
     using typename base_type::name_reference;
     using typename base_type::pimpl_pointer;
     using typename base_type::primitive_reference;
@@ -149,7 +150,7 @@ protected:
         }
     }
 
-    bool is_same_ordering_(const AOShellView& shell) const override {
+    bool is_same_ordering_(const_shell_view_reference shell) const override {
         return dynamic_cast<const const_shell_view_type*>(&shell) != nullptr ||
                dynamic_cast<const shell_view_type*>(&shell) != nullptr;
     }

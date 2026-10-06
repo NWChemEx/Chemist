@@ -87,14 +87,26 @@ TEST_CASE("experimental::SphericalAOView") {
             REQUIRE(v.get_center() == Point(4.0, 5.0, 6.0));
         }
 
-        SECTION("From a shell throws if the shell is pure") {
-            CCAShell<SphericalAO> pure(cs.begin(), cs.end(), es.begin(),
-                                       es.end(), std::size_t(2), 1.0, 2.0, 3.0);
-            REQUIRE_THROWS_AS(const_spherical_ao_view(pure, 1),
-                              std::invalid_argument);
-            const_spherical_cca_shell_view pure_view(pure);
-            REQUIRE_THROWS_AS(const_spherical_ao_view(pure_view, 1),
-                              std::invalid_argument);
+        SECTION("Can not be built on a pure shell") {
+            // The shell's purity is part of its type, so this is a
+            // compile-time property; see the same section for SphericalAO.
+            using view_type = const_spherical_ao_view;
+            using m_type    = typename view_type::magnetic_index_type;
+            STATIC_REQUIRE(
+              std::is_constructible_v<view_type, const CCAShell<CartesianAO>&,
+                                      m_type>);
+            STATIC_REQUIRE(
+              std::is_constructible_v<
+                view_type, const const_cartesian_cca_shell_view&, m_type>);
+            STATIC_REQUIRE_FALSE(
+              std::is_constructible_v<view_type, const CCAShell<SphericalAO>&,
+                                      m_type>);
+            STATIC_REQUIRE_FALSE(
+              std::is_constructible_v<
+                view_type, const const_spherical_cca_shell_view&, m_type>);
+            STATIC_REQUIRE_FALSE(
+              std::is_constructible_v<view_type, const AOShellBaseView&,
+                                      m_type>);
         }
 
         SECTION("From a shell throws if |m| > l") {

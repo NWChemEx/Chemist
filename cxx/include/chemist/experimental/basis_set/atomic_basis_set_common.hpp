@@ -33,7 +33,7 @@ namespace chemist::experimental {
  *  of the basis set and the atomic number of the atom it is for. Every shell
  *  in a set has the same type, i.e. the same purity and AO ordering, but which
  *  type that is is chosen at runtime (see ShellPurity and AOOrdering), so the
- *  shells are handed out polymorphically, as AOShellView objects.
+ *  shells are handed out polymorphically, as AOShellBaseView objects.
  *
  *  None of the shells exist as objects inside the set. The set stores the
  *  parameters of all of its shells contiguously, together with the angular
@@ -91,6 +91,9 @@ public:
     using const_name_reference   = typename traits_type::const_name_reference;
     using const_primitive_reference =
       typename traits_type::const_primitive_reference;
+    using const_shell_reference = typename traits_type::const_shell_reference;
+    using const_shell_view_reference =
+      typename traits_type::const_shell_view_reference;
     using name_type           = typename traits_type::name_type;
     using pimpl_pointer       = typename traits_type::pimpl_pointer;
     using pimpl_type          = typename traits_type::pimpl_type;

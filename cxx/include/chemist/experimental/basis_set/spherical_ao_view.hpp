@@ -33,9 +33,10 @@ namespace chemist::experimental {
  *  shell is built on the one Cartesian shell it owns, and handing out views
  *  of it, rather than @f$2\ell+1@f$ copies, is what keeps them from drifting.
  *
- *  The Cartesian shell is aliased through a polymorphic AOShellView, so *this
- *  can alias a shell of any ordering. @f$m_\ell@f$ is stored by value, for the
- *  same reason CartesianAOView stores its powers by value.
+ *  The Cartesian shell is aliased through an AOShellView<CartesianAO>, so
+ *  *this can alias a Cartesian shell of any ordering, and only a Cartesian
+ *  one. @f$m_\ell@f$ is stored by value, for the same reason CartesianAOView
+ *  stores its powers by value.
  *
  *  @tparam SAOType A const-qualified SphericalAO. Only read-only views are
  *                  supported for now: the polymorphic shell API is read-only,
@@ -64,6 +65,7 @@ private:
     /// Lets the AOView implementation reach as_ao_value_()
     friend impl_type;
 
+public:
     /// Type of the ordering-agnostic Cartesian shell *this can alias
     using shell_type = typename ChemistClassTraits<SAOType>::shell_type;
 
@@ -72,9 +74,8 @@ private:
       typename ChemistClassTraits<SAOType>::shell_view_type;
 
     /// Type of the pointer *this holds its shell view through
-    using shell_view_pointer = typename shell_view_type::base_pointer;
+    using shell_view_pointer = typename shell_view_type::pointer;
 
-public:
     /// Pull the shared API's types into *this's API
     ///@{
     using typename common_type::angular_momentum_type;
@@ -140,8 +141,8 @@ public:
      *  @param[in] shell The Cartesian shell *this will alias.
      *  @param[in] m The component. Must satisfy @f$|m| \le \ell@f$.
      *
-     *  @throw std::invalid_argument if @p shell is pure or @p m is out of
-     *                               range. Strong throw guarantee.
+     *  @throw std::invalid_argument if @p m is out of range. Strong throw
+     *                               guarantee.
      *  @throw std::bad_alloc if there is a problem allocating the shell view.
      *                        Strong throw guarantee.
      */
@@ -157,8 +158,8 @@ public:
      *  @param[in] shell A view of the Cartesian shell *this will alias.
      *  @param[in] m The component. Must satisfy @f$|m| \le \ell@f$.
      *
-     *  @throw std::invalid_argument if @p shell is pure or @p m is out of
-     *                               range. Strong throw guarantee.
+     *  @throw std::invalid_argument if @p m is out of range. Strong throw
+     *                               guarantee.
      *  @throw std::bad_alloc if there is a problem allocating the shell view.
      *                        Strong throw guarantee.
      */

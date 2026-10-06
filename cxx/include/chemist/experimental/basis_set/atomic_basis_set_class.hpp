@@ -15,7 +15,7 @@
  */
 
 #pragma once
-#include <chemist/experimental/basis_set/ao_shell.hpp>
+#include <chemist/experimental/basis_set/ao_shell_base.hpp>
 #include <chemist/experimental/basis_set/atomic_basis_set_common.hpp>
 #include <chemist/experimental/point/point_class.hpp>
 #include <chemist/types/floating_point.hpp>
@@ -66,6 +66,8 @@ public:
     using typename base_type::buffer_type;
     using typename base_type::center_type;
     using typename base_type::const_buffer_reference;
+    using typename base_type::const_shell_reference;
+    using typename base_type::const_shell_view_reference;
     using typename base_type::name_type;
     using typename base_type::pimpl_pointer;
     using typename base_type::pimpl_type;
@@ -191,8 +193,10 @@ public:
      *                        Strong throw guarantee.
      */
     ///@{
-    void push_back(const AOShellView& shell) { m_pimpl_->push_back(shell); }
-    void push_back(const AOShell& shell) { push_back(*shell.as_view()); }
+    void push_back(const_shell_view_reference shell) {
+        m_pimpl_->push_back(shell);
+    }
+    void push_back(const_shell_reference shell) { push_back(*shell.as_view()); }
     ///@}
 
     // -------------------------------------------------------------------------

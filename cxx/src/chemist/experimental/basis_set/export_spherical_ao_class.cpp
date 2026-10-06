@@ -20,13 +20,14 @@
 namespace chemist::experimental {
 
 void export_spherical_ao_class(python_module_reference m) {
-    using size_type           = std::size_t;
-    using magnetic_index_type = typename SphericalAO::magnetic_index_type;
+    using size_type             = std::size_t;
+    using magnetic_index_type   = typename SphericalAO::magnetic_index_type;
+    using const_shell_reference = typename SphericalAO::const_shell_reference;
 
     auto c = python_class_type<SphericalAO, AO>(m, "SphericalAO")
                .def(py::init<>())
                .def(py::init<ContractedGaussian, magnetic_index_type>())
-               .def(py::init<const AOShell&, magnetic_index_type>())
+               .def(py::init<const_shell_reference, magnetic_index_type>())
                // Narrows the templated range ctors to double; see CartesianAO.
                .def(py::init([](std::vector<double> cs, std::vector<double> es,
                                 size_type l, magnetic_index_type m_l, double x,

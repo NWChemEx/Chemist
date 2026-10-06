@@ -15,25 +15,38 @@
  */
 
 #pragma once
-#include <chemist/experimental/basis_set/ao_shell.hpp>
 #include <chemist/experimental/basis_set/ao_shell_view.hpp>
 #include <memory>
 
 namespace chemist::experimental::detail_ {
 
-/** @brief Code factorization for implementing AOShellView's virtual methods.
+/** @brief Code factorization for implementing AOShellBaseView's virtual
+ *         methods.
  *
- *  *this is to AOShellView what AOViewImpl is to AOView. The derived class
- *  must:
+ *  *this is to AOShellBaseView what AOViewImpl is to AOView. It derives from
+ *  AOShellView<AOType>, so the derived class is a view of a shell of known
+ *  purity. The derived class must:
  *  - define a copy ctor, which for a view is shallow,
  *  - be value comparable, and
  *  - define a `shell_type` alias naming the owning shell it materializes into,
  *    along with a private `as_shell_value_()` method returning one by value.
  *
  *  @tparam DerivedType The type of the derived class *this is implementing.
+ *  @tparam AOType The kind of AO the derived class holds: CartesianAO or
+ *                 SphericalAO.
  */
-template<typename DerivedType>
-class AOShellViewImpl : public AOShellView {
+template<typename DerivedType, typename AOType>
+class AOShellViewImpl : public AOShellView<AOType> {
+private:
+    /// Type of a pointer to the polymorphic, purity-agnostic base
+    using base_pointer = typename AOShellBaseView::base_pointer;
+
+    /// Type of a read-only reference to the polymorphic, purity-agnostic base
+    using const_base_reference = typename AOShellBaseView::const_base_reference;
+
+    /// Type of a pointer to the polymorphic, purity-agnostic owning shell
+    using base_shell_pointer = typename AOShellBaseView::shell_pointer;
+
 protected:
     /// Implements clone() by calling DerivedType's (shallow) copy ctor
     base_pointer clone_() const override {
@@ -42,7 +55,7 @@ protected:
 
     /// Implements as_shell() by materializing DerivedType into its owning
     /// shell
-    shell_pointer as_shell_() const override {
+    base_shell_pointer as_shell_() const override {
         using shell_type = typename DerivedType::shell_type;
         return std::make_unique<shell_type>(downcast_().as_shell_value_());
     }

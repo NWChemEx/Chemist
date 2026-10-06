@@ -21,6 +21,8 @@ namespace chemist::experimental {
 void export_spherical_ao_view(python_module_reference m) {
     using magnetic_index_type =
       typename const_spherical_ao_view::magnetic_index_type;
+    using shell_type      = typename const_spherical_ao_view::shell_type;
+    using shell_view_type = typename const_spherical_ao_view::shell_view_type;
 
     // Only a read-only view of a SphericalAO exists in C++, so there is no
     // mutable counterpart to bind.
@@ -28,9 +30,9 @@ void export_spherical_ao_view(python_module_reference m) {
       python_class_type<const_spherical_ao_view, AOView>(
         m, "ImmutableSphericalAOView")
         .def(py::init<const SphericalAO&>(), py::keep_alive<1, 2>())
-        .def(py::init<const AOShell&, magnetic_index_type>(),
+        .def(py::init<const shell_type&, magnetic_index_type>(),
              py::keep_alive<1, 2>())
-        .def(py::init<const AOShellView&, magnetic_index_type>(),
+        .def(py::init<const shell_view_type&, magnetic_index_type>(),
              py::keep_alive<1, 2>())
         .def("as_spherical_ao", &const_spherical_ao_view::as_spherical_ao)
         // A clone, rather than the stored shell view itself, so that what

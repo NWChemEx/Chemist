@@ -37,21 +37,18 @@ namespace detail_ {
 /** @brief Types shared by every ChemistClassTraits<CCAShell<AOType>>
  *         specialization.
  *
- *  A CCA shell is an AOShell with a particular ordering, so every type which
- *  depends neither on const-ness nor on the kind of AO is pulled from
- *  ChemistClassTraits<AOShell> rather than redeclared. What the kind of AO
- *  decides is whether the shell is pure and what indexing it hands out.
+ *  A CCA shell is an AOShell<AOType> with a particular ordering, so every type
+ *  which depends neither on const-ness nor on the ordering is pulled from
+ *  ChemistClassTraits<AOShell<AOType>> rather than redeclared. That includes
+ *  everything the kind of AO decides: whether the shell is pure and what kind
+ *  of AO view indexing it hands out.
  *
  *  @tparam AOType The kind of AO the shell holds: CartesianAO or SphericalAO.
  */
 template<typename AOType>
 struct CCAShellTraitsCommon {
-    static_assert(std::is_same_v<AOType, experimental::CartesianAO> ||
-                    std::is_same_v<AOType, experimental::SphericalAO>,
-                  "A CCAShell must hold CartesianAO or SphericalAO objects.");
-
-    /// Traits of the ordering-agnostic shell *this is one kind of
-    using ao_shell_traits = ChemistClassTraits<experimental::AOShell>;
+    /// Traits of the ordering-agnostic shell of the same purity
+    using ao_shell_traits = ChemistClassTraits<experimental::AOShell<AOType>>;
 
     /// Traits of the contracted Gaussian *this is built on
     using contracted_gaussian_traits =
@@ -61,37 +58,23 @@ struct CCAShellTraitsCommon {
     using value_type = experimental::CCAShell<AOType>;
 
     /// Type of the AOs in the shell
-    using ao_type = AOType;
+    using ao_type = typename ao_shell_traits::ao_type;
 
     /// True if the shell holds spherical AOs, false if it holds Cartesian ones
-    static constexpr bool is_pure =
-      std::is_same_v<AOType, experimental::SphericalAO>;
+    static constexpr bool is_pure = ao_shell_traits::is_pure;
 
     /// The purity of the shell, as the enumerator naming it
-    static constexpr experimental::ShellPurity purity =
-      is_pure ? experimental::ShellPurity::pure :
-                experimental::ShellPurity::cartesian;
+    static constexpr experimental::ShellPurity purity = ao_shell_traits::purity;
 
     /// The order the shell enumerates its AOs in, as the enumerator naming it
     static constexpr experimental::AOOrdering ordering =
       experimental::AOOrdering::cca;
 
-    /** @brief Type of a read-only view of one of the AOs in the shell.
-     *
-     *  This is what indexing the concrete shell yields: a CartesianAOView for
-     *  a Cartesian shell and a SphericalAOView for a spherical one.
-     */
-    using const_ao_reference =
-      typename ChemistClassTraits<const AOType>::const_view_type;
+    /// Type of a read-only view of one of the AOs in the shell
+    using const_ao_reference = typename ao_shell_traits::const_ao_reference;
 
-    /** @brief Type of a pointer to a read-only view of one of the AOs in the
-     *         shell.
-     *
-     *  This is what indexing the concrete shell yields. The views are built on
-     *  demand, so the caller owns the pointer; the view it points to aliases
-     *  the shell's state.
-     */
-    using const_ao_pointer = std::unique_ptr<const_ao_reference>;
+    /// Type of a pointer to a read-only view of one of the AOs in the shell
+    using const_ao_pointer = typename ao_shell_traits::const_ao_pointer;
 
     /// Type of the Cartesian shell, in CCA order, underneath a shell
     using cartesian_shell_type =
@@ -114,6 +97,9 @@ struct CCAShellTraitsCommon {
 
     /// Type used to model the component, @f$m_\ell@f$, of one spherical AO
     using magnetic_index_type = typename ao_shell_traits::magnetic_index_type;
+
+    /// Type of the index picking one AO out of the shell
+    using ao_index_type = typename ao_shell_traits::ao_index_type;
 
     /// Type of the contracted Gaussian *this is built on
     using contracted_gaussian_type =

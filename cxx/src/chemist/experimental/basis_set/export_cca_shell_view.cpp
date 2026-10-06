@@ -29,7 +29,7 @@ void export_cca_shell_views(python_module_reference m, const char* name,
 
     // -- The mutable view ---------------------------------------------------
     auto mutable_view =
-      python_class_type<view_type, AOShellView>(m, name)
+      python_class_type<view_type, AOShellView<AOType>>(m, name)
         .def(py::init<shell_type&>(), py::keep_alive<1, 2>())
         .def(py::init<contracted_gaussian_view>(), py::keep_alive<1, 2>())
         .def("as_cca_shell", &view_type::as_cca_shell)
@@ -42,7 +42,7 @@ void export_cca_shell_views(python_module_reference m, const char* name,
 
     // -- The read-only view --------------------------------------------------
     auto immutable_view =
-      python_class_type<const_view_type, AOShellView>(m, immutable_name)
+      python_class_type<const_view_type, AOShellView<AOType>>(m, immutable_name)
         .def(py::init<const shell_type&>(), py::keep_alive<1, 2>())
         .def(py::init<const view_type&>(), py::keep_alive<1, 2>())
         .def(py::init<const_contracted_gaussian_view>(), py::keep_alive<1, 2>())

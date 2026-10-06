@@ -61,7 +61,7 @@ TEMPLATE_TEST_CASE("experimental::AtomicBasisSetCommon", "", CartesianAO,
 
     // Downcasts the result of indexing to the concrete shell view
     auto as_shell =
-      [](const AOShellView& shell) -> const const_shell_view_type& {
+      [](const AOShellBaseView& shell) -> const const_shell_view_type& {
         return dynamic_cast<const const_shell_view_type&>(shell);
     };
 
@@ -104,8 +104,8 @@ TEMPLATE_TEST_CASE("experimental::AtomicBasisSetCommon", "", CartesianAO,
     }
 
     SECTION("at/operator[] build views of the shells") {
-        STATIC_REQUIRE(
-          std::is_same_v<decltype(abs.at(0)), std::unique_ptr<AOShellView>>);
+        STATIC_REQUIRE(std::is_same_v<decltype(abs.at(0)),
+                                      std::unique_ptr<AOShellBaseView>>);
         REQUIRE(as_shell(*abs.at(0)) == s);
         REQUIRE(as_shell(*abs.at(1)) == p);
         REQUIRE(as_shell(*abs.at(2)) == d);

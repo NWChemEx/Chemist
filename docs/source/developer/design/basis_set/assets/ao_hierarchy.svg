@@ -28,7 +28,7 @@
   <text x="165" y="154" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="165" dy="0">AtomicBasisSet</tspan></text>
   <text x="165" y="173" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="165" dy="0">shells; owns the Point</tspan></text>
   <rect x="45" y="208" width="240" height="58" rx="8" fill="#d0bfff" stroke="#1e1e1e" stroke-width="1.5"/>
-  <text x="165" y="232" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="165" dy="0">AOShell</tspan></text>
+  <text x="165" y="232" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#1e1e1e"><tspan x="165" dy="0">AOShellBase</tspan></text>
   <text x="165" y="251" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="165" dy="0">l, purity, convention</tspan></text>
   <line x1="165" y1="110" x2="165" y2="128" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ah)"/>
   <line x1="165" y1="188" x2="165" y2="206" stroke="#1e1e1e" stroke-width="1.5" marker-end="url(#ah)"/>
@@ -66,7 +66,7 @@
   <line x1="756" y1="358" x2="756" y2="196" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4"/>
   <line x1="756" y1="196" x2="205" y2="196" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4"/>
   <line x1="205" y1="196" x2="205" y2="206" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#ah)"/>
-  <text x="360" y="188" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="360" dy="0">pairs a Cartesian AOShell with m_l</tspan></text>
+  <text x="360" y="188" text-anchor="start" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#5c5f66"><tspan x="360" dy="0">pairs an AOShell&lt;CartesianAO&gt; with m_l</tspan></text>
   <rect x="620" y="486" width="252" height="100" rx="8" fill="#fff9db" stroke="#1e1e1e" stroke-width="1.5" stroke-dasharray="6 4"/>
   <text x="746" y="510" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#1e1e1e"><tspan x="746" dy="0">The transform coefficients</tspan></text>
   <text x="746" y="529" text-anchor="middle" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="10" fill="#1e1e1e"><tspan x="746" dy="0">already carry N_AO_ijk, so the</tspan></text>

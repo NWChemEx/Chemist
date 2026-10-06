@@ -16,7 +16,8 @@ import sys
 import unittest
 
 from chemist.experimental import (
-    AOShellView,
+    AOShellBaseView,
+    CartesianAOShellView,
     CartesianCCAShell,
     CartesianCCAShellView,
     ContractedGaussian,
@@ -25,6 +26,7 @@ from chemist.experimental import (
     ImmutableSphericalAOView,
     ImmutableSphericalCCAShellView,
     Point,
+    SphericalAOShellView,
     SphericalCCAShell,
     SphericalCCAShellView,
 )
@@ -67,8 +69,14 @@ class TestCCAShellView(unittest.TestCase):
 
     def test_is_an_ao_shell_view(self):
         for shell, view_type, const_view_type, _ in self.kinds():
-            self.assertIsInstance(view_type(shell), AOShellView)
-            self.assertIsInstance(const_view_type(shell), AOShellView)
+            typed = (
+                SphericalAOShellView
+                if shell.is_pure()
+                else CartesianAOShellView
+            )
+            for v in (view_type(shell), const_view_type(shell)):
+                self.assertIsInstance(v, AOShellBaseView)
+                self.assertIsInstance(v, typed)
 
     def test_from_a_shell_aliases_it(self):
         for shell, view_type, const_view_type, _ in self.kinds():

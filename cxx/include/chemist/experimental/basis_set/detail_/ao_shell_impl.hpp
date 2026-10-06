@@ -20,11 +20,13 @@
 
 namespace chemist::experimental::detail_ {
 
-/** @brief Code factorization for implementing AOShell's virtual methods.
+/** @brief Code factorization for implementing AOShellBase's virtual methods.
  *
- *  *this is to AOShell what AOImpl is to AO: it implements the virtual methods
- *  which can be written knowing nothing about the derived class except its
- *  type. The derived class must:
+ *  *this is to AOShellBase what AOImpl is to AO: it implements the virtual
+ *  methods which can be written knowing nothing about the derived class except
+ *  its type. It derives from AOShell<AOType>, so the derived class is a shell
+ *  of known purity; AOShellCommon implements the hooks which depend only on
+ *  that purity. The derived class must:
  *  - define a copy ctor, and
  *  - be value comparable.
  *
@@ -36,9 +38,18 @@ namespace chemist::experimental::detail_ {
  *  complete by the time it is instantiated (see cca_shell_class.hpp).
  *
  *  @tparam DerivedType The type of the derived class *this is implementing.
+ *  @tparam AOType The kind of AO the derived class holds: CartesianAO or
+ *                 SphericalAO.
  */
-template<typename DerivedType>
-class AOShellImpl : public AOShell {
+template<typename DerivedType, typename AOType>
+class AOShellImpl : public AOShell<AOType> {
+private:
+    /// Type of a pointer to the polymorphic, purity-agnostic base
+    using base_pointer = typename AOShellBase::base_pointer;
+
+    /// Type of a read-only reference to the polymorphic, purity-agnostic base
+    using const_base_reference = typename AOShellBase::const_base_reference;
+
 protected:
     /// Implements clone() by calling DerivedType's copy ctor
     base_pointer clone_() const override {

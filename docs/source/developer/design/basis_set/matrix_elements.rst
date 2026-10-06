@@ -157,7 +157,7 @@ three groups rather than two.
 
 The sets derive from ``VectorSpace``:
 
-- ``AOShell``, and hence ``CCAShell`` and its siblings
+- ``AOShellBase``, and hence ``AOShell<T>``, ``CCAShell`` and its siblings
 - ``AtomicBasisSet``
 - ``MolecularBasisSet``
 
@@ -205,10 +205,10 @@ Summary
 *******
 
 :ref:`me_one_or_many`
-   ``AO`` derives from ``Wavefunction``; ``AOShell``, ``AtomicBasisSet``, and
-   ``MolecularBasisSet`` derive from ``VectorSpace``, whose ``size`` is the
-   number of AOs. An ``AOShell`` is therefore a ``VectorSpace`` whose elements
-   are ``Wavefunction`` objects.
+   ``AO`` derives from ``Wavefunction``; ``AOShellBase``, ``AtomicBasisSet``,
+   and ``MolecularBasisSet`` derive from ``VectorSpace``, whose ``size`` is the
+   number of AOs. A shell is therefore a ``VectorSpace`` whose elements are
+   ``Wavefunction`` objects.
 
 :ref:`me_ao_is_the_floor`
    ``Primitive`` and ``ContractedGaussian`` derive from neither. They are

@@ -35,8 +35,8 @@ enum class ShellPurity {
 /** @brief The orders a shell can enumerate its AOs in.
  *
  *  Per docs/source/developer/design/basis_set/ao_hierarchy.rst, each ordering
- *  is a class deriving from AOShell. This enumerator names those classes, for
- *  the same reason ShellPurity exists.
+ *  is a class template deriving from AOShell<AOType>. This enumerator names
+ *  those classes, for the same reason ShellPurity exists.
  */
 enum class AOOrdering {
     /// The Common Component Architecture ordering, i.e. CCAShell

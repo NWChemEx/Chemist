@@ -15,100 +15,105 @@
  */
 
 #pragma once
-#include <chemist/experimental/basis_set/ao_view.hpp>
-#include <chemist/experimental/basis_set/contracted_gaussian_view.hpp>
+#include <chemist/experimental/basis_set/ao_shell_base.hpp>
+#include <chemist/experimental/basis_set/ao_shell_base_view.hpp>
 #include <chemist/experimental/traits/ao_shell_traits.hpp>
-#include <cstddef>
+#include <chemist/experimental/traits/spherical_ao_traits.hpp>
+#include <memory>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 
 namespace chemist::experimental {
 
-/** @brief Implements the API shared by AOShell and AOShellView.
+/** @brief Implements the API shared by AOShell<AOType> and AOShellView<AOType>.
  *
- *  Per docs/source/developer/design/basis_set/ao_hierarchy.rst, a shell is a
- *  set of AOs sharing one contracted Gaussian, a total angular momentum, and a
- *  purity, and the order in which it enumerates those AOs is part of its type:
- *  the classes deriving from AOShell (e.g. CCAShell) *are* the orderings.
- *  *this is the ordering-agnostic API those classes share, written once.
+ *  Per docs/source/developer/design/basis_set/ao_hierarchy.rst, a shell's
+ *  purity and its ordering are independent, and a great deal of code needs to
+ *  know the former without caring about the latter. AOShell<AOType> and
+ *  AOShellView<AOType> are the shells whose purity, but not ordering, is
+ *  known statically, and *this is the API that knowledge buys them, written
+ *  once:
  *
- *  The purity decides what the shell holds: the @f$(\ell+1)(\ell+2)/2@f$
- *  Cartesian AOs built on the contracted Gaussian, or the @f$2\ell+1@f$
- *  spherical AOs built on the Cartesian shell of that contracted Gaussian.
+ *  - is_pure()/is_cartesian() are compile-time constants,
+ *  - the angular index of the AO at an offset is available, as
+ *    cartesian_powers for a Cartesian shell and magnetic_index for a pure one
+ *    (each only exists for the purity it makes sense for), and
+ *  - indexing returns a pointer to the concrete AO view, rather than to a
+ *    polymorphic AOView.
  *
- *  Note what is NOT here: the angular index at an offset (the powers
- *  @f$(i,j,k)@f$ of a Cartesian shell, @f$m_\ell@f$ of a pure one). Which of
- *  the two a shell has depends on its purity, so it is provided by the
- *  concrete shells, which know their purity statically (e.g.
- *  CCAShell<CartesianAO>::cartesian_powers), rather than here, where asking
- *  the wrong one could only be a runtime error. Code holding an AOShell can
- *  still ask each AO it indexes about itself.
+ *  How the angular index depends on the offset is the ordering, so it is the
+ *  one thing *this asks the derived class for, through the ao_index_ hook.
+ *  Everything else follows from the purity and from AOShellBaseCommon.
  *
- *  Exactly as AOCommon does for AO and AOView, *this implements each public
- *  method by calling a virtual hook on DerivedType (which is AOShell or
- *  AOShellView, not the concrete class). Methods which follow from other
- *  methods, e.g. size() from get_l() and is_pure(), are computed here rather
- *  than being hooks, so the derived classes can not disagree about them.
+ *  Unlike the other *Common classes, *this is a mixin which derives from the
+ *  base it extends, rather than a CRTP sibling of it, so that a concrete shell
+ *  does not inherit the same names from three unrelated bases. It is
+ *  instantiated once with AOShellBase (by AOShell) and once with
+ *  AOShellBaseView (by AOShellView).
  *
- *  @tparam DerivedType The class deriving from *this. Must define the
- *                      `*_()` hooks called below and declare *this a friend.
+ *  @tparam BaseType The base *this extends: AOShellBase or AOShellBaseView.
+ *  @tparam AOType The kind of AO the shell holds: CartesianAO or SphericalAO.
  */
-template<typename DerivedType>
-class AOShellCommon {
+template<typename BaseType, typename AOType>
+class AOShellCommon : public BaseType {
 private:
     /// Struct defining the types for the shell *this acts like
-    using traits_type = ChemistClassTraits<AOShell>;
+    using traits_type = ChemistClassTraits<AOShell<AOType>>;
+
+    /// Enables a method only when the shell holds U, which must be CartesianAO
+    template<typename U, typename ReturnType>
+    using enable_if_cartesian_t =
+      std::enable_if_t<!ChemistClassTraits<AOShell<U>>::is_pure, ReturnType>;
+
+    /// Enables a method only when the shell holds U, which must be SphericalAO
+    template<typename U, typename ReturnType>
+    using enable_if_pure_t =
+      std::enable_if_t<ChemistClassTraits<AOShell<U>>::is_pure, ReturnType>;
 
 public:
-    /// Type used to model the total angular momentum
-    using angular_momentum_type = typename traits_type::angular_momentum_type;
+    /// Type of the AOs in *this
+    using ao_type = typename traits_type::ao_type;
 
-    /// Type of the contracted Gaussian *this is built on
-    using contracted_gaussian_type =
-      typename traits_type::contracted_gaussian_type;
+    /// Type of a read-only view of one of the AOs in *this
+    using const_ao_reference = typename traits_type::const_ao_reference;
 
-    /// Type of a read-only, aliasing view of the contracted Gaussian
-    using const_contracted_gaussian_reference =
-      typename traits_type::const_contracted_gaussian_reference;
+    /// Type of a pointer to a read-only view of one of the AOs in *this
+    using const_ao_pointer = typename traits_type::const_ao_pointer;
 
-    /// Type of a pointer to a polymorphic view of one AO in *this
-    using ao_view_pointer = typename traits_type::ao_view_pointer;
+    /// Type of a pointer to a read-only view of the Cartesian shell underneath
+    /// *this
+    using const_cartesian_shell_pointer =
+      typename traits_type::const_cartesian_shell_pointer;
 
-    /// Type used to model the point *this is centered on
-    using center_type = typename traits_type::center_type;
+    /// Type of the index picking one AO out of *this: the powers for a
+    /// Cartesian shell and @f$m_\ell@f$ for a pure one
+    using ao_index_type = typename traits_type::ao_index_type;
 
-    /// Type of a read-only, aliasing view of the center
-    using const_center_reference = typename traits_type::const_center_reference;
+    /// Type holding the powers @f$(i,j,k)@f$ of one Cartesian AO
+    using cartesian_powers_type = typename traits_type::cartesian_powers_type;
 
-    /// Type *this uses to model a single Cartesian coordinate
-    using coord_type = typename traits_type::coord_type;
+    /// Type used to model the component, @f$m_\ell@f$, of one spherical AO
+    using magnetic_index_type = typename traits_type::magnetic_index_type;
 
-    /// Type of a normalization constant
-    using numerical_value = coord_type;
-
-    /// Type used for indexing and offsets
-    using size_type = std::size_t;
+    /// Pull the base's types into *this's API
+    ///@{
+    using typename BaseType::ao_view_pointer;
+    using typename BaseType::size_type;
+    ///@}
 
     // -------------------------------------------------------------------------
     // -- Accessors
     // -------------------------------------------------------------------------
 
-    /** @brief Returns the total angular momentum shared by the AOs in *this.
-     *
-     *  @throw None No throw guarantee.
-     */
-    angular_momentum_type get_l() const noexcept {
-        return downcast_().get_l_();
-    }
-
     /** @brief Is *this a pure (spherical) shell?
      *
-     *  @return True if the AOs in *this are spherical AOs and false if they
-     *          are Cartesian AOs.
+     *  Known statically: AOShell<SphericalAO> is pure and AOShell<CartesianAO>
+     *  is not. Hides the base's virtually dispatched version.
      *
      *  @throw None No throw guarantee.
      */
-    bool is_pure() const noexcept { return downcast_().is_pure_(); }
+    constexpr bool is_pure() const noexcept { return traits_type::is_pure; }
 
     /** @brief Is *this a Cartesian shell?
      *
@@ -116,51 +121,60 @@ public:
      *
      *  @throw None No throw guarantee.
      */
-    bool is_cartesian() const noexcept { return !is_pure(); }
+    constexpr bool is_cartesian() const noexcept { return !is_pure(); }
 
-    /** @brief Returns the number of AOs in *this.
+    /** @brief Returns the Cartesian powers of the AO at offset @p i.
      *
-     *  This is @f$2\ell+1@f$ for a pure shell and @f$(\ell+1)(\ell+2)/2@f$ (the
-     *  number of ways of writing @f$\ell@f$ as @f$i + j + k@f$) for a Cartesian
-     *  one. It depends only on @f$\ell@f$ and the purity, not on the ordering,
-     *  and so is computed here.
+     *  Which powers sit at which offset is the ordering, and is supplied by
+     *  the derived class. When *this is a pure shell this method does not
+     *  participate in overload resolution.
      *
-     *  @throw None No throw guarantee.
+     *  @param[in] i The offset of the AO. Must be in [0, size()).
+     *
+     *  @return The powers of @f$x@f$, @f$y@f$, and @f$z@f$, in that order.
+     *
+     *  @throw std::out_of_range if @p i is not in [0, size()). Strong throw
+     *                           guarantee.
      */
-    size_type size() const noexcept {
-        const auto l = get_l();
-        return is_pure() ? 2 * l + 1 : (l + 1) * (l + 2) / 2;
+    template<typename U = AOType>
+    enable_if_cartesian_t<U, cartesian_powers_type> cartesian_powers(
+      size_type i) const {
+        this->check_offset_(i);
+        return ao_index_(i);
     }
 
-    /** @brief Returns the point *this is centered on.
+    /** @brief Returns the component, @f$m_\ell@f$, of the AO at offset @p i.
      *
-     *  @throw None No throw guarantee.
+     *  Which component sits at which offset is the ordering, and is supplied
+     *  by the derived class. When *this is a Cartesian shell this method does
+     *  not participate in overload resolution.
+     *
+     *  @param[in] i The offset of the AO. Must be in [0, size()).
+     *
+     *  @return The component of the AO at offset @p i.
+     *
+     *  @throw std::out_of_range if @p i is not in [0, size()). Strong throw
+     *                           guarantee.
      */
-    const_center_reference get_center() const {
-        return downcast_().get_center_();
-    }
-
-    /** @brief Returns the contracted Gaussian every AO in *this is built on.
-     *
-     *  For a pure shell this is the contracted Gaussian of the Cartesian shell
-     *  its AOs transform. Either way the returned view aliases the one
-     *  contracted Gaussian *this owns or aliases.
-     *
-     *  @throw None No throw guarantee.
-     */
-    const_contracted_gaussian_reference get_contracted_gaussian() const {
-        return downcast_().get_contracted_gaussian_();
+    template<typename U = AOType>
+    enable_if_pure_t<U, magnetic_index_type> magnetic_index(size_type i) const {
+        this->check_offset_(i);
+        return ao_index_(i);
     }
 
     /** @brief Returns the AO at offset @p i.
      *
-     *  Which kind of AO a shell holds is only known to its derived class, so
-     *  the result is a polymorphic, read-only view: a CartesianAOView for a
-     *  Cartesian shell and a SphericalAOView for a pure one. The view is built
-     *  on demand and the caller owns the returned pointer, but the view aliases
-     *  the state of *this; it is not a copy, and so must not outlive *this.
-     *  Code which knows the concrete shell type can index it directly instead,
-     *  and get a pointer to the concrete view.
+     *  The result is a read-only view which aliases the state of *this: a
+     *  CartesianAOView whose contracted Gaussian is *this's for a Cartesian
+     *  shell, and a SphericalAOView of get_cartesian_shell() for a pure one.
+     *  The view is built on demand and the caller owns the returned pointer,
+     *  but since the view aliases *this it must not outlive *this. This hides
+     *  the base's version, which returns a pointer to a polymorphic AOView.
+     *
+     *  Defined out of line, because SphericalAOView needs this header and so
+     *  is incomplete here. For the same reason, using the result requires
+     *  including cartesian_ao_view.hpp or spherical_ao_view.hpp, as the
+     *  concrete shell headers (e.g. cca_shell_class.hpp) already do.
      *
      *  @param[in] i The offset of the AO. Must be in [0, size()).
      *
@@ -172,35 +186,26 @@ public:
      *  @throw std::bad_alloc if there is a problem allocating the view. Strong
      *                        throw guarantee.
      */
-    ao_view_pointer at(size_type i) const {
-        check_offset_(i);
-        return downcast_().at_(i);
-    }
+    const_ao_pointer at(size_type i) const;
 
     /// Same as at()
-    ao_view_pointer operator[](size_type i) const { return at(i); }
+    const_ao_pointer operator[](size_type i) const { return at(i); }
 
-    // -------------------------------------------------------------------------
-    // -- Normalization
-    // -------------------------------------------------------------------------
-
-    /** @brief Returns the normalization constant of *this.
+    /** @brief Returns the Cartesian shell underneath *this.
      *
-     *  This is @f$N^{G}@f$, the contracted Gaussian's own constant, which is
-     *  the one scalar all the AOs in a shell share. Per
-     *  docs/source/developer/design/basis_set/normalization.rst it is what
-     *  integral libraries expect (together with the per-primitive
-     *  @f$N^{\chi}@f$). It does not include the per-AO factors, i.e.
-     *  @f$N^{AO}_{ijk}@f$ for a Cartesian shell and the transformation
-     *  coefficients for a pure one, which the AOs *this hands out apply
-     *  themselves.
+     *  For a pure shell this is the Cartesian shell its spherical AOs are
+     *  linear combinations of. For a Cartesian shell it is a view of *this.
+     *  Either way the result has the ordering of *this and aliases its
+     *  contracted Gaussian, so it must not outlive *this.
      *
-     *  @throw std::runtime_error if the parameters of the contraction are not
-     *                            all holding the same concrete floating-point
-     *                            type. Strong throw guarantee.
+     *  @return A pointer to a newly allocated, read-only view of the Cartesian
+     *          shell.
+     *
+     *  @throw std::bad_alloc if there is a problem allocating the view. Strong
+     *                        throw guarantee.
      */
-    numerical_value normalization_constant() const {
-        return get_contracted_gaussian().normalization_constant();
+    const_cartesian_shell_pointer get_cartesian_shell() const {
+        return cartesian_shell_();
     }
 
 protected:
@@ -211,23 +216,60 @@ protected:
     AOShellCommon(AOShellCommon&&) noexcept                 = default;
     AOShellCommon& operator=(const AOShellCommon&) noexcept = default;
     AOShellCommon& operator=(AOShellCommon&&) noexcept      = default;
-    ~AOShellCommon() noexcept                               = default;
     ///@}
 
-private:
-    /// Throws std::out_of_range if @p i is not a valid offset into *this
-    void check_offset_(size_type i) const {
-        if(i < size()) return;
-        throw std::out_of_range("chemist::experimental::AOShell: offset " +
-                                std::to_string(i) +
-                                " is out of range for a shell with " +
-                                std::to_string(size()) + " AOs.");
-    }
+    /** @brief Hook for the ordering: the angular index of the AO at @p i.
+     *
+     *  @p i has already been checked. The derived class returns the powers
+     *  @f$(i,j,k)@f$ for a Cartesian shell and @f$m_\ell@f$ for a pure one.
+     *  This is one hook, rather than one per purity, because a virtual method
+     *  can not be conditionally declared.
+     */
+    virtual ao_index_type ao_index_(size_type i) const = 0;
 
-    /// Wraps casting *this to a read-only reference to the derived class
-    const DerivedType& downcast_() const noexcept {
-        return static_cast<const DerivedType&>(*this);
-    }
+    /// Implements get_cartesian_shell
+    virtual const_cartesian_shell_pointer cartesian_shell_() const = 0;
+
+    /// Implements the base's is_pure from the purity *this knows statically
+    bool is_pure_() const noexcept final { return traits_type::is_pure; }
+
+    /// Implements the base's at in terms of *this's. Defined out of line for
+    /// the same reason as at.
+    ao_view_pointer at_(size_type i) const final;
 };
+
+namespace detail_ {
+
+/** @brief Implements as_cartesian_shell and as_spherical_shell.
+ *
+ *  @tparam TargetType The shell type to downcast to: AOShell<AOType> or
+ *                     AOShellView<AOType>.
+ *  @tparam BaseType The type of @p shell: AOShellBase or AOShellBaseView.
+ *
+ *  @param[in] shell The shell to downcast.
+ *
+ *  @return @p shell, as a TargetType.
+ *
+ *  @throw std::invalid_argument if @p shell is not a TargetType. Strong throw
+ *                               guarantee.
+ */
+template<typename TargetType, typename BaseType>
+const TargetType& checked_shell_downcast(const BaseType& shell) {
+    if(const auto* pshell = dynamic_cast<const TargetType*>(&shell))
+        return *pshell;
+    const bool want_pure =
+      ChemistClassTraits<AOShell<typename TargetType::ao_type>>::is_pure;
+    throw std::invalid_argument(
+      std::string("chemist::experimental: expected a ") +
+      (want_pure ? "pure" : "Cartesian") + " shell, but the shell is " +
+      (shell.is_pure() ? "pure" : "Cartesian") + ".");
+}
+
+} // namespace detail_
+
+extern template class AOShellCommon<AOShellBase, CartesianAO>;
+extern template class AOShellCommon<AOShellBase, SphericalAO>;
+extern template class AOShellCommon<AOShellBaseView, CartesianAO>;
+extern template class AOShellCommon<AOShellBaseView, SphericalAO>;
 
 } // namespace chemist::experimental

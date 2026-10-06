@@ -42,19 +42,28 @@ namespace chemist::experimental {
 template<typename CCAShellType>
 class CCAShellView
   : public CCAShellCommon<CCAShellView<CCAShellType>, CCAShellType>,
-    public detail_::AOShellViewImpl<CCAShellView<CCAShellType>> {
+    public detail_::AOShellViewImpl<
+      CCAShellView<CCAShellType>,
+      typename ChemistClassTraits<CCAShellType>::ao_type> {
 private:
     /// Type implementing the API shared with CCAShell
     using common_type =
       CCAShellCommon<CCAShellView<CCAShellType>, CCAShellType>;
 
-    /// Type implementing the AOShellView interface in terms of *this
-    using impl_type = detail_::AOShellViewImpl<CCAShellView<CCAShellType>>;
+    /// The kind of AO in the aliased shell
+    using aliased_ao_type = typename ChemistClassTraits<CCAShellType>::ao_type;
+
+    /// Type implementing the AOShellView<AOType> interface in terms of *this
+    using impl_type =
+      detail_::AOShellViewImpl<CCAShellView<CCAShellType>, aliased_ao_type>;
+
+    /// The interface of a view of a shell of *this's purity
+    using ao_shell_view_type = AOShellView<aliased_ao_type>;
 
     /// Lets the CRTP base reach contracted_gaussian_()
     friend common_type;
 
-    /// Lets the AOShellView implementation reach as_shell_value_()
+    /// Lets the AOShellViewImpl base reach as_shell_value_()
     friend impl_type;
 
     /// Lets the other const-qualification of *this reach its members
@@ -71,11 +80,8 @@ public:
     ///@{
     using typename common_type::angular_index_type;
     using typename common_type::angular_momentum_type;
-    using typename common_type::ao_type;
     using typename common_type::cartesian_powers_type;
     using typename common_type::center_type;
-    using typename common_type::const_ao_pointer;
-    using typename common_type::const_ao_reference;
     using typename common_type::const_cartesian_ao_reference;
     using typename common_type::const_cartesian_shell_reference;
     using typename common_type::const_center_reference;
@@ -89,12 +95,18 @@ public:
     using typename common_type::value_type;
     ///@}
 
-    /// Pull the AOShellView interface's types into *this's API
+    /// Pull the AOShellView<AOType> interface's types into *this's API
     ///@{
-    using typename AOShellView::ao_view_pointer;
-    using typename AOShellView::base_pointer;
-    using typename AOShellView::const_base_reference;
-    using typename AOShellView::shell_pointer;
+    using typename ao_shell_view_type::ao_index_type;
+    using typename ao_shell_view_type::ao_type;
+    using typename ao_shell_view_type::ao_view_pointer;
+    using typename ao_shell_view_type::base_pointer;
+    using typename ao_shell_view_type::const_ao_pointer;
+    using typename ao_shell_view_type::const_ao_reference;
+    using typename ao_shell_view_type::const_base_reference;
+    using typename ao_shell_view_type::const_cartesian_shell_pointer;
+    using typename ao_shell_view_type::pointer;
+    using typename ao_shell_view_type::shell_pointer;
     ///@}
 
     /// Type of the owning shell *this materializes into. AOShellViewImpl
@@ -105,22 +117,19 @@ public:
     using cca_shell_reference =
       typename ChemistClassTraits<CCAShellType>::reference;
 
-    /** @brief Resolves the shared API against the AOShellView interface.
+    /** @brief Resolves the shared API against the AOShellView<AOType>
+     *         interface.
      *
      *  See the corresponding block in CCAShell.
      */
     ///@{
-    using common_type::at;
     using common_type::cartesian_powers;
+    using common_type::get_cartesian_shell;
     using common_type::get_center;
     using common_type::get_contracted_gaussian;
     using common_type::get_l;
-    using common_type::is_cartesian;
-    using common_type::is_pure;
     using common_type::magnetic_index;
     using common_type::normalization_constant;
-    using common_type::operator[];
-    using common_type::size;
     ///@}
 
     // -------------------------------------------------------------------------
@@ -295,27 +304,37 @@ private:
      */
     contracted_gaussian_reference contracted_gaussian_() const { return m_cg_; }
 
-    /** @brief Implements the AOShellView interface in terms of the shared API.
+    /** @brief Implements the AOShellView<AOType> interface in terms of the
+     *         shared API.
      *
      *  clone_, as_shell_, and are_equal_ are not here; AOShellViewImpl
      *  implements those from *this's copy ctor, as_shell_value_(), and
-     *  operator==.
+     *  operator==. is_pure_ and at_ are not here either; AOShellCommon
+     *  implements those from the purity and from ao_index_.
      */
     ///@{
-    typename AOShellView::angular_momentum_type get_l_()
+    typename AOShellBaseView::angular_momentum_type get_l_()
       const noexcept override {
         return common_type::get_l();
     }
-    bool is_pure_() const noexcept override { return common_type::is_pure(); }
-    typename AOShellView::const_center_reference get_center_() const override {
+    typename AOShellBaseView::const_center_reference get_center_()
+      const override {
         return common_type::get_center();
     }
-    typename AOShellView::const_contracted_gaussian_reference
+    typename AOShellBaseView::const_contracted_gaussian_reference
     get_contracted_gaussian_() const override {
         return common_type::get_contracted_gaussian();
     }
-    ao_view_pointer at_(size_type i) const override {
-        return common_type::at(i);
+    ao_index_type ao_index_(size_type i) const override {
+        if constexpr(ChemistClassTraits<CCAShellType>::is_pure) {
+            return common_type::magnetic_index(i);
+        } else {
+            return common_type::cartesian_powers(i);
+        }
+    }
+    const_cartesian_shell_pointer cartesian_shell_() const override {
+        return std::make_unique<const_cartesian_shell_reference>(
+          common_type::get_cartesian_shell());
     }
     ///@}
 

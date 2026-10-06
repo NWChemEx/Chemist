@@ -25,8 +25,9 @@ namespace chemist::experimental {
 
 /** @brief Models a shell, in CCA order, by value.
  *
- *  See CCAShellCommon for the ordering and the shared API, and AOShell for the
- *  interface *this satisfies as one of the shell orderings.
+ *  See CCAShellCommon for the ordering and the shared API, and AOShell<AOType>
+ *  for the interface *this satisfies as one of the orderings of a shell of
+ *  that purity.
  *
  *  *this owns the one contracted Gaussian all of its AOs are built on, and
  *  with it the shell's center and angular momentum. Indexing *this hands out
@@ -41,13 +42,16 @@ namespace chemist::experimental {
  */
 template<typename AOType>
 class CCAShell : public CCAShellCommon<CCAShell<AOType>, CCAShell<AOType>>,
-                 public detail_::AOShellImpl<CCAShell<AOType>> {
+                 public detail_::AOShellImpl<CCAShell<AOType>, AOType> {
 private:
     /// Type implementing the API shared with CCAShellView
     using common_type = CCAShellCommon<CCAShell<AOType>, CCAShell<AOType>>;
 
-    /// Type implementing the AOShell interface in terms of *this
-    using impl_type = detail_::AOShellImpl<CCAShell<AOType>>;
+    /// Type implementing the AOShell<AOType> interface in terms of *this
+    using impl_type = detail_::AOShellImpl<CCAShell<AOType>, AOType>;
+
+    /// The interface of a shell of *this's purity
+    using ao_shell_type = AOShell<AOType>;
 
     /// Lets the CRTP base reach contracted_gaussian_()
     friend common_type;
@@ -61,11 +65,8 @@ public:
     ///@{
     using typename common_type::angular_index_type;
     using typename common_type::angular_momentum_type;
-    using typename common_type::ao_type;
     using typename common_type::cartesian_powers_type;
     using typename common_type::center_type;
-    using typename common_type::const_ao_pointer;
-    using typename common_type::const_ao_reference;
     using typename common_type::const_cartesian_ao_reference;
     using typename common_type::const_cartesian_shell_reference;
     using typename common_type::const_center_reference;
@@ -79,40 +80,46 @@ public:
     using typename common_type::value_type;
     ///@}
 
-    /// Pull the AOShell interface's types into *this's API
+    /// Pull the AOShell<AOType> interface's types into *this's API
     ///@{
-    using typename AOShell::ao_view_pointer;
-    using typename AOShell::base_pointer;
-    using typename AOShell::const_base_reference;
-    using typename AOShell::view_pointer;
+    using typename ao_shell_type::ao_index_type;
+    using typename ao_shell_type::ao_type;
+    using typename ao_shell_type::ao_view_pointer;
+    using typename ao_shell_type::base_pointer;
+    using typename ao_shell_type::const_ao_pointer;
+    using typename ao_shell_type::const_ao_reference;
+    using typename ao_shell_type::const_base_reference;
+    using typename ao_shell_type::const_cartesian_shell_pointer;
+    using typename ao_shell_type::pointer;
+    using typename ao_shell_type::view_pointer;
     ///@}
 
     /// Type of a read-only view of *this
     using const_view_type =
       typename ChemistClassTraits<CCAShell<AOType>>::const_view_type;
 
-    /** @brief Resolves the shared API against the AOShell interface.
+    /** @brief Resolves the shared API against the AOShell<AOType> interface.
      *
      *  See the corresponding block in CartesianAO: *this inherits each of
-     *  these from both CCAShellCommon and AOShell, and these declarations pick
-     *  the non-virtual implementations for a caller holding a CCAShell. Note
-     *  that for at/operator[] the two differ in return type: the AOShell
-     *  versions return a pointer to a polymorphic AOView, while these return
-     *  a pointer to the concrete view, since a caller holding a CCAShell
-     *  knows which it is. Either way it is a newly built view of the same AO.
+     *  these from both CCAShellCommon and AOShell<AOType>, and these
+     *  declarations pick the non-virtual implementations for a caller holding
+     *  a CCAShell. Note that get_cartesian_shell differs in return type: the
+     *  AOShell<AOType> version returns a pointer to a polymorphic view, while
+     *  this one returns the concrete CCA view by value, since a caller holding
+     *  a CCAShell knows which it is.
+     *
+     *  What depends only on the purity (is_pure, is_cartesian, size, at, and
+     *  operator[]) is only implemented by AOShell<AOType>, so needs no
+     *  resolving.
      */
     ///@{
-    using common_type::at;
     using common_type::cartesian_powers;
+    using common_type::get_cartesian_shell;
     using common_type::get_center;
     using common_type::get_contracted_gaussian;
     using common_type::get_l;
-    using common_type::is_cartesian;
-    using common_type::is_pure;
     using common_type::magnetic_index;
     using common_type::normalization_constant;
-    using common_type::operator[];
-    using common_type::size;
     ///@}
 
     // -------------------------------------------------------------------------
@@ -286,27 +293,37 @@ private:
     }
     ///@}
 
-    /** @brief Implements the AOShell interface in terms of the shared API.
+    /** @brief Implements the AOShell<AOType> interface in terms of the
+     *         shared API.
      *
      *  clone_ and are_equal_ are not here; AOShellImpl implements those from
-     *  *this's copy ctor and operator==.
+     *  *this's copy ctor and operator==. is_pure_ and at_ are not here either;
+     *  AOShellCommon implements those from the purity and from ao_index_.
      */
     ///@{
-    typename AOShell::angular_momentum_type get_l_() const noexcept override {
+    typename AOShellBase::angular_momentum_type get_l_()
+      const noexcept override {
         return common_type::get_l();
     }
-    bool is_pure_() const noexcept override { return common_type::is_pure(); }
-    typename AOShell::const_center_reference get_center_() const override {
+    typename AOShellBase::const_center_reference get_center_() const override {
         return common_type::get_center();
     }
-    typename AOShell::const_contracted_gaussian_reference
+    typename AOShellBase::const_contracted_gaussian_reference
     get_contracted_gaussian_() const override {
         return common_type::get_contracted_gaussian();
     }
-    ao_view_pointer at_(size_type i) const override {
-        return common_type::at(i);
+    ao_index_type ao_index_(size_type i) const override {
+        if constexpr(ChemistClassTraits<CCAShell>::is_pure) {
+            return common_type::magnetic_index(i);
+        } else {
+            return common_type::cartesian_powers(i);
+        }
     }
-    view_pointer as_view_() const override {
+    const_cartesian_shell_pointer cartesian_shell_() const override {
+        return std::make_unique<const_cartesian_shell_reference>(
+          common_type::get_cartesian_shell());
+    }
+    typename AOShellBase::view_pointer as_view_() const override {
         return std::make_unique<const_view_type>(*this);
     }
     ///@}

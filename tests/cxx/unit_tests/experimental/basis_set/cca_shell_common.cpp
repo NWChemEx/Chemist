@@ -19,7 +19,9 @@
 // drive it through CCAShell<CartesianAO> and CCAShell<SphericalAO>, pulling in
 // the views only where a property spans two derived types. CCAShell's ctors,
 // swap, and serialization are tested in cca_shell_class.cpp; CCAShellView's
-// own members in cca_shell_view.cpp.
+// own members in cca_shell_view.cpp. is_pure, size, and at are implemented by
+// AOShellCommon rather than CCAShellCommon, but are still checked here, since
+// what at hands out depends on the CCA ordering.
 
 #include "../../test_helpers.hpp"
 #include "../experimental_test_helpers.hpp"
