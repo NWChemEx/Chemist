@@ -45,6 +45,14 @@ Grid::const_point_set_reference Grid::get_points() const {
     return const_point_set_reference(m_points_);
 }
 
+bool Grid::operator==(const Grid& rhs) const noexcept {
+    if(m_radial_size_ != rhs.m_radial_size_) return false;
+    if(m_angular_size_ != rhs.m_angular_size_) return false;
+    const base_type& lhs_base = *this;
+    const base_type& rhs_base = rhs;
+    return lhs_base == rhs_base;
+}
+
 Grid::reference Grid::at_(size_type i) {
     auto& wbuf = tensorwrapper::buffer::make_contiguous(m_weights_.buffer());
     auto wview = wbuf.get_mutable_data();

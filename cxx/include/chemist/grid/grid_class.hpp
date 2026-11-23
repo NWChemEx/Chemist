@@ -20,6 +20,7 @@
 #include <chemist/grid/grid_point_view.hpp>
 #include <chemist/traits/grid_traits.hpp>
 #include <chemist/types/floating_point.hpp>
+#include <optional>
 #include <utilities/containers/indexable_container_base.hpp>
 
 namespace chemist {
@@ -34,6 +35,13 @@ namespace chemist {
  *  are stored in an experimental::PointSet. Since both type-erase their
  *  scalar type (via WeaklyTypedFloat), a Grid can hold values of any
  *  WTF-registered floating-point type.
+ *
+ *  A grid can also record the radial and angular sizes of the atom-centered
+ *  product grid it was made from, i.e., the number of radial shells and the
+ *  number of angular points per shell on each atom, before any pruning. These
+ *  sizes are optional; a grid which was not made from such a product grid
+ *  (e.g., one read from a file, or made point by point) does not have them.
+ *  They are not checked against the grid points.
  *
  *  @note This class does not attempt to enforce the set-like nature of the
  *  grid (i.e., it will allow duplicate grid points).
@@ -72,6 +80,9 @@ public:
     /// Type acting like a read-only reference to the coordinates
     using const_point_set_reference =
       typename traits_type::const_point_set_reference;
+
+    /// Type used for the radial and angular sizes, which may not be set
+    using optional_size_type = std::optional<size_type>;
 
     // -------------------------------------------------------------------------
     // -- Ctors
@@ -155,6 +166,89 @@ public:
     const_point_set_reference get_points() const;
     ///@}
 
+    /** @brief Returns the radial size of the grid, if it has one.
+     *
+     *  The radial size is the number of radial shells on each atom of the
+     *  atom-centered product grid *this was made from, before any pruning.
+     *
+     *  @return The radial size of *this, or an empty optional if it has not
+     *          been set.
+     *
+     *  @throw None No throw guarantee.
+     */
+    optional_size_type get_radial_size() const noexcept {
+        return m_radial_size_;
+    }
+
+    /** @brief Sets the radial size of the grid.
+     *
+     *  @param[in] radial_size The number of radial shells on each atom of the
+     *                         atom-centered product grid *this was made from,
+     *                         before any pruning. It is not checked against
+     *                         the grid points.
+     *
+     *  @throw None No throw guarantee.
+     */
+    void set_radial_size(size_type radial_size) noexcept {
+        m_radial_size_ = radial_size;
+    }
+
+    /** @brief Returns the angular size of the grid, if it has one.
+     *
+     *  The angular size is the number of angular points in each radial shell
+     *  of the atom-centered product grid *this was made from, before any
+     *  pruning.
+     *
+     *  @return The angular size of *this, or an empty optional if it has not
+     *          been set.
+     *
+     *  @throw None No throw guarantee.
+     */
+    optional_size_type get_angular_size() const noexcept {
+        return m_angular_size_;
+    }
+
+    /** @brief Sets the angular size of the grid.
+     *
+     *  @param[in] angular_size The number of angular points in each radial
+     *                          shell of the atom-centered product grid *this
+     *                          was made from, before any pruning. It is not
+     *                          checked against the grid points.
+     *
+     *  @throw None No throw guarantee.
+     */
+    void set_angular_size(size_type angular_size) noexcept {
+        m_angular_size_ = angular_size;
+    }
+
+    // -------------------------------------------------------------------------
+    // -- Utility methods
+    // -------------------------------------------------------------------------
+
+    /** @brief Determines if *this is value equal to @p rhs.
+     *
+     *  Two grids are value equal if they have the same grid points, in the
+     *  same order, and the same radial and angular sizes (including whether
+     *  or not each size is set).
+     *
+     *  @param[in] rhs The grid to compare against.
+     *
+     *  @return True if *this is value equal to @p rhs and false otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator==(const Grid& rhs) const noexcept;
+
+    /** @brief Determines if *this is different from @p rhs.
+     *
+     *  @param[in] rhs The grid to compare against.
+     *
+     *  @return False if *this is value equal to @p rhs and true otherwise.
+     *
+     *  @throw None No throw guarantee.
+     */
+    bool operator!=(const Grid& rhs) const noexcept { return !(*this == rhs); }
+
 private:
     /// Allows the base to access the implementations of at_ and size_
     friend base_type;
@@ -200,6 +294,12 @@ private:
 
     /// Holds the Cartesian coordinates of the grid points
     point_set_type m_points_;
+
+    /// The radial size of the grid, if set
+    optional_size_type m_radial_size_;
+
+    /// The angular size of the grid, if set
+    optional_size_type m_angular_size_;
 };
 
 } // namespace chemist
