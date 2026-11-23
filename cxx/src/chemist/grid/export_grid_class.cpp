@@ -37,6 +37,10 @@ void export_grid_class(python_module_reference m) {
       .def(
         "get_points", [](grid_type& self) { return self.get_points(); },
         py::keep_alive<0, 1>())
+      .def("get_radial_size", &grid_type::get_radial_size)
+      .def("set_radial_size", &grid_type::set_radial_size)
+      .def("get_angular_size", &grid_type::get_angular_size)
+      .def("set_angular_size", &grid_type::set_angular_size)
       .def(py::self == py::self)
       .def(py::self != py::self);
 }

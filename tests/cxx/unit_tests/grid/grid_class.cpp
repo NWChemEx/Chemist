@@ -67,6 +67,14 @@ TEST_CASE("Grid") {
                               std::invalid_argument);
         }
         test_chemist::test_copy_and_move(defaulted, range);
+
+        SECTION("Copy keeps the sizes") {
+            range.set_radial_size(10);
+            range.set_angular_size(14);
+            Grid copy(range);
+            REQUIRE(copy.get_radial_size() == 10);
+            REQUIRE(copy.get_angular_size() == 14);
+        }
     }
 
     SECTION("at_()") {
@@ -109,5 +117,70 @@ TEST_CASE("Grid") {
     SECTION("size_") {
         REQUIRE(defaulted.size() == 0);
         REQUIRE(range.size() == 2);
+    }
+
+    SECTION("get_radial_size()") {
+        REQUIRE_FALSE(defaulted.get_radial_size().has_value());
+        REQUIRE_FALSE(range.get_radial_size().has_value());
+    }
+
+    SECTION("set_radial_size()") {
+        range.set_radial_size(10);
+        REQUIRE(range.get_radial_size() == 10);
+        REQUIRE_FALSE(range.get_angular_size().has_value());
+    }
+
+    SECTION("get_angular_size()") {
+        REQUIRE_FALSE(defaulted.get_angular_size().has_value());
+        REQUIRE_FALSE(range.get_angular_size().has_value());
+    }
+
+    SECTION("set_angular_size()") {
+        range.set_angular_size(14);
+        REQUIRE(range.get_angular_size() == 14);
+        REQUIRE_FALSE(range.get_radial_size().has_value());
+    }
+
+    SECTION("operator==") {
+        // Default vs. default
+        REQUIRE(defaulted == Grid{});
+
+        // Same points, no sizes
+        Grid other(points.begin(), points.end());
+        REQUIRE(range == other);
+
+        // Different points
+        std::vector<GridPoint> points2{GridPoint(),
+                                       GridPoint(0.1, 1.2, 2.3, 42.0)};
+        REQUIRE_FALSE(range == Grid(points2.begin(), points2.end()));
+
+        // Same points, only one has a radial size
+        other.set_radial_size(10);
+        REQUIRE_FALSE(range == other);
+
+        // Same points, different radial sizes
+        range.set_radial_size(20);
+        REQUIRE_FALSE(range == other);
+
+        // Same points and radial sizes, only one has an angular size
+        range.set_radial_size(10);
+        REQUIRE(range == other);
+        other.set_angular_size(14);
+        REQUIRE_FALSE(range == other);
+
+        // Same points, different angular sizes
+        range.set_angular_size(26);
+        REQUIRE_FALSE(range == other);
+
+        // Same points and sizes
+        range.set_angular_size(14);
+        REQUIRE(range == other);
+    }
+
+    SECTION("operator!=") {
+        Grid other(points.begin(), points.end());
+        REQUIRE_FALSE(range != other);
+        other.set_radial_size(10);
+        REQUIRE(range != other);
     }
 }

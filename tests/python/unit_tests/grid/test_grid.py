@@ -78,6 +78,41 @@ class TestContractedGaussian(unittest.TestCase):
         self.assertNotEqual(self.with_inputs, other_with_inputs)
         self.assertTrue(self.with_inputs != other_with_inputs)
 
+    def test_radial_size(self):
+        self.assertIsNone(self.defaulted.get_radial_size())
+        self.assertIsNone(self.with_inputs.get_radial_size())
+
+        self.with_inputs.set_radial_size(10)
+        self.assertEqual(self.with_inputs.get_radial_size(), 10)
+        self.assertIsNone(self.with_inputs.get_angular_size())
+
+    def test_angular_size(self):
+        self.assertIsNone(self.defaulted.get_angular_size())
+        self.assertIsNone(self.with_inputs.get_angular_size())
+
+        self.with_inputs.set_angular_size(14)
+        self.assertEqual(self.with_inputs.get_angular_size(), 14)
+        self.assertIsNone(self.with_inputs.get_radial_size())
+
+    def test_comparisons_sizes(self):
+        other = Grid(
+            [GridPoint(1.0, 2.0, 3.0, 4.0), GridPoint(5.0, 6.0, 7.0, 8.0)]
+        )
+
+        # Only one has sizes
+        other.set_radial_size(10)
+        other.set_angular_size(14)
+        self.assertNotEqual(self.with_inputs, other)
+
+        # Different sizes
+        self.with_inputs.set_radial_size(10)
+        self.with_inputs.set_angular_size(26)
+        self.assertNotEqual(self.with_inputs, other)
+
+        # Same sizes
+        self.with_inputs.set_angular_size(14)
+        self.assertEqual(self.with_inputs, other)
+
     def setUp(self):
         self.defaulted = Grid()
         self.with_inputs = Grid(
