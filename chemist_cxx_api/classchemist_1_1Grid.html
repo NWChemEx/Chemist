@@ -136,6 +136,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>point_set_reference<
 using&#160;</td><td class="memItemRight" valign="bottom"><b>const_point_set_reference</b> = typename traits_type::const_point_set_reference</td></tr>
 <tr class="memdesc:ae7e8a92145ed1f5415607060addd41c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type acting like a read-only reference to the coordinates. <br /></td></tr>
 <tr class="separator:ae7e8a92145ed1f5415607060addd41c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e72749632963446bf01bfcd8353593f" id="r_a3e72749632963446bf01bfcd8353593f"><td class="memItemLeft" align="right" valign="top"><a id="a3e72749632963446bf01bfcd8353593f" name="a3e72749632963446bf01bfcd8353593f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>optional_size_type</b> = std::optional&lt; size_type &gt;</td></tr>
+<tr class="memdesc:a3e72749632963446bf01bfcd8353593f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used for the radial and angular sizes, which may not be set. <br /></td></tr>
+<tr class="separator:a3e72749632963446bf01bfcd8353593f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -149,6 +153,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3b650162dc22103aef1d8231190c247a"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classchemist_1_1Grid.html#a3b650162dc22103aef1d8231190c247a">Grid</a> (BeginItr &amp;&amp;begin, EndItr &amp;&amp;end)</td></tr>
 <tr class="memdesc:a3b650162dc22103aef1d8231190c247a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classchemist_1_1Grid.html" title="Models an ordered list of GridPoint objects.">Grid</a> from a range of <a class="el" href="classchemist_1_1GridPoint.html" title="Class describing a weighted grid point.">GridPoint</a> objects.  <br /></td></tr>
 <tr class="separator:a3b650162dc22103aef1d8231190c247a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb77e7e02470221fedcecba20897398d" id="r_afb77e7e02470221fedcecba20897398d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Grid.html#a3e72749632963446bf01bfcd8353593f">optional_size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Grid.html#afb77e7e02470221fedcecba20897398d">get_radial_size</a> () const noexcept</td></tr>
+<tr class="memdesc:afb77e7e02470221fedcecba20897398d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the radial size of the grid, if it has one.  <br /></td></tr>
+<tr class="separator:afb77e7e02470221fedcecba20897398d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b0e49be16042495bbdc9b3657de1d17" id="r_a3b0e49be16042495bbdc9b3657de1d17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Grid.html#a3b0e49be16042495bbdc9b3657de1d17">set_radial_size</a> (size_type radial_size) noexcept</td></tr>
+<tr class="memdesc:a3b0e49be16042495bbdc9b3657de1d17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the radial size of the grid.  <br /></td></tr>
+<tr class="separator:a3b0e49be16042495bbdc9b3657de1d17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec0aa7ada5a61d0f87aca38cbbbfc76d" id="r_aec0aa7ada5a61d0f87aca38cbbbfc76d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Grid.html#a3e72749632963446bf01bfcd8353593f">optional_size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Grid.html#aec0aa7ada5a61d0f87aca38cbbbfc76d">get_angular_size</a> () const noexcept</td></tr>
+<tr class="memdesc:aec0aa7ada5a61d0f87aca38cbbbfc76d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the angular size of the grid, if it has one.  <br /></td></tr>
+<tr class="separator:aec0aa7ada5a61d0f87aca38cbbbfc76d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a386995ee0712c4cfecbcb3c3565248f5" id="r_a386995ee0712c4cfecbcb3c3565248f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Grid.html#a386995ee0712c4cfecbcb3c3565248f5">set_angular_size</a> (size_type angular_size) noexcept</td></tr>
+<tr class="memdesc:a386995ee0712c4cfecbcb3c3565248f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the angular size of the grid.  <br /></td></tr>
+<tr class="separator:a386995ee0712c4cfecbcb3c3565248f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affd54f9321bf95b84a93f85ea5a1793e" id="r_affd54f9321bf95b84a93f85ea5a1793e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Grid.html#affd54f9321bf95b84a93f85ea5a1793e">operator==</a> (const <a class="el" href="classchemist_1_1Grid.html">Grid</a> &amp;rhs) const noexcept</td></tr>
+<tr class="memdesc:affd54f9321bf95b84a93f85ea5a1793e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if *this is value equal to <code>rhs</code>.  <br /></td></tr>
+<tr class="separator:affd54f9321bf95b84a93f85ea5a1793e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7877b05efd5ef72968640016f752a584" id="r_a7877b05efd5ef72968640016f752a584"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Grid.html#a7877b05efd5ef72968640016f752a584">operator!=</a> (const <a class="el" href="classchemist_1_1Grid.html">Grid</a> &amp;rhs) const noexcept</td></tr>
+<tr class="memdesc:a7877b05efd5ef72968640016f752a584"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if *this is different from <code>rhs</code>.  <br /></td></tr>
+<tr class="separator:a7877b05efd5ef72968640016f752a584"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr class="memitem:a75020d6fcff4b87c2d43cb7ab8a0c713" id="r_a75020d6fcff4b87c2d43cb7ab8a0c713"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classchemist_1_1Grid.html#a80358eca98d41942020ccde20546a3df">point_set_reference</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classchemist_1_1Grid.html#a75020d6fcff4b87c2d43cb7ab8a0c713">get_points</a> ()</td></tr>
 <tr class="memdesc:a75020d6fcff4b87c2d43cb7ab8a0c713"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the coordinates of every grid point, as a point set.  <br /></td></tr>
@@ -161,6 +183,7 @@ Public Member Functions</h2></td></tr>
 <div class="textblock"><p>Models an ordered list of <a class="el" href="classchemist_1_1GridPoint.html" title="Class describing a weighted grid point.">GridPoint</a> objects. </p>
 <p>A grid is an ordered set of grid points, where each grid point has coordinates (presently described in Cartesian coordinates) and a weight.</p>
 <p>Internally the weights of the grid points are stored in a tensorwrapper::Tensor of shape (N) and the coordinates of the grid points are stored in an <a class="el" href="classchemist_1_1experimental_1_1PointSet.html" title="An ordered set of points in three-dimensional Cartesian space.">experimental::PointSet</a>. Since both type-erase their scalar type (via WeaklyTypedFloat), a <a class="el" href="classchemist_1_1Grid.html" title="Models an ordered list of GridPoint objects.">Grid</a> can hold values of any WTF-registered floating-point type.</p>
+<p>A grid can also record the radial and angular sizes of the atom-centered product grid it was made from, i.e., the number of radial shells and the number of angular points per shell on each atom, before any pruning. These sizes are optional; a grid which was not made from such a product grid (e.g., one read from a file, or made point by point) does not have them. They are not checked against the grid points.</p>
 <dl class="section note"><dt>Note</dt><dd>This class does not attempt to enforce the set-like nature of the grid (i.e., it will allow duplicate grid points). </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9ca6ce50c17fba87e06baf269ab580b3" name="a9ca6ce50c17fba87e06baf269ab580b3"></a>
@@ -304,6 +327,41 @@ template&lt;typename BeginItr , typename EndItr &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="aec0aa7ada5a61d0f87aca38cbbbfc76d" name="aec0aa7ada5a61d0f87aca38cbbbfc76d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec0aa7ada5a61d0f87aca38cbbbfc76d">&#9670;&#160;</a></span>get_angular_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Grid.html#a3e72749632963446bf01bfcd8353593f">optional_size_type</a> chemist::Grid::get_angular_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the angular size of the grid, if it has one. </p>
+<p>The angular size is the number of angular points in each radial shell of the atom-centered product grid *this was made from, before any pruning.</p>
+<dl class="section return"><dt>Returns</dt><dd>The angular size of *this, or an empty optional if it has not been set.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a75020d6fcff4b87c2d43cb7ab8a0c713" name="a75020d6fcff4b87c2d43cb7ab8a0c713"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a75020d6fcff4b87c2d43cb7ab8a0c713">&#9670;&#160;</a></span>get_points()</h2>
 
@@ -326,6 +384,204 @@ template&lt;typename BeginItr , typename EndItr &gt; </div>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::bad_alloc</td><td>if constructing the view's state fails. Strong throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="afb77e7e02470221fedcecba20897398d" name="afb77e7e02470221fedcecba20897398d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb77e7e02470221fedcecba20897398d">&#9670;&#160;</a></span>get_radial_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classchemist_1_1Grid.html#a3e72749632963446bf01bfcd8353593f">optional_size_type</a> chemist::Grid::get_radial_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the radial size of the grid, if it has one. </p>
+<p>The radial size is the number of radial shells on each atom of the atom-centered product grid *this was made from, before any pruning.</p>
+<dl class="section return"><dt>Returns</dt><dd>The radial size of *this, or an empty optional if it has not been set.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7877b05efd5ef72968640016f752a584" name="a7877b05efd5ef72968640016f752a584"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7877b05efd5ef72968640016f752a584">&#9670;&#160;</a></span>operator!=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool chemist::Grid::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1Grid.html">Grid</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Determines if *this is different from <code>rhs</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The grid to compare against.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>False if *this is value equal to <code>rhs</code> and true otherwise.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="affd54f9321bf95b84a93f85ea5a1793e" name="affd54f9321bf95b84a93f85ea5a1793e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affd54f9321bf95b84a93f85ea5a1793e">&#9670;&#160;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool chemist::Grid::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classchemist_1_1Grid.html">Grid</a> &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Determines if *this is value equal to <code>rhs</code>. </p>
+<p>Two grids are value equal if they have the same grid points, in the same order, and the same radial and angular sizes (including whether or not each size is set).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">rhs</td><td>The grid to compare against.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if *this is value equal to <code>rhs</code> and false otherwise.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a386995ee0712c4cfecbcb3c3565248f5" name="a386995ee0712c4cfecbcb3c3565248f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a386995ee0712c4cfecbcb3c3565248f5">&#9670;&#160;</a></span>set_angular_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void chemist::Grid::set_angular_size </td>
+          <td>(</td>
+          <td class="paramtype">size_type&#160;</td>
+          <td class="paramname"><em>angular_size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the angular size of the grid. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">angular_size</td><td>The number of angular points in each radial shell of the atom-centered product grid *this was made from, before any pruning. It is not checked against the grid points.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3b0e49be16042495bbdc9b3657de1d17" name="a3b0e49be16042495bbdc9b3657de1d17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b0e49be16042495bbdc9b3657de1d17">&#9670;&#160;</a></span>set_radial_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void chemist::Grid::set_radial_size </td>
+          <td>(</td>
+          <td class="paramtype">size_type&#160;</td>
+          <td class="paramname"><em>radial_size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets the radial size of the grid. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">radial_size</td><td>The number of radial shells on each atom of the atom-centered product grid *this was made from, before any pruning. It is not checked against the grid points.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">None</td><td>No throw guarantee. </td></tr>
   </table>
   </dd>
 </dl>

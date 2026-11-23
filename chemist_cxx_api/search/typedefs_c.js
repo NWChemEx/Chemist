@@ -10,9 +10,10 @@ var searchData=
   ['operator_5fpair_7',['operator_pair',['../structchemist_1_1qm__operator_1_1detail___1_1UnpackLinearCombination.html#a797e8be8b0f5652402e3713e8eb7163d',1,'chemist::qm_operator::detail_::UnpackLinearCombination']]],
   ['operator_5freference_8',['operator_reference',['../classchemist_1_1braket_1_1BraKet.html#ae577e8c987f0566a7d5096421e3320ad',1,'chemist::braket::BraKet']]],
   ['operator_5ftype_9',['operator_type',['../classchemist_1_1braket_1_1BraKet.html#a02a8e702bbc2fb609fab80b84808597e',1,'chemist::braket::BraKet']]],
-  ['orbital_5findex_5fset_5freference_10',['orbital_index_set_reference',['../classchemist_1_1wavefunction_1_1Determinant.html#ac3293e3bde8447d4d23f5b55a759efdd',1,'chemist::wavefunction::Determinant']]],
-  ['orbital_5findex_5fset_5ftype_11',['orbital_index_set_type',['../classchemist_1_1wavefunction_1_1Determinant.html#a08a58748737f76b34d4e75f341c5aa32',1,'chemist::wavefunction::Determinant']]],
-  ['orbital_5fspace_5freference_12',['orbital_space_reference',['../classchemist_1_1wavefunction_1_1Determinant.html#a3f47500dd93af1200f29cd90c7cf195a',1,'chemist::wavefunction::Determinant']]],
-  ['orbital_5fspace_5ftype_13',['orbital_space_type',['../classchemist_1_1wavefunction_1_1Determinant.html#ae113a516f224b6d488b255eb5628ecfc',1,'chemist::wavefunction::Determinant']]],
-  ['ordering_5fspan_14',['ordering_span',['../classchemist_1_1experimental_1_1MolecularBasisSetView.html#a38391b7cd087bfcaf5822bc911f55438',1,'chemist::experimental::MolecularBasisSetView::ordering_span'],['../structchemist_1_1experimental_1_1detail___1_1MolecularBasisSetTraitsCommon.html#a93cec17a6137c4e2dcb98e263302e29f',1,'chemist::experimental::detail_::MolecularBasisSetTraitsCommon::ordering_span']]]
+  ['optional_5fsize_5ftype_10',['optional_size_type',['../classchemist_1_1Grid.html#a3e72749632963446bf01bfcd8353593f',1,'chemist::Grid']]],
+  ['orbital_5findex_5fset_5freference_11',['orbital_index_set_reference',['../classchemist_1_1wavefunction_1_1Determinant.html#ac3293e3bde8447d4d23f5b55a759efdd',1,'chemist::wavefunction::Determinant']]],
+  ['orbital_5findex_5fset_5ftype_12',['orbital_index_set_type',['../classchemist_1_1wavefunction_1_1Determinant.html#a08a58748737f76b34d4e75f341c5aa32',1,'chemist::wavefunction::Determinant']]],
+  ['orbital_5fspace_5freference_13',['orbital_space_reference',['../classchemist_1_1wavefunction_1_1Determinant.html#a3f47500dd93af1200f29cd90c7cf195a',1,'chemist::wavefunction::Determinant']]],
+  ['orbital_5fspace_5ftype_14',['orbital_space_type',['../classchemist_1_1wavefunction_1_1Determinant.html#ae113a516f224b6d488b255eb5628ecfc',1,'chemist::wavefunction::Determinant']]],
+  ['ordering_5fspan_15',['ordering_span',['../classchemist_1_1experimental_1_1MolecularBasisSetView.html#a38391b7cd087bfcaf5822bc911f55438',1,'chemist::experimental::MolecularBasisSetView::ordering_span'],['../structchemist_1_1experimental_1_1detail___1_1MolecularBasisSetTraitsCommon.html#a93cec17a6137c4e2dcb98e263302e29f',1,'chemist::experimental::detail_::MolecularBasisSetTraitsCommon::ordering_span']]]
 ];
